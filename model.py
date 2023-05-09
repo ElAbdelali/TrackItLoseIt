@@ -27,21 +27,39 @@ class Users(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     username = db.Column(db.String(50), unique=True)
     password = db.Column(db.String(50))
+    fname = db.Column(db.String(30), nullable=False)
+    lname = db.Column(db.String(30), nullable=False)
+    dob = db.Column(db.DateTime,  nullable=False)
+    email = db.Column(db.String(50),  nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now())
-    fname = db.Column(db.String(30))
-    lname = db.Column(db.String(30))
-    dob = db.Column(db.DateTime)
-    email = db.Column(db.String(50))
     
     weights = db.relationship("Weight", back_populates="user")
     notes = db.relationship("Note", back_populates="user")
     recipes = db.relationship("Recipe", back_populates="user")
     workouts = db.relationship("Workout", back_populates="user")
+    tdee = db.relationship("TDEE", back_populates="user")
 
     def __repr__(self):
         return f'<User id={self.id} username={self.username}>'
-    
 
+class TDEE(db.Model):
+    """TDEE """
+    
+    __tablename__ = "tdee"
+    
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    weight = db.Column(db.Float, nullable=False)
+    height = db.Column(db.Float, nullable=False)
+    age = db.Column(db.Integer, nullable=False)
+    gender = db.Column(db.String(10), nullable=False)
+    activity_level = db.Column(db.String(50), nullable=False)
+    tdee_value = db.Column(db.Integer,  nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    created_at = db.Column(db.DateTime, default=datetime.now())
+    last_updated = db.Column(db.DateTime, default=datetime.now())
+    
+    user = db.relationship("Users", back_populates="tdee")
+    
 class Weight(db.Model):
     """A weight measurement."""
 
@@ -87,7 +105,7 @@ class Recipe(db.Model):
     recipe_source_url = db.Column(db.String(200), nullable=False)
 
     user = db.relationship("Users", back_populates="recipes")
-    recipe_ingredients = db.relationship("RecipeIngredient", back_populates="recipe")
+    ingredients = db.relationship("RecipeIngredient", back_populates="recipe")
 
     def __repr__(self):
         return f'<Recipe id={self.id} recipe_name={self.recipe_name}>'
@@ -100,7 +118,26 @@ class RecipeIngredient(db.Model):
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.id'), nullable=False)
-    ingredient_name = db.Column(db.String(50))
+    ingredient_name = db.Column(db.String(50), nullable=False)
+    ingredient_amount = db.Column(db.String(50), nullable=False)
+    ingredient_unit = db.Column(db.String(50), nullable=False)
+    
+    
+    recipe = db.relationship("Recipe", back_populates='ingredients')
+
+    
+class Workouts(db.Model):
+    __tablename__ = 'workouts'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    workout_name = db.Column(db.String(40), nullable=False)
+    body_group = db.Column(db.String(40), nullable=False)
+
+    user = db.relationship("Users", back_populates="workouts")
+
+    def __repr__(self):
+        return f"<Workout(id={self.id}, workout_name='{self.workout_name}', body_group='{self.body_group}')>"
 
 if __name__ == '__main__':
     from server import app

@@ -36,7 +36,7 @@ class Users(db.Model):
     weights = db.relationship("Weight", back_populates="user")
     notes = db.relationship("Note", back_populates="user")
     recipes = db.relationship("Recipe", back_populates="user")
-    workouts = db.relationship("Workout", back_populates="user")
+    workouts = db.relationship("Workouts", back_populates="user")
     tdee = db.relationship("TDEE", back_populates="user")
 
     def __repr__(self):
@@ -149,4 +149,5 @@ if __name__ == '__main__':
     connect_to_db(app)
 
     # Create the tables
+    db.drop_all()
     db.create_all()

@@ -1,5 +1,43 @@
 """Crud Operations"""
-from model import Users, TDEE, Weight, Note, Recipe, RecipeIngredient, Workouts
+from model import db, TDEE, Users, WeightNotes, Recipes, RecipeIngredients, Favorites, connect_to_db
+
+
+# Create a new TDEE entry
+def create_tdee(weight, height, age, gender, activity_level, tdee_calories, user_id):
+    tdee = TDEE(weight=weight, height=height, age=age, gender=gender, activity_level=activity_level, tdee_calories=tdee_calories, user_id=user_id)
+    db.session.add(tdee)
+    db.session.commit()
+    return tdee
+
+# Create a new user
+def create_user(username, password, first_name, last_name, date_of_birth, email, created_at):
+    user = Users(username=username, password=password, first_name=first_name, last_name=last_name, date_of_birth=date_of_birth, email=email, created_at=created_at)
+
+    return user
+
+# Create a new weight note
+def create_weight_note(user_id, workouts_done, weight_value, date):
+    weight_note = WeightNotes(user_id=user_id, workouts_done=workouts_done, weight_value=weight_value, date=date)
+
+    return weight_note
+
+# Create a new recipe
+def create_recipe(recipe_source_id, recipe_name, calories, recipe_image_url, recipe_source_url):
+    recipe = Recipes(recipe_source_id=recipe_source_id, recipe_name=recipe_name, calories=calories, recipe_image_url=recipe_image_url, recipe_source_url=recipe_source_url)
+
+    return recipe
+
+# Create a new recipe ingredient
+def create_recipe_ingredient(recipe_source_id, ingredient_name, ingredient_amount, ingredient_unit):
+    recipe_ingredient = RecipeIngredients(recipe_source_id=recipe_source_id, ingredient_name=ingredient_name, ingredient_amount=ingredient_amount, ingredient_unit=ingredient_unit)
+
+    return recipe_ingredient
+
+# Create a new favorite
+def create_favorite(user, favorite):
+    favorites = Favorites(user=user, favorite=favorite)
+
+    return favorites
 
 if __name__ == '__main__':
     from server import app

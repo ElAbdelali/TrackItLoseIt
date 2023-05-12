@@ -4,9 +4,8 @@ Models for a fitness tracking app.
 
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-import server
-db = SQLAlchemy()
 
+db = SQLAlchemy()
 
 def connect_to_db(flask_app, db_uri="postgresql:///trackitloseit", echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
@@ -18,126 +17,105 @@ def connect_to_db(flask_app, db_uri="postgresql:///trackitloseit", echo=True):
 
     print("Connected to the db!")
 
-
-class Users(db.Model):
-    """A user."""
-
-    __tablename__ = "users"
-
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    username = db.Column(db.String(50), unique=True)
-    password = db.Column(db.String(50))
-    fname = db.Column(db.String(30), nullable=False)
-    lname = db.Column(db.String(30), nullable=False)
-    dob = db.Column(db.DateTime,  nullable=False)
-    email = db.Column(db.String(50),  nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.now())
-    
-    weights = db.relationship("Weight", back_populates="user")
-    notes = db.relationship("Note", back_populates="user")
-    recipes = db.relationship("Recipe", back_populates="user")
-    workouts = db.relationship("Workouts", back_populates="user")
-    tdee = db.relationship("TDEE", back_populates="user")
-
-    def __repr__(self):
-        return f'<User id={self.id} username={self.username}>'
-
+# TDEE table with id, weight, height, age, gender, activity_level, tdee_calories, user_id as columns
+# One to many relationship setup with User
 class TDEE(db.Model):
-    """TDEE """
+    """TDEE"""
     
     __tablename__ = "tdee"
     
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    weight = db.Column(db.Float, nullable=False)
-    height = db.Column(db.Float, nullable=False)
-    age = db.Column(db.Integer, nullable=False)
-    gender = db.Column(db.String(10), nullable=False)
-    activity_level = db.Column(db.String(50), nullable=False)
-    tdee_value = db.Column(db.Integer,  nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    created_at = db.Column(db.DateTime, default=datetime.now())
-    last_updated = db.Column(db.DateTime, default=datetime.now())
+    id = db.Column(db.Integer, primary_key=True)
+    weight = db.Column(db.Float)
+    height = db.Column(db.Float)
+    age = db.Column(db.Integer)
+    gender = db.Column(db.String)
+    activity_level = db.Column(db.String)
+    tdee_calories = db.Column(db.Float)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True)
     
     user = db.relationship("Users", back_populates="tdee")
+
+# Users table with id, username, password, first_name, last_name, date_of_birth, email, and created at as columns
+# One to Many Relationships setup with tdee, weight_notes, favorites 
+class Users(db.Model):
+    """Users"""
     
-class Weight(db.Model):
-    """A weight measurement."""
-
-    __tablename__ = "weights"
-
+    __tablename__ = "users"
+    
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    weight_value = db.Column(db.Float, nullable=False)
-    date = db.Column(db.DateTime, nullable=False, default=datetime.now())
-
-    user = db.relationship("Users", back_populates="weights")
-
-    def __repr__(self):
-        return f'<Weight id={self.id} weight_value={self.weight_value}>'
+    username = db.Column(db.String)
+    password = db.Column(db.String)
+    first_name = db.Column(db.String)
+    last_name = db.Column(db.String)
+    date_of_birth = db.Column(db.Date)
+    email = db.Column(db.String)
+    created_at = db.Column(db.DateTime)
     
+    tdee = db.relationship("TDEE", back_populates="user")
+    weight_notes = db.relationship("WeightNotes", back_populates="user")
+    favorites = db.relationship("Favorites", back_populates="user")
 
-class Note(db.Model):
-    """A user note."""
-
-    __tablename__ = "notes"
-
+# WeightNotes Table with user_id (refers to User), workouts_done, weight_value, and date as columns
+# One to many relationship between user and weight_notes
+class WeightNotes(db.Model):
+    """Weight Notes"""
+    
+    __tablename__ = "weight_notes"
+    
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    note_text = db.Column(db.Text, nullable=False)
-    date = db.Column(db.DateTime, nullable=False, default=datetime.now)
-
-    user = db.relationship("Users", back_populates="notes")
-
-    def __repr__(self):
-        return f'<Note id={self.id} note_text={self.note_text}>'
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True)
+    workouts_done = db.Column(db.Text)
+    weight_value = db.Column(db.Float)
+    date = db.Column(db.DateTime)
     
+    user = db.relationship("Users", back_populates="weight_notes")
 
-class Recipe(db.Model):
-    """A user recipe."""
-
+# recipes table with recipe_name,  calories, recipe_image_url, and recipe_source_url as columns 
+# Two one to many relationships with recipe_ingredients and favorites
+class Recipes(db.Model):
+    """Recipes"""
+    
     __tablename__ = "recipes"
-
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    recipe_name = db.Column(db.String(50), nullable=False)
-    calories_per_serving = db.Column(db.Integer, nullable=False)
-    recipe_image_url = db.Column(db.String(200), nullable=False)
-    recipe_source_url = db.Column(db.String(200), nullable=False)
-
-    user = db.relationship("Users", back_populates="recipes")
-    ingredients = db.relationship("RecipeIngredient", back_populates="recipe")
-
-    def __repr__(self):
-        return f'<Recipe id={self.id} recipe_name={self.recipe_name}>'
     
+    recipe_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    recipe_source_id = db.Column(db.Integer, unique=True)
+    recipe_name = db.Column(db.String)
+    calories = db.Column(db.Integer)
+    recipe_image_url = db.Column(db.String)
+    recipe_source_url = db.Column(db.String)
+    
+    recipe_ingredients = db.relationship("RecipeIngredients", back_populates="recipes")
+    favorites = db.relationship("Favorites", back_populates="recipes")
 
-class RecipeIngredient(db.Model):
-    """An ingredient in a user recipe."""
-
+# recipe_ingredients table with recipe_id, ingredient_name, ingredient_amount, and ingredient_unit as columns
+# One to many relationship with Recipes
+class RecipeIngredients(db.Model):
+    """Recipe Ingredients"""
+    
     __tablename__ = "recipe_ingredients"
-
+    
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.id'), nullable=False)
-    ingredient_name = db.Column(db.String(50), nullable=False)
-    ingredient_amount = db.Column(db.String(50), nullable=False)
-    ingredient_unit = db.Column(db.String(50), nullable=False)
+    recipe_source_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'), unique=True)
+    ingredient_name = db.Column(db.String)
+    ingredient_amount = db.Column(db.String)
+    ingredient_unit = db.Column(db.String)
     
+    recipe = db.relationship("Recipes", back_populates="recipe_ingredients")
     
-    recipe = db.relationship("Recipe", back_populates='ingredients')
-
+# Favorites table with recipe_id, user_id
+# two many to one relationship with Recipes and recipe_ingredients
+class Favorites(db.Model):
+    """Favorites"""
     
-class Workouts(db.Model):
-    __tablename__ = 'workouts'
+    __tablename__ = "favorites"
+    
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'))
+    
+    user = db.relationship("Users", back_populates="favorites")
+    recipe = db.relationship("Recipes", back_populates="favorites")
 
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    workout_name = db.Column(db.String(40), nullable=False)
-    body_group = db.Column(db.String(40), nullable=False)
-
-    user = db.relationship("Users", back_populates="workouts")
-
-    def __repr__(self):
-        return f"<Workout(id={self.id}, workout_name='{self.workout_name}', body_group='{self.body_group}')>"
 
 if __name__ == '__main__':
     from server import app

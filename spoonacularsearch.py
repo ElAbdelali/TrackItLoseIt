@@ -2,14 +2,15 @@ import requests
 import json
 
 params = {
-    'minCalories': '600',
+    'minCalories': '900',
     'maxCalories': '1900',
-    'apiKey': '1bc98f8a0b1b450bb695bc06f53a814d'
+    'apiKey': '4ff5446f172e4657adb4966662984339'
+    
     
 }
 params2 = {
     'includeNutrition': 'false',
-    'apiKey': '1bc98f8a0b1b450bb695bc06f53a814d'
+    'apiKey': '4ff5446f172e4657adb4966662984339'
 }
 
 res = requests.get('https://api.spoonacular.com/recipes/findByNutrients', params=params)

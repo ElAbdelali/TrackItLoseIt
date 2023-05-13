@@ -7,16 +7,6 @@ from datetime import datetime
 
 db = SQLAlchemy()
 
-def connect_to_db(flask_app, db_uri="postgresql:///trackitloseit", echo=True):
-    flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
-    flask_app.config["SQLALCHEMY_ECHO"] = echo
-    flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
-    db.app = flask_app
-    db.init_app(flask_app)
-
-    print("Connected to the db!")
-
 # TDEE table with id, weight, height, age, gender, activity_level, tdee_calories, user_id as columns
 # One to many relationship setup with User
 class TDEE(db.Model):
@@ -34,6 +24,9 @@ class TDEE(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True)
     
     user = db.relationship("Users", back_populates="tdee")
+    
+    def __repr__(self):
+        return f'<TDEE id={self.id} activity_level={self.activity_level}>'
 
 # Users table with id, username, password, first_name, last_name, date_of_birth, email, and created at as columns
 # One to Many Relationships setup with tdee, weight_notes, favorites 
@@ -55,6 +48,8 @@ class Users(db.Model):
     weight_notes = db.relationship("WeightNotes", back_populates="user")
     favorites = db.relationship("Favorites", back_populates="user")
 
+    def __repr__(self):
+        return f'<User user_id={self.id} email={self.email}>'
 # WeightNotes Table with user_id (refers to User), workouts_done, weight_value, and date as columns
 # One to many relationship between user and weight_notes
 class WeightNotes(db.Model):
@@ -69,6 +64,9 @@ class WeightNotes(db.Model):
     date = db.Column(db.DateTime)
     
     user = db.relationship("Users", back_populates="weight_notes")
+    
+    def __repr__(self):
+        return f'<WeightNotes id={self.id} user_id={self.user_id}>'
 
 # recipes table with recipe_name,  calories, recipe_image_url, and recipe_source_url as columns 
 # Two one to many relationships with recipe_ingredients and favorites
@@ -86,6 +84,9 @@ class Recipes(db.Model):
     
     recipe_ingredients = db.relationship("RecipeIngredients", back_populates="recipes")
     favorites = db.relationship("Favorites", back_populates="recipes")
+    
+    def __repr__(self):
+        return f'<Recipe id={self.recipe_id} recipe_source_id={self.recipe_source_id}>'
 
 # recipe_ingredients table with recipe_id, ingredient_name, ingredient_amount, and ingredient_unit as columns
 # One to many relationship with Recipes
@@ -97,10 +98,13 @@ class RecipeIngredients(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     recipe_source_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'), unique=True)
     ingredient_name = db.Column(db.String)
-    ingredient_amount = db.Column(db.String)
+    ingredient_amount = db.Column(db.Float)
     ingredient_unit = db.Column(db.String)
     
-    recipe = db.relationship("Recipes", back_populates="recipe_ingredients")
+    recipes = db.relationship("Recipes", back_populates="recipe_ingredients")
+    
+    def __repr__(self):
+        return f'<Recipe Ingredients id={self.id} Recipe_source_id={self.recipe_source_id}>'
     
 # Favorites table with recipe_id, user_id
 # two many to one relationship with Recipes and recipe_ingredients
@@ -114,9 +118,21 @@ class Favorites(db.Model):
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'))
     
     user = db.relationship("Users", back_populates="favorites")
-    recipe = db.relationship("Recipes", back_populates="favorites")
+    recipes = db.relationship("Recipes", back_populates="favorites")
+    
+    def __repr__(self):
+        return f'<favorites id={self.id} user_id={self.user_id}>'
 
+def connect_to_db(flask_app, db_uri="postgresql:///trackitloseit", echo=True):
+    flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
+    flask_app.config["SQLALCHEMY_ECHO"] = echo
+    flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
+    db.app = flask_app
+    db.init_app(flask_app)
+
+    print("Connected to the db!")
+    
 if __name__ == '__main__':
     from server import app
     import os

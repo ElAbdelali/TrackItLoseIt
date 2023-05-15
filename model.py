@@ -21,7 +21,7 @@ class TDEE(db.Model):
     gender = db.Column(db.String)
     activity_level = db.Column(db.String)
     tdee_calories = db.Column(db.Float)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
     user = db.relationship("Users", back_populates="tdee")
     
@@ -36,13 +36,13 @@ class Users(db.Model):
     __tablename__ = "users"
     
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    username = db.Column(db.String)
+    username = db.Column(db.String, unique=True)
     password = db.Column(db.String)
     first_name = db.Column(db.String)
     last_name = db.Column(db.String)
     date_of_birth = db.Column(db.Date)
-    email = db.Column(db.String)
-    created_at = db.Column(db.DateTime)
+    email = db.Column(db.String, unique=True)
+    created_at = db.Column(db.Date)
     
     tdee = db.relationship("TDEE", back_populates="user")
     weight_notes = db.relationship("WeightNotes", back_populates="user")
@@ -96,7 +96,8 @@ class RecipeIngredients(db.Model):
     __tablename__ = "recipe_ingredients"
     
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    recipe_source_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'), unique=True)
+    recipe_source_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_source_id'))
+    ingredient_id = db.Column(db.Integer)
     ingredient_name = db.Column(db.String)
     ingredient_amount = db.Column(db.Float)
     ingredient_unit = db.Column(db.String)

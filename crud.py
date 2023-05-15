@@ -28,8 +28,8 @@ def create_recipe(recipe_source_id, recipe_name, calories, recipe_image_url, rec
     return recipe
 
 # Create a new recipe ingredient
-def create_recipe_ingredient(recipe_source_id, ingredient_name, ingredient_amount, ingredient_unit):
-    recipe_ingredient = RecipeIngredients(recipe_source_id=recipe_source_id, ingredient_name=ingredient_name, ingredient_amount=ingredient_amount, ingredient_unit=ingredient_unit)
+def create_recipe_ingredient(recipe_source_id, ingredient_id, ingredient_name, ingredient_amount, ingredient_unit):
+    recipe_ingredient = RecipeIngredients(recipe_source_id=recipe_source_id, ingredient_id=ingredient_id, ingredient_name=ingredient_name, ingredient_amount=ingredient_amount, ingredient_unit=ingredient_unit)
 
     return recipe_ingredient
 

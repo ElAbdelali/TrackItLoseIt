@@ -29,6 +29,12 @@ for recipe in recipe_data:
     
     db_recipe = crud.create_recipe(recipe_source_id, recipe_name, calories, recipe_image_url, recipe_source_url)
     recipe_data_in_db.append(db_recipe)
+    
+for ingreident in recipe_data:
+    recipe_source_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'), unique=True)
+    ingredient_name = db.Column(db.String)
+    ingredient_amount = db.Column(db.Float)
+    ingredient_unit = db.Column(db.String)
 
 # for ingredient in recipe_ingredient_data:
 #     recipe_source_id, ingredient_name, ingredient_amount, ingredient_unit = (

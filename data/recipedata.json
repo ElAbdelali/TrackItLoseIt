@@ -1,0 +1,45 @@
+[
+    {
+        "title": "Fettuccine Alla Carbonara, With No Cream Necessary",
+        "calories": 1076,
+        "image": "https://spoonacular.com/recipeImages/642712-312x231.jpg",
+        "recipeId": 642712,
+        "recipeSource": "https://spoonacular.com/fettuccine-alla-carbonara-with-no-cream-necessary-642712"
+    },
+    {
+        "recipe_source_id": 10020409,
+        "ingredient_name": "fettuccine",
+        "ingredient_amount": 0.667,
+        "ingredient_unit": "pounds"
+    },
+    {
+        "recipe_source_id": 1123,
+        "ingredient_name": "very eggs",
+        "ingredient_amount": 2.0,
+        "ingredient_unit": ""
+    },
+    {
+        "recipe_source_id": 10410123,
+        "ingredient_name": "pancetta",
+        "ingredient_amount": 0.25,
+        "ingredient_unit": "pounds"
+    },
+    {
+        "recipe_source_id": 1033,
+        "ingredient_name": "parmigiano reggiano",
+        "ingredient_amount": 1.0,
+        "ingredient_unit": "cup"
+    },
+    {
+        "recipe_source_id": 1082047,
+        "ingredient_name": "kosher salt",
+        "ingredient_amount": 2.0,
+        "ingredient_unit": "servings"
+    },
+    {
+        "recipe_source_id": 1002030,
+        "ingredient_name": "pepper",
+        "ingredient_amount": 2.0,
+        "ingredient_unit": "servings"
+    }
+]

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}The Recipes within your calorie range{% endblock %}
+
+{% block body %}
+{% for recipe in recipes %}
+    <h1>{{recipe.recipe_name}}</h1>
+    <a href="https://api.spoonacular.com/recipes/{{recipe.recipe_source_id}}}/information">
+    recipe.recipe_name recipe.calories, recipe.recipe_image_url, recipe.recipe_source_url 
+{% endfor %}
+{% endblock %}

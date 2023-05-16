@@ -39,6 +39,11 @@ def create_favorite(user, favorite):
 
     return favorites
 
+def get_recipes():
+    """Return all movies."""
+
+    return Recipes.query.all()
+
 if __name__ == '__main__':
     from server import app
     connect_to_db(app)

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Recipe Search{% endblock %}
+
+{% block body %}
+
+<form action="/get-recipes" method="GET">
+    <input type="text" name="min_calories">
+    <input type="text" name="max_calories">
+    <input type="text" name="num_of_recipes">
+    <button type="submit"></button>
+</form>
+
+{% endblock %}

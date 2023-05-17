@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 {% block title %}TDEE{% endblock %}
-
 {% block body %}
-  <h1>Welcome!</h1>
+    <nav>
+        <ul>
+        <li><a href="/tdee">TDEE</a></li>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/about">About</a></li>
+        </ul>
+    </nav>
+    <h1>Welcome to the Homepage</h1>
+    <h2>A central location for all your fitness tracking needs.<h2>
 
-  <h2>Navigation</h2>
-  <ul>
-    <li><a href="/recipes">View all Recipes</a></li>
-    <li><a href="/users">View all users</a></li>
-  </ul>
 {% endblock %}

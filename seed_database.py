@@ -5,6 +5,7 @@ import crud
 import model
 import server
 import random
+import spoonacularsearch
 from datetime import datetime
 
 os.system("dropdb trackitloseit")
@@ -15,6 +16,7 @@ model.db.create_all()
 
 with open('data/recipedata.json') as f:
     recipe_data = json.loads(f.read())
+recipe_data = spoonacularsearch.find_recipe_by_calories('900', '1500', '10')
     
 with open('data/users.json') as f:
     user_data = json.loads(f.read())

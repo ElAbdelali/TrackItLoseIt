@@ -1,5 +1,6 @@
 """Crud Operations"""
 from model import db, TDEE, Users, WeightNotes, Recipes, RecipeIngredients, Favorites, connect_to_db
+import requests
 
 
 # Create a new TDEE entry
@@ -40,9 +41,12 @@ def create_favorite(user, favorite):
     return favorites
 
 def get_recipes():
-    """Return all movies."""
+    """Return all Recipes."""
 
     return Recipes.query.all()
+
+# create a crud operation to query calories by ensuring they are less than maxCalories input by user
+# Recipes.query.filter_by..... where to column of calories < the entered user cals
 
 if __name__ == '__main__':
     from server import app

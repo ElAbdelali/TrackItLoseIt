@@ -15,69 +15,86 @@ app.jinja_env.undefined = StrictUndefined
 def homepage():
     """View homepage"""
     
-    return render_template('index.html')
+    return render_template('homepage.html')
 
-@app.route("/recipes")
-def all_movies():
-    """View all movies."""
+@app.route('/tdee')
+def index():
+    return render_template('calculate_tdee.html')
 
-    recipes = crud.get_recipes()
+@app.route('/calculate', methods=['POST'])
+def calculate():
+    gender = request.form.get('gender')
+    age = int(request.form.get('age'))
+    weight = float(request.form.get('weight'))
+    height = float(request.form.get('height'))
+    activity = request.form.get('activity')
 
-    return render_template("recipes.html", recipes=recipes)
+    # Calculate BMR based on gender
+    if gender == 'male':
+        bmr = 66 + (6.23 * weight) + (12.7 * height) - (6.8 * age)
+    else:
+        bmr = 655 + (4.35 * weight) + (4.7 * height) - (4.7 * age)
 
-# @app.route("TDEE")
-# def tdee(method="POST")
+    # Calculate TDEE based on activity level
+    if activity == 'sedentary':
+        tdee = bmr * 1.2
+    elif activity == 'lightly_active':
+        tdee = bmr * 1.375
+    elif activity == 'moderately_active':
+        tdee = bmr * 1.55
+    elif activity == 'very_active':
+        tdee = bmr * 1.725
+    else:
+        tdee = bmr * 1.9
+
+    return redirect('/result?gender={}&age={}&weight={}&height={}&activity={}&bmr={}&tdee={}'.format(
+        gender, age, weight, height, activity, bmr, tdee))
+
+@app.route('/result')
+def result():
+    gender = request.args.get('gender')
+    age = int(request.args.get('age'))
+    weight = float(request.args.get('weight'))
+    height = float(request.args.get('height'))
+    activity = request.args.get('activity')
+    bmr = float(request.args.get('bmr'))
+    tdee = float(request.args.get('tdee'))
+
+    return render_template('result.html', gender=gender, age=age, weight=weight, height=height,
+                           activity=activity, bmr=bmr, tdee=tdee)
     
-# #example route recipe search by user input (minCalories, maxCalories, number of recipes wanted)
-# @app.route('/recipe-search')
-# def recipe_search():
-#     # form rendered at this route
-#     return render_template('recipe-search.html')
+@app.route('/signup', methods=['GET','POST'])
+def signup():
+    if request.method == 'POST':
+        # Retrieve form data
+        username = request.form.get('username')
+        password = request.form.get('password')
+        first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
+        date_of_birth = request.form.get('date_of_birth')
+        email = request.form.get('email')
 
-# @app.route('/get-recipes', methods=["GET"])
-# def get_recipes():
-#     min_cals = request.args.get('min_calories')
-#     max_cals = request.args.get('max_calories')
-#     num_of_recipes = request.args.get('num_of_recipes')
+        # Create a new user object
+        new_user = crud.create_user(
+            username=username,
+            password=password,
+            first_name=first_name,
+            last_name=last_name,
+            date_of_birth=date_of_birth,
+            email=email,
+            created_at=datetime.datetime.now()
+        )
 
-#     # Check in database for recipes meeting user's input min and max cals
-#     # if recipes found, display recipes form database to user
-#     # if no recipes found, then make the api request, and display api response to user
+        db.session.add(new_user)
+        db.session.commit()
 
-#     recipes = spoonacularsearch.find_recipe_by_calories(min_cals, max_cals, num_of_recipes)
+        # Flash a success message
+        # flash('Signup successful', 'success')
 
-# @app.route('/calculate_tdee', methods=['GET'])
-# def calculate_tdee():
-#     data = request.get_json()
-
-#     # Retrieve the input values from the data
-#     weight = float(data['weight'])
-#     height = float(data['height'])
-#     age = int(data['age'])
-#     gender = data['gender']
-#     activity_level = float(data['activity_level'])
-
-#     # Perform TDEE calculation
-#     if gender == 'male':
-#         tdee = 10 * weight + 6.25 * height - 5 * age + 5
-#     elif gender == 'female':
-#         tdee = 10 * weight + 6.25 * height - 5 * age - 161
-#     else:
-#         return jsonify({'error': 'Invalid gender'})
-
-#     tdee *= activity_level
-
-#     # Save the TDEE data into the database
-#     tdee_calories = tdee
-#     created_at = datetime.utcnow()
-#     user_id = 1  # Replace with the actual user ID
-
-#     db_tdee = crud.create_tdee(weight, height, age, gender, activity_level, tdee_calories, user_id, created_at)
-#     model.db.session.add(db_tdee)
-#     model.db.session.commit()
-
-#     # Return the calculated TDEE as a JSON response
-#     return jsonify({'tdee': tdee})
+        # Redirect to the homepage
+        return redirect('/')
+    else:
+        return render_template('signup.html')
 
 
 if __name__ == "__main__":

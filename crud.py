@@ -40,11 +40,6 @@ def create_favorite(user, favorite):
 
     return favorites
 
-def get_recipes():
-    """Return all Recipes."""
-
-    return Recipes.query.all()
-
 # create a crud operation to query calories by ensuring they are less than maxCalories input by user
 # Recipes.query.filter_by..... where to column of calories < the entered user cals
 

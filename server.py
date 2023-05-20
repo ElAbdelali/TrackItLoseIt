@@ -73,6 +73,7 @@ def signup():
         last_name = request.form.get('last_name')
         date_of_birth = request.form.get('date_of_birth')
         email = request.form.get('email')
+        
 
         # Create a new user object
         new_user = crud.create_user(

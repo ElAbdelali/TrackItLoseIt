@@ -1,10 +1,11 @@
 from flask import (Flask, render_template, request, flash, session, jsonify,
                    redirect)
-from datetime import datetime
+import datetime
 from model import connect_to_db, db
 from jinja2 import StrictUndefined
 
 import crud, model
+from crud import create_user
 import spoonacularsearch
 
 app = Flask(__name__)
@@ -64,9 +65,8 @@ def result():
                            activity=activity, bmr=bmr, tdee=tdee)
     
 @app.route('/signup', methods=['GET','POST'])
-def signup():
-    if request.method == 'POST':
-        # Retrieve form data
+def register_user():
+        """Create new User"""
         username = request.form.get('username')
         password = request.form.get('password')
         first_name = request.form.get('first_name')
@@ -74,27 +74,31 @@ def signup():
         date_of_birth = request.form.get('date_of_birth')
         email = request.form.get('email')
         
-
         # Create a new user object
-        new_user = crud.create_user(
-            username=username,
-            password=password,
-            first_name=first_name,
-            last_name=last_name,
-            date_of_birth=date_of_birth,
-            email=email,
+        user = create_user(
+            username,
+            password,
+            first_name,
+            last_name,
+            date_of_birth,
+            email,
             created_at=datetime.datetime.now()
         )
 
-        db.session.add(new_user)
-        db.session.commit()
+        user_exists = crud.get_user_by_email(email)
+        if user_exists:
+            flash("Cannot create an account with that email. Try again.")
+        else:
+            # user = crud.create_user(email, password, first_name, last_name, date_of_birth, email, created_at=datetime.datetime.now())
+            db.session.add(user)
+            db.session.commit()
+        flash("Account created! Please log in.")
+
 
         # Flash a success message
         # flash('Signup successful', 'success')
 
         # Redirect to the homepage
-        return redirect('/')
-    else:
         return render_template('signup.html')
 
 

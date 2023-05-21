@@ -94,12 +94,7 @@ def register_user():
             db.session.commit()
         flash("Account created! Please log in.")
 
-
-        # Flash a success message
-        # flash('Signup successful', 'success')
-
-        # Redirect to the homepage
-        return render_template('signup.html')
+        return render_template('homepage.html')
 
 
 if __name__ == "__main__":

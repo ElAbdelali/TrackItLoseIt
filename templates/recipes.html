@@ -3,9 +3,7 @@
 
 {% block body %}
 {% for recipe in recipes %}
-  <li>
-    <a href="/recipes/{{ recipe.recipe_source_id}}">
-    </li>
-    {{recipe.recipe_name, recipe.calories, recipe.recipe_image_url, recipe.recipe_source_url }}</p>
+  <li>{{ recipe.recipe_source_id,
+    recipe.recipe_name, recipe.calories, recipe.recipe_image_url, recipe.recipe_source_url }}</p>
 {% endfor %}
 {% endblock %}

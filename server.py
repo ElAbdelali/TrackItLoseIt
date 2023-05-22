@@ -40,7 +40,6 @@ def calculate_bmr(gender, age, weight, height):
     if gender == 'male':
         bmr = 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age)
     else:
-        # Example calculation for a female using the Harris-Benedict equation:
         bmr = 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age)
 
     return bmr
@@ -105,7 +104,9 @@ def register_user():
 
         return render_template('homepage.html')
 
-
+@app.route('/chart')
+def chart():
+    return render_template('weight_tracker.html')
 if __name__ == "__main__":
     connect_to_db(app)
     app.run(host="0.0.0.0", debug=True)

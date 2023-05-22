@@ -18,38 +18,47 @@ def homepage():
     
     return render_template('homepage.html')
 
-@app.route('/tdee')
-def index():
-    return render_template('calculate_tdee.html')
-
-@app.route('/calculate', methods=['POST'])
+@app.route('/calculate', methods=['GET', 'POST'])
 def calculate():
-    gender = request.form.get('gender')
-    age = int(request.form.get('age'))
-    weight = float(request.form.get('weight'))
-    height = float(request.form.get('height'))
-    activity = request.form.get('activity')
+    if request.method == 'POST':
+        gender = request.form.get('gender')
+        age = int(request.form.get('age'))
+        weight = float(request.form.get('weight'))
+        height = float(request.form.get('height'))
+        activity = request.form.get('activity')
 
-    # Calculate BMR based on gender
+        # Perform calculations based on the form inputs
+        bmr = calculate_bmr(gender, age, weight, height)
+        tdee = calculate_tdee(bmr, activity)
+
+        return render_template('calculate_tdee.html', tdee=tdee)
+    else:
+        return render_template('calculate_tdee.html')
+
+def calculate_bmr(gender, age, weight, height):
+
     if gender == 'male':
-        bmr = 66 + (6.23 * weight) + (12.7 * height) - (6.8 * age)
+        bmr = 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age)
     else:
-        bmr = 655 + (4.35 * weight) + (4.7 * height) - (4.7 * age)
+        # Example calculation for a female using the Harris-Benedict equation:
+        bmr = 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age)
 
-    # Calculate TDEE based on activity level
-    if activity == 'sedentary':
-        tdee = bmr * 1.2
-    elif activity == 'lightly_active':
-        tdee = bmr * 1.375
-    elif activity == 'moderately_active':
-        tdee = bmr * 1.55
-    elif activity == 'very_active':
-        tdee = bmr * 1.725
-    else:
-        tdee = bmr * 1.9
+    return bmr
 
-    return redirect('/result?gender={}&age={}&weight={}&height={}&activity={}&bmr={}&tdee={}'.format(
-        gender, age, weight, height, activity, bmr, tdee))
+def calculate_tdee(bmr, activity):
+    # Define activity multipliers based on the selected activity level
+    activity_multipliers = {
+        'sedentary': 1.2,
+        'lightly_active': 1.375,
+        'moderately_active': 1.55,
+        'very_active': 1.725,
+        'super_active': 1.9
+    }
+
+    # Calculate TDEE by multiplying BMR with the activity multiplier
+    tdee = bmr * activity_multipliers.get(activity, 1.2)
+
+    return tdee
 
 @app.route('/result')
 def result():

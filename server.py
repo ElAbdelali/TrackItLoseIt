@@ -6,7 +6,7 @@ from jinja2 import StrictUndefined
 
 import crud, model
 from crud import create_user
-import spoonacularsearch
+from spoonacularsearch import get_recipe_ingredients, find_recipes_by_calories
 
 app = Flask(__name__)
 app.secret_key = "dev"
@@ -103,10 +103,36 @@ def register_user():
         flash("Account created! Please log in.")
 
         return render_template('homepage.html')
+    
+@app.route('/search', methods=['POST'])
+def search():
+    min_cals = request.form['minCals']
+    max_cals = request.form['maxCals']
+    num_recipes = request.form['number']
+
+    # Call the find_recipes_by_calories function
+    params = {
+        'minCals': min_cals,
+        'maxCals': max_cals,
+        'number_of_recipes': num_recipes
+    }
+    recipes = find_recipes_by_calories(min_cals, max_cals, num_recipes)
+
+    return render_template('recipes.html', recipes=recipes)
+
+
+
+@app.route('/recipe/<recipe_id>')
+def recipe(recipe_id):
+    # Call the get_recipe_ingredients function
+    recipe_data = get_recipe_ingredients(recipe_id)
+
+    return render_template('recipes.html', recipe=recipe_data)
 
 @app.route('/chart')
 def chart():
     return render_template('weight_tracker.html')
+
 if __name__ == "__main__":
     connect_to_db(app)
     app.run(host="0.0.0.0", debug=True)

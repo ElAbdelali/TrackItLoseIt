@@ -1,5 +1,5 @@
 {% extends 'base.html'%}
-
+{%block content%}
 <h1>Login for a new you</h1>
     <form action="/login" method="POST">
         <label for="username">Username:</label>
@@ -15,3 +15,4 @@
     <a href="/signup">
         <button>Sign Up</button>
     </a>
+{%endblock%}

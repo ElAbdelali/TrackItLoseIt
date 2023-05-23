@@ -22,9 +22,13 @@ def get_user_by_email(email):
     return Users.query.filter(Users.email == email).first()
 
 def get_user_by_username(username):
-    """Return a user by email."""
+    """Return a user by username."""
 
     return Users.query.filter(Users.username == username).first()
+
+def get_user_by_id(user_id):
+    """Return a user by ID."""
+    return Users.query.get(user_id)
 
 # Create a new weight note
 def create_weight_note(user_id, workouts_done, weight_value, date):

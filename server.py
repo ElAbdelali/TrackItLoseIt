@@ -3,7 +3,6 @@ from flask import (Flask, render_template, request, flash, session, jsonify,
 import datetime
 from model import connect_to_db, db
 from jinja2 import StrictUndefined
-
 import crud, model
 from crud import create_user
 from spoonacularsearch import get_recipe_ingredients, find_recipes_by_calories
@@ -15,6 +14,12 @@ app.jinja_env.undefined = StrictUndefined
 @app.route('/')
 def homepage():
     """View homepage"""
+    if 'user_id' in session:
+        # User is logged in
+        user_id = session['user_id']
+        user = crud.get_user_by_id(user_id)
+        username = user.username
+        return render_template('homepage.html', username=username)
     
     return render_template('homepage.html')
 
@@ -68,10 +73,35 @@ def register():
             user = crud.create_user(username, password, first_name, last_name, date_of_birth, email, created_at)
             db.session.add(user)
             db.session.commit()
-            
-        
+            return redirect('/login')
         
     return render_template('register.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        user = crud.get_user_by_username(username)
+
+        if user:
+            stored_password = user.password
+            if password == stored_password:
+                # Login successful
+                # Perform the desired actions, such as setting a session variable
+                session['user_id'] = user.id
+                flash('Login successful!')
+                return redirect('/')
+        
+        # Invalid username or password
+        flash('Invalid username or password. Please try again.')
+        return redirect('/login')
+
+    # Handle GET request for displaying the login form
+    return render_template('login.html')
+
+    
 @app.route('/chart')
 def chart():
     return render_template('weight_tracker.html')

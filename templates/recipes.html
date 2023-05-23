@@ -1,74 +1,21 @@
-{% extends 'base.html' %}
-{% block title %}The Recipes within your calorie range{% endblock %}
+{%extends 'base.html'%}
+{%block title%}Request a Recipe{%endblock%}
+{%block content%}
+<h1>Recipes</h1>
 
-{% block body %}
-    <h1>Find Recipes by Calories</h1>
-    <form id="search-form">
-        <label for="min-cals">Minimum Calories:</label>
-        <input type="number" id="min-cals" name="minCals" required>
-        <br><br>
-        <label for="max-cals">Maximum Calories:</label>
-        <input type="number" id="max-cals" name="maxCals" required>
-        <br><br>
-        <label for="num-recipes">Number of Recipes:</label>
-        <input type="number" id="num-recipes" name="number" required>
-        <br><br>
-        <input type="submit" value="Search">
-    </form>
-
-    <div id="recipes-container"></div>
-
-    <script>
-        document.getElementById("search-form").addEventListener("submit", function(event) {
-            event.preventDefault();  // Prevent form submission
-
-            var minCals = document.getElementById("min-cals").value;
-            var maxCals = document.getElementById("max-cals").value;
-            var numRecipes = document.getElementById("num-recipes").value;
-
-            // Make AJAX request to the Flask route
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "/search");
-            xhr.setRequestHeader("Content-Type", "application/json");
-
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var recipes = JSON.parse(xhr.responseText);
-
-                    // Display the recipes in the container
-                    var recipesContainer = document.getElementById("recipes-container");
-                    recipesContainer.innerHTML = "";
-
-                    for (var i = 0; i < recipes.length; i++) {
-                        var recipe = recipes[i];
-
-                        var recipeDiv = document.createElement("div");
-
-                        var imageElement = document.createElement("img");
-                        imageElement.src = recipe.recipe_image_url;
-                        recipeDiv.appendChild(imageElement);
-
-                        var recipeIdElement = document.createElement("p");
-                        recipeIdElement.innerHTML = "Recipe ID: " + recipe.recipe_source_id;
-                        recipeDiv.appendChild(recipeIdElement);
-
-                        var recipeNameElement = document.createElement("p");
-                        recipeNameElement.innerHTML = "Recipe Name: " + recipe.recipe_name;
-                        recipeDiv.appendChild(recipeNameElement);
-
-                        var caloriesElement = document.createElement("p");
-                        caloriesElement.innerHTML = "Calories: " + recipe.calories;
-                        recipeDiv.appendChild(caloriesElement);
-
-                        recipesContainer.appendChild(recipeDiv);
-                    }
-                }
-            };
-
-            xhr.send(JSON.stringify({ minCals: minCals, maxCals: maxCals, number: numRecipes }));
-        });
-    </script>
-</body>
-</html>
-
-{% endblock %}
+  {% if recipes %}
+    <ul>
+      {% for recipe in recipes %}
+        <li>
+          <h2>{{ recipe.recipe_name }}</h2>
+          <p>Calories: {{ recipe.calories }}</p>
+          <img src="{{ recipe.recipe_image_url }}" alt="Recipe Image">
+          <p>Recipe Source ID: {{ recipe.recipe_source_id }}</p>
+          <p>Recipe Source URL: <a href="{{ recipe.recipe_source_url }}">{{ recipe.recipe_source_url }}</a></p>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No recipes found.</p>
+  {% endif %}
+{%endblock%}

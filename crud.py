@@ -16,6 +16,16 @@ def create_user(username, password, first_name, last_name, date_of_birth, email,
 
     return user
 
+def get_user_by_email(email):
+    """Return a user by email."""
+
+    return Users.query.filter(Users.email == email).first()
+
+def get_user_by_username(username):
+    """Return a user by email."""
+
+    return Users.query.filter(Users.username == username).first()
+
 # Create a new weight note
 def create_weight_note(user_id, workouts_done, weight_value, date):
     weight_note = WeightNotes(user_id=user_id, workouts_done=workouts_done, weight_value=weight_value, date=date)
@@ -27,10 +37,7 @@ def create_recipe(recipe_source_id, recipe_name, calories, recipe_image_url, rec
     recipe = Recipes(recipe_source_id=recipe_source_id, recipe_name=recipe_name, calories=calories, recipe_image_url=recipe_image_url, recipe_source_url=recipe_source_url)
 
     return recipe
-def get_user_by_email(email):
-    """Return a user by email."""
 
-    return Users.query.filter(Users.email == email).first()
 # Create a new recipe ingredient
 def create_recipe_ingredient(recipe_source_id, ingredient_id, ingredient_name, ingredient_amount, ingredient_unit):
     recipe_ingredient = RecipeIngredients(recipe_source_id=recipe_source_id, ingredient_id=ingredient_id, ingredient_name=ingredient_name, ingredient_amount=ingredient_amount, ingredient_unit=ingredient_unit)

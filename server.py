@@ -1,5 +1,5 @@
 from flask import (Flask, render_template, request, flash, session, jsonify,
-                   redirect)
+                   redirect, url_for)
 import datetime
 from model import connect_to_db, db
 from jinja2 import StrictUndefined
@@ -14,14 +14,16 @@ app.jinja_env.undefined = StrictUndefined
 @app.route('/')
 def homepage():
     """View homepage"""
+    username = None
     if 'user_id' in session:
         # User is logged in
         user_id = session['user_id']
         user = crud.get_user_by_id(user_id)
-        username = user.username
-        return render_template('homepage.html', username=username)
-    
-    return render_template('homepage.html')
+        if user is not None:
+            username = user.username
+    return render_template('homepage.html', username=username)
+
+
 
 @app.route('/recipe_request', methods=['GET', 'POST'])
 def recipe_request():
@@ -101,10 +103,71 @@ def login():
     # Handle GET request for displaying the login form
     return render_template('login.html')
 
+@app.route('/logout')
+def logout():
+    """Logout the user"""
+    session.pop('user_id', None)
+    flash('You have been logged out.')
+    return redirect('/')
+
+@app.route('/weight_notes', methods=['GET', 'POST'])
+def weight_notes():
+    if request.method == 'POST':
+        # Retrieve form data
+        user_id = request.form.get('user_id')
+        workouts_done = request.form.get('workouts_done')
+        weight_value = request.form.get('weight_value')
+        date = request.form.get('date')
+
+        # Create a new WeightNotes object
+        weight_notes = crud.WeightNotes(user_id=user_id, workouts_done=workouts_done, weight_value=weight_value, date=date)
+
+        # Add the weight notes to the database session and commit changes
+        db.session.add(weight_notes)
+        db.session.commit()
+
+        # Redirect to the weight notes page or any other desired page
+        return redirect(url_for('weight_notes'))
+
+    # Fetch the user's weight notes from the database
+    user_id = session.get('user_id')
+    if user_id:
+        user = crud.User.query.get(user_id)
+        if user:
+            weight_notes = user.weight_notes
+        else:
+            flash('User not found in the database.')
+            return redirect(url_for('login'))
+    else:
+        flash('User ID not found in the session.')
+        return redirect(url_for('login'))
+
+    return render_template('weight_notes.html', weight_notes=weight_notes, user_id=user_id)
+
     
 @app.route('/chart')
 def chart():
-    return render_template('weight_tracker.html')
+    # Retrieve weight data from the database
+    weights = crud.WeightNotes.query.all()
+    weight_values = [weight.weight_value for weight in weights]
+    dates = [weight.date.strftime('%Y-%m-%d') for weight in weights]
+
+    return render_template('chart.html', weight_values=weight_values, dates=dates)
+
+def connect_to_db(flask_app, db_uri="postgresql:///trackitloseit", echo=True):
+    flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
+    flask_app.config["SQLALCHEMY_ECHO"] = echo
+    flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+    db.app = flask_app
+    db.init_app(flask_app)
+
+    # Create or recreate the tables
+    with flask_app.app_context():
+        db.drop_all()
+        db.create_all()
+
+    print("Connected to the db!")
 
 if __name__ == "__main__":
     connect_to_db(app)

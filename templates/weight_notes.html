@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Weight Notes{% endblock %}
+
+{% block content %}
+  <h1>Weight Notes</h1>
+
+  <form action="{{ url_for('weight_notes') }}" method="post">
+    <input type="hidden" name="user_id" value="{{ user_id }}"> 
+    
+    <label for="workouts_done">Workouts Done:</label>
+    <textarea name="workouts_done" id="workouts_done" cols="30" rows="5"></textarea>
+    
+    <label for="weight_value">Weight:</label>
+    <input type="text" name="weight_value" id="weight_value">
+    
+    <label for="date">Date: </label>
+    <input type="date" name="date" id="date">
+
+    <button type="submit">Save</button>
+  </form>
+
+  <h2>Existing Weight Notes:</h2>
+  <ul>
+    {% for note in weight_notes %}
+      <div>
+        <h4>{{ note.date }}</h4> 
+        <p>- Workouts: {{ note.workouts_done }} </p>
+        <h5>- Weight: {{ note.weight_value }}</h5>
+      </div>
+    {% endfor %}
+  </ul>
+{% endblock %}

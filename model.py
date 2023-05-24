@@ -23,14 +23,14 @@ class TDEE(db.Model):
     tdee_calories = db.Column(db.Float)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
-    user = db.relationship("Users", back_populates="tdee")
+    user = db.relationship("User", back_populates="tdee")
     
     def __repr__(self):
         return f'<TDEE id={self.id} activity_level={self.activity_level}>'
 
-# Users table with id, username, password, first_name, last_name, date_of_birth, email, and created at as columns
+# Users table with id, username, password, first_name, last_name, date_of_birth, email, created_at as columns
 # One to Many Relationships setup with tdee, weight_notes, favorites 
-class Users(db.Model):
+class User(db.Model):
     """Users"""
     
     __tablename__ = "users"
@@ -42,14 +42,15 @@ class Users(db.Model):
     last_name = db.Column(db.String)
     date_of_birth = db.Column(db.Date)
     email = db.Column(db.String, unique=True)
-    created_at = db.Column(db.Date)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
     tdee = db.relationship("TDEE", back_populates="user")
     weight_notes = db.relationship("WeightNotes", back_populates="user")
-    favorites = db.relationship("Favorites", back_populates="user")
+    favorites = db.relationship("Favorite", back_populates="user")
 
     def __repr__(self):
         return f'<User user_id={self.id} email={self.email}>'
+
 # WeightNotes Table with user_id (refers to User), workouts_done, weight_value, and date as columns
 # One to many relationship between user and weight_notes
 class WeightNotes(db.Model):
@@ -58,12 +59,12 @@ class WeightNotes(db.Model):
     __tablename__ = "weight_notes"
     
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     workouts_done = db.Column(db.Text)
     weight_value = db.Column(db.Float)
     date = db.Column(db.DateTime)
     
-    user = db.relationship("Users", back_populates="weight_notes")
+    user = db.relationship("User", back_populates="weight_notes")
     
     def __repr__(self):
         return f'<WeightNotes id={self.id} user_id={self.user_id}>'
@@ -76,14 +77,14 @@ class Recipes(db.Model):
     __tablename__ = "recipes"
     
     recipe_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    recipe_source_id = db.Column(db.Integer, unique=True)
+    recipe_source_id = db.Column(db.Integer)
     recipe_name = db.Column(db.String)
     calories = db.Column(db.Integer)
     recipe_image_url = db.Column(db.String)
     recipe_source_url = db.Column(db.String)
     
     recipe_ingredients = db.relationship("RecipeIngredients", back_populates="recipes")
-    favorites = db.relationship("Favorites", back_populates="recipes")
+    favorites = db.relationship("Favorite", back_populates="recipes")
     
     def __repr__(self):
         return f'<Recipe id={self.recipe_id} recipe_source_id={self.recipe_source_id}>'
@@ -96,7 +97,7 @@ class RecipeIngredients(db.Model):
     __tablename__ = "recipe_ingredients"
     
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    recipe_source_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_source_id'))
+    recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'))
     ingredient_id = db.Column(db.Integer)
     ingredient_name = db.Column(db.String)
     ingredient_amount = db.Column(db.Float)
@@ -105,11 +106,11 @@ class RecipeIngredients(db.Model):
     recipes = db.relationship("Recipes", back_populates="recipe_ingredients")
     
     def __repr__(self):
-        return f'<Recipe Ingredients id={self.id} Recipe_source_id={self.recipe_source_id}>'
+        return f'<Recipe Ingredients id={self.id} Recipe_id={self.recipe_id}>'
     
-# Favorites table with recipe_id, user_id
-# two many to one relationship with Recipes and recipe_ingredients
-class Favorites(db.Model):
+# Favorite table with recipe_id, user_id
+# Two many to one relationship with Recipes and Users
+class Favorite(db.Model):
     """Favorites"""
     
     __tablename__ = "favorites"
@@ -118,11 +119,11 @@ class Favorites(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'))
     
-    user = db.relationship("Users", back_populates="favorites")
+    user = db.relationship("User", back_populates="favorites")
     recipes = db.relationship("Recipes", back_populates="favorites")
     
     def __repr__(self):
-        return f'<favorites id={self.id} user_id={self.user_id}>'
+        return f'<Favorite id={self.id} user_id={self.user_id}>'
 
 def connect_to_db(flask_app, db_uri="postgresql:///trackitloseit", echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
@@ -136,13 +137,6 @@ def connect_to_db(flask_app, db_uri="postgresql:///trackitloseit", echo=True):
     
 if __name__ == '__main__':
     from server import app
-    import os
-    
-    os.system("dropdb trackitloseit --if-exists")
-    os.system("createdb trackitloseit")
 
     connect_to_db(app)
 
-    # Create the tables
-    db.drop_all()
-    db.create_all()

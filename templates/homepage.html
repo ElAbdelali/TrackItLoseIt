@@ -1,10 +1,11 @@
-{%extends 'base.html'%}
-<!DOCTYPE html>
-<html>
-<head>
-    {%block title%}Track it, Lose it.{%endblock%}
-</head>
-{%block content%}
-    <h1>hi {{username}}</h1>
-{%endblock%}
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if username %}
+        <h1>Hi, {{ username }}</h1>
+        <!-- Content for logged-in users -->
+    {% else %}
+        <h1>Welcome!</h1>
+        <!-- Content for non-logged-in users -->
+    {% endif %}
+{% endblock %}

@@ -1,5 +1,5 @@
 """Crud Operations"""
-from model import db, TDEE, Users, WeightNotes, Recipes, RecipeIngredients, Favorites, connect_to_db
+from model import db, TDEE, User, WeightNotes, Recipes, RecipeIngredients, Favorite, connect_to_db
 import requests
 
 
@@ -12,23 +12,23 @@ def create_tdee(weight, height, age, gender, activity_level, tdee_calories, user
 
 # Create a new user
 def create_user(username, password, first_name, last_name, date_of_birth, email, created_at):
-    user = Users(username=username, password=password, first_name=first_name, last_name=last_name, date_of_birth=date_of_birth, email=email, created_at=created_at)
+    user = User(username=username, password=password, first_name=first_name, last_name=last_name, date_of_birth=date_of_birth, email=email, created_at=created_at)
 
     return user
 
 def get_user_by_email(email):
     """Return a user by email."""
 
-    return Users.query.filter(Users.email == email).first()
+    return User.query.filter(User.email == email).first()
 
 def get_user_by_username(username):
     """Return a user by username."""
 
-    return Users.query.filter(Users.username == username).first()
+    return User.query.filter(User.username == username).first()
 
 def get_user_by_id(user_id):
     """Return a user by ID."""
-    return Users.query.get(user_id)
+    return User.query.get(user_id)
 
 # Create a new weight note
 def create_weight_note(user_id, workouts_done, weight_value, date):
@@ -50,14 +50,14 @@ def create_recipe_ingredient(recipe_source_id, ingredient_id, ingredient_name, i
 
 # Create a new favorite
 def create_favorite(user, favorite):
-    favorites = Favorites(user=user, favorite=favorite)
+    favorite = Favorite(user=user, favorite=favorite)
 
-    return favorites
+    return favorite
 
 # create a crud operation to query calories by ensuring they are less than maxCalories input by user
 # Recipes.query.filter_by..... where to column of calories < the entered user cals
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     from server import app
+
     connect_to_db(app)
-    

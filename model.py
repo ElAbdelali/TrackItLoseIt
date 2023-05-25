@@ -7,27 +7,6 @@ from datetime import datetime
 
 db = SQLAlchemy()
 
-# TDEE table with id, weight, height, age, gender, activity_level, tdee_calories, user_id as columns
-# One to many relationship setup with User
-class TDEE(db.Model):
-    """TDEE"""
-    
-    __tablename__ = "tdee"
-    
-    id = db.Column(db.Integer, primary_key=True)
-    weight = db.Column(db.Float)
-    height = db.Column(db.Float)
-    age = db.Column(db.Integer)
-    gender = db.Column(db.String)
-    activity_level = db.Column(db.String)
-    tdee_calories = db.Column(db.Float)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    
-    user = db.relationship("User", back_populates="tdee")
-    
-    def __repr__(self):
-        return f'<TDEE id={self.id} activity_level={self.activity_level}>'
-
 # Users table with id, username, password, first_name, last_name, date_of_birth, email, created_at as columns
 # One to Many Relationships setup with tdee, weight_notes, favorites 
 class User(db.Model):
@@ -50,6 +29,29 @@ class User(db.Model):
 
     def __repr__(self):
         return f'<User user_id={self.id} email={self.email}>'
+    
+# TDEE table with id, weight, height, age, gender, activity_level, tdee_calories, user_id as columns
+# One to many relationship setup with User
+class TDEE(db.Model):
+    """TDEE"""
+    
+    __tablename__ = "tdee"
+    
+    id = db.Column(db.Integer, primary_key=True)
+    weight = db.Column(db.Float)
+    height = db.Column(db.Float)
+    age = db.Column(db.Integer)
+    gender = db.Column(db.String)
+    activity_level = db.Column(db.String)
+    tdee_calories = db.Column(db.Float)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    
+    user = db.relationship("User", back_populates="tdee")
+    
+    def __repr__(self):
+        return f'<TDEE id={self.id} activity_level={self.activity_level}>'
+
+
 
 # WeightNotes Table with user_id (refers to User), workouts_done, weight_value, and date as columns
 # One to many relationship between user and weight_notes
@@ -68,6 +70,23 @@ class WeightNotes(db.Model):
     
     def __repr__(self):
         return f'<WeightNotes id={self.id} user_id={self.user_id}>'
+    
+# Favorite table with recipe_id, user_id
+# Two many to one relationship with Recipes and Users
+class Favorite(db.Model):
+    """Favorites"""
+    
+    __tablename__ = "favorites"
+    
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'))
+    
+    user = db.relationship("User", back_populates="favorites")
+    recipes = db.relationship("Recipes", back_populates="favorites")
+    
+    def __repr__(self):
+        return f'<Favorite id={self.id} user_id={self.user_id}>'
 
 # recipes table with recipe_name,  calories, recipe_image_url, and recipe_source_url as columns 
 # Two one to many relationships with recipe_ingredients and favorites
@@ -108,22 +127,6 @@ class RecipeIngredients(db.Model):
     def __repr__(self):
         return f'<Recipe Ingredients id={self.id} Recipe_id={self.recipe_id}>'
     
-# Favorite table with recipe_id, user_id
-# Two many to one relationship with Recipes and Users
-class Favorite(db.Model):
-    """Favorites"""
-    
-    __tablename__ = "favorites"
-    
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'))
-    
-    user = db.relationship("User", back_populates="favorites")
-    recipes = db.relationship("Recipes", back_populates="favorites")
-    
-    def __repr__(self):
-        return f'<Favorite id={self.id} user_id={self.user_id}>'
 
 def connect_to_db(flask_app, db_uri="postgresql:///trackitloseit", echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri

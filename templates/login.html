@@ -1,18 +1,30 @@
-{% extends 'base.html'%}
-{%block content%}
-<h1>Login for a new you</h1>
-    <form action="/login" method="POST">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br><br>
-        
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br><br>
-        
-        <input type="submit" value="Login">
-    </form>
+{% extends 'base.html' %}
 
-    <p>Don't have an account? Sign up below:</p>
-    <a href="/register">
-        <button>register</button>
-    </a>
-{%endblock%}
+{% block content %}
+  <h1>Login for a new you</h1>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class="flashes">
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <form action="/login" method="POST">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required><br><br>
+        
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required><br><br>
+        
+    <input type="submit" value="Login">
+  </form>
+
+  <p>Don't have an account? Sign up below:</p>
+  <a href="/register">
+    <button>Register</button>
+  </a>
+{% endblock %}

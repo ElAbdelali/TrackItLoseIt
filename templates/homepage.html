@@ -3,7 +3,13 @@
 {% block content %}
     {% if username %}
         <h1>Hi, {{ username }}</h1>
-        <!-- Content for logged-in users -->
+        <h2>Your Weight Notes:</h2>
+        <ul>
+            {% for weight, date in weights_and_dates %}
+                <li>Weight: {{ weight }}, Date: {{ date }}</li>
+            {% endfor %}
+        </ul>
+        <!-- Additional content for logged-in users -->
     {% else %}
         <h1>Welcome!</h1>
         <!-- Content for non-logged-in users -->

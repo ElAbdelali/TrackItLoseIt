@@ -36,6 +36,10 @@ def create_weight_note(user_id, workouts_done, weight_value, date):
 
     return weight_note
 
+def get_user_weight_notes(user_id):
+    weights_and_dates = db.session.query(WeightNotes.weight_value, WeightNotes.date).filter_by(user_id=user_id).all()
+    return weights_and_dates
+
 # Create a new recipe
 def create_recipe(recipe_source_id, recipe_name, calories, recipe_image_url, recipe_source_url):
     recipe = Recipes(recipe_source_id=recipe_source_id, recipe_name=recipe_name, calories=calories, recipe_image_url=recipe_image_url, recipe_source_url=recipe_source_url)

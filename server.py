@@ -8,27 +8,32 @@ from crud import create_user
 from spoonacularsearch import get_recipe_ingredients, find_recipes_by_calories
 
 app = Flask(__name__)
-app.secret_key = "dev"
+app.secret_key = "trackitloseit"
 app.jinja_env.undefined = StrictUndefined
 
 @app.route('/')
 def homepage():
     """View homepage"""
-    username = None
-    if 'user_id' in session:
-        # User is logged in
-        user_id = session['user_id']
-        user = crud.get_user_by_id(user_id)
-        if user is not None:
-            username = user.username
-    return render_template('homepage.html', username=username)
+    session_user = session.get('user')
+    username = session.get('username')
+    if session_user:
+        user_id = session_user.id
+        weights_and_dates = crud.get_user_weight_notes(user_id)
+        if weights_and_dates:
+            return render_template('homepage.html', username=session_user.username, weights_and_dates=weights_and_dates)
+        else:
+            return render_template('homepage.html', username=session_user.username)
+    else:
+        return render_template('homepage.html', username=username, weights_and_dates=None)
+
+
+
 
 
 
 @app.route('/recipe_request', methods=['GET', 'POST'])
 def recipe_request():
     """Route for users to enter their min, max, and number of recipes they would like displayed."""
-   
     
     return render_template('recipe_request.html')
 
@@ -107,10 +112,11 @@ def login():
 def logout():
     """Logout the user"""
     session.pop('user_id', None)
+    session.clear()
     flash('You have been logged out.')
     return redirect('/')
 
-@app.route('/weight_notes', methods=['GET', 'POST'])
+@app.route('/weight_notes', methods=['GET','POST'])
 def weight_notes():
     if request.method == 'POST':
         # Retrieve form data
@@ -126,7 +132,7 @@ def weight_notes():
         db.session.add(weight_notes)
         db.session.commit()
 
-        # Redirect to the weight notes page or any other desired page
+        # Redirect to the weight notes page
         return redirect(url_for('weight_notes'))
 
     # Fetch the user's weight notes from the database
@@ -144,16 +150,6 @@ def weight_notes():
 
     return render_template('weight_notes.html', weight_notes=weight_notes, user_id=user_id)
 
-    
-@app.route('/chart')
-def chart():
-    # Retrieve weight data from the database
-    weights = crud.WeightNotes.query.all()
-    weight_values = [weight.weight_value for weight in weights]
-    dates = [weight.date.strftime('%Y-%m-%d') for weight in weights]
-
-    return render_template('chart.html', weight_values=weight_values, dates=dates)
-
 def connect_to_db(flask_app, db_uri="postgresql:///trackitloseit", echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
     flask_app.config["SQLALCHEMY_ECHO"] = echo
@@ -162,13 +158,14 @@ def connect_to_db(flask_app, db_uri="postgresql:///trackitloseit", echo=True):
     db.app = flask_app
     db.init_app(flask_app)
 
-    # Create or recreate the tables
-    with flask_app.app_context():
-        db.drop_all()
-        db.create_all()
+    # # Create or recreate the tables
+    # with flask_app.app_context():
+    #     db.drop_all()
+    #     db.create_all()
 
     print("Connected to the db!")
 
 if __name__ == "__main__":
     connect_to_db(app)
     app.run(host="0.0.0.0", debug=True)
+

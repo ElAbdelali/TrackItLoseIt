@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>TDEE Calculation Result</h1>
+    
+    {% if tdee_calories %}
+        <p>Your Total Daily Energy Expenditure (TDEE) is: {{ tdee_calories }} calories</p>
+    {% else %}
+        <p>Invalid input or calculation error occurred. Please try again.</p>
+    {% endif %}
+    
+    <a href="/calculate_tdee">Back to TDEE Calculator</a>
+{% endblock %}

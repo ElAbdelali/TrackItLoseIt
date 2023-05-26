@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {% if username %}
+    {#{% if username %}
         <h1>Hi, {{ username }}</h1>
         <h2>Your Weight Notes:</h2>
         <ul>
@@ -10,8 +10,8 @@
             {% endfor %}
         </ul>
         <!-- Additional content for logged-in users -->
-    {% else %}
+    {% else %}#}
         <h1>Welcome!</h1>
         <!-- Content for non-logged-in users -->
-    {% endif %}
+    {#{% endif %}#}
 {% endblock %}

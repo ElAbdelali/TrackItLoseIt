@@ -4,10 +4,9 @@ import requests
 
 
 # Create a new TDEE entry
-def create_tdee(weight, height, age, gender, activity_level, tdee_calories, user_id):
-    tdee = TDEE(weight=weight, height=height, age=age, gender=gender, activity_level=activity_level, tdee_calories=tdee_calories, user_id=user_id)
-    db.session.add(tdee)
-    db.session.commit()
+def create_tdee(weight, height, age, gender, activity_level, tdee_calories, goal, user_id):
+    tdee = TDEE(weight=weight, height=height, age=age, gender=gender, activity_level=activity_level, tdee_calories=tdee_calories, goal=goal, user_id=user_id)
+
     return tdee
 
 # Create a new user

@@ -44,6 +44,7 @@ class TDEE(db.Model):
     gender = db.Column(db.String)
     activity_level = db.Column(db.String)
     tdee_calories = db.Column(db.Float)
+    goal = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
     user = db.relationship("User", back_populates="tdee")
@@ -140,6 +141,11 @@ def connect_to_db(flask_app, db_uri="postgresql:///trackitloseit", echo=True):
     
 if __name__ == '__main__':
     from server import app
-
+    import os
+    
+    os.system("dropdb trackitloseit --if-exists")
+    os.system("createdb trackitloseit")
     connect_to_db(app)
-
+    # Create the tables
+    db.drop_all()
+    db.create_all()

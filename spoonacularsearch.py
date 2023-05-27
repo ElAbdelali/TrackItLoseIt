@@ -43,7 +43,7 @@ def find_recipes_by_calories(minCals, maxCals, number_of_recipes):
 def get_recipe_ingredients(recipe_id):
     params = {
         'apiKey': api_key,
-    }
+    }  
 
     recipe_source_url = f'https://api.spoonacular.com/recipes/{recipe_id}/information'
     recipe_source_res = requests.get(recipe_source_url, params=params)

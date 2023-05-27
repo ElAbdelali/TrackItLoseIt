@@ -215,8 +215,6 @@ def calculate_tdee_calories(weight, height, age, gender, activity_level, goal):
     # Convert height from inches to centimeters
     height_cm = height * 2.54
 
-    # TDEE calculation logic goes here
-    # Replace with your own implementation
 
     # Example calculation using Harris-Benedict equation
     if gender == 'male':

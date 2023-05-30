@@ -1,17 +1,24 @@
 {% extends 'base.html' %}
 
+{% block title %}Weight Chart{% endblock %}
+{% block head%}
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/luxon@2.0.2/build/global/luxon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.1.0/dist/chartjs-adapter-luxon.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/randomcolor@0.6.2/randomColor.js"></script>
+  {% endblock%}
 {% block content %}
-    {#{% if username %}
-        <h1>Hi, {{ username }}</h1>
-        <h2>Your Weight Notes:</h2>
-        <ul>
-            {% for weight, date in weights_and_dates %}
-                <li>Weight: {{ weight }}, Date: {{ date }}</li>
-            {% endfor %}
-        </ul>
-        <!-- Additional content for logged-in users -->
-    {% else %}#}
-        <h1>Welcome!</h1>
-        <!-- Content for non-logged-in users -->
-    {#{% endif %}#}
+
+    <h1>Weight Chart</h1>
+
+    <div id="chart-container">
+        <canvas id="line-chart"></canvas>
+    </div>
+    <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
+
+
+
 {% endblock %}

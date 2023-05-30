@@ -54,53 +54,27 @@ def register():
         created_at = datetime.datetime.now()
 
         if len(username) < 7:
-            return '''
-                <script>
-                    alert("Username must be at least 7 characters long!");
-                    window.location.href = "/register"; // Redirect to the registration page
-                </script>'''
+            return jsonify({'message': 'Username must be at least 7 characters long!'})
         elif not re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
-            return '''
-                <script>
-                    alert("Password must contain at least one special character!");
-                    window.location.href = "/register"; // Redirect to the registration page
-                </script>'''
+            return jsonify({'message': 'Password must contain at least one special character!'})
         elif len(password) < 9:
-            return '''
-                <script>
-                    alert("Password must be at least 9 characters long!");
-                    window.location.href = "/register"; // Redirect to the registration page
-                </script>'''
+            return jsonify({'message': 'Password must be at least 9 characters long!'})
         # Validate age (13 years or older)
         dob = datetime.datetime.strptime(date_of_birth, '%Y-%m-%d').date()
         age = relativedelta(datetime.date.today(), dob).years
         if age < 13:
-            return '''
-                <script>
-                    alert("You must be 13 years or older to register!");
-                    window.location.href = "/register"; // Redirect to the registration page
-                </script>'''
-
+            return jsonify({'message': 'You must be 13 years or older to register!'})
         elif crud.get_user_by_email(email):
-            return '''
-                <script>
-                    alert("User with this email already exists!");
-                    window.location.href = "/register"; // Redirect to the registration page
-                </script>'''
+            return jsonify({'message': 'User with this email already exists!'})
         elif crud.get_user_by_username(username):
-            return '''
-                <script>
-                    alert("User with this username already exists!");
-                    window.location.href = "/register"; // Redirect to the registration page
-                </script>'''
+            return jsonify({'message': 'User with this username already exists!'})
         else:
             user = crud.create_user(username, password, first_name, last_name, date_of_birth, email, created_at)
             db.session.add(user)
             db.session.commit()
-            return redirect('/login')
+            return jsonify({'redirect': '/login'})
 
     return render_template('register.html')
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -179,7 +153,7 @@ def calculate_tdee():
         goal = request.form.get('goal')
 
         # Calculate TDEE calories
-        tdee_calories = calculate_tdee_calories(weight, height, age, gender, activity_level, goal)
+        tdee_calories = crud.calculate_tdee_calories(weight, height, age, gender, activity_level, goal)
         
         if tdee_calories is None:
             # Handle error case (e.g., invalid gender)
@@ -208,51 +182,19 @@ def calculate_tdee():
     return render_template('calculate_tdee.html')
 
 
-def calculate_tdee_calories(weight, height, age, gender, activity_level, goal):
-    # Convert weight from pounds to kilograms
-    weight_kg = weight * 0.45359237
+@app.route('/weight_and_date.json')
+def get_weight_and_date_json():
+    """Get the weight and date of the user as JSON"""
 
-    # Convert height from inches to centimeters
-    height_cm = height * 2.54
+    user_id = session.get('user_id')
 
+    if user_id:
+        weight_and_date_rows = crud.get_user_weight_notes(user_id)
+        weight_and_date = [{'date': str(row.date), 'weight': row.weight_value} for row in weight_and_date_rows]
 
-    # Example calculation using Harris-Benedict equation
-    if gender == 'male':
-        bmr = 66 + (6.23 * weight_kg) + (12.7 * height_cm) - (6.8 * age)
-    elif gender == 'female':
-        bmr = 655 + (4.35 * weight_kg) + (4.7 * height_cm) - (4.7 * age)
+        return jsonify({'data': weight_and_date})
     else:
-        # Handle invalid gender case
-        return None
-
-    # Apply activity level to BMR
-    if activity_level == 1.2:
-        tdee = bmr * 1.2  # Sedentary (little to no exercise)
-    elif activity_level == 1.375:
-        tdee = bmr * 1.375  # Lightly Active (light exercise/sports 1-3 days/week)
-    elif activity_level == 1.55:
-        tdee = bmr * 1.55  # Moderately Active (moderate exercise/sports 3-5 days/week)
-    elif activity_level == 1.725:
-        tdee = bmr * 1.725  # Very Active (hard exercise/sports 6-7 days/week)
-    elif activity_level == 1.9:
-        tdee = bmr * 1.9  # Extra Active (very hard exercise/sports & physical job or 2x training)
-    else:
-        # Handle invalid activity level case
-        return None
-
-    # Adjust TDEE based on the user's goal
-    if goal == 'maintain':
-        tdee_calories = tdee  # Maintain Weight (no adjustment)
-    elif goal == 'lose':
-        tdee_calories = tdee - 500  # Lose Weight (reduce 500 calories from TDEE)
-    elif goal == 'gain':
-        tdee_calories = tdee + 500  # Gain Weight (add 500 calories to TDEE)
-    else:
-        # Handle invalid goal case
-        return None
-
-    return tdee_calories
-
+        return jsonify({'error': 'User session not found'})
 
 def connect_to_db(flask_app, db_uri="postgresql:///trackitloseit", echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri

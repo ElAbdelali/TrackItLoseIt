@@ -57,8 +57,50 @@ def create_favorite(user, favorite):
 
     return favorite
 
-# create a crud operation to query calories by ensuring they are less than maxCalories input by user
-# Recipes.query.filter_by..... where to column of calories < the entered user cals
+def calculate_tdee_calories(weight, height, age, gender, activity_level, goal):
+    # Convert weight from pounds to kilograms
+    weight_kg = weight * 0.45359237
+
+    # Convert height from inches to centimeters
+    height_cm = height * 2.54
+
+
+    # Example calculation using Harris-Benedict equation
+    if gender == 'male':
+        bmr = 66 + (6.23 * weight_kg) + (12.7 * height_cm) - (6.8 * age)
+    elif gender == 'female':
+        bmr = 655 + (4.35 * weight_kg) + (4.7 * height_cm) - (4.7 * age)
+    else:
+        # Handle invalid gender case
+        return None
+
+    # Apply activity level to BMR
+    if activity_level == 1.2:
+        tdee = bmr * 1.2  # Sedentary (little to no exercise)
+    elif activity_level == 1.375:
+        tdee = bmr * 1.375  # Lightly Active (light exercise/sports 1-3 days/week)
+    elif activity_level == 1.55:
+        tdee = bmr * 1.55  # Moderately Active (moderate exercise/sports 3-5 days/week)
+    elif activity_level == 1.725:
+        tdee = bmr * 1.725  # Very Active (hard exercise/sports 6-7 days/week)
+    elif activity_level == 1.9:
+        tdee = bmr * 1.9  # Extra Active (very hard exercise/sports & physical job or 2x training)
+    else:
+        # Handle invalid activity level case
+        return None
+
+    # Adjust TDEE based on the user's goal
+    if goal == 'maintain':
+        tdee_calories = tdee  # Maintain Weight (no adjustment)
+    elif goal == 'lose':
+        tdee_calories = tdee - 500  # Lose Weight (reduce 500 calories from TDEE)
+    elif goal == 'gain':
+        tdee_calories = tdee + 500  # Gain Weight (add 500 calories to TDEE)
+    else:
+        # Handle invalid goal case
+        return None
+
+    return tdee_calories
 
 if __name__ == "__main__":
     from server import app

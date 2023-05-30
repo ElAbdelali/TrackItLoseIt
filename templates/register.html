@@ -1,10 +1,10 @@
-{%extends 'base.html'%}
+{% extends 'base.html' %}
 
-{%block title%}Sign Up{%endblock%}
+{% block title %}Sign Up{% endblock %}
 
-{%block content%}
+{% block content %}
     <h1>Sign Up</h1>
-    <form action="/register" method="POST">
+    <form id="registration-form" method="POST">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required><br><br>
         
@@ -25,4 +25,9 @@
         
         <input type="submit" value="Register">
     </form>
-{%endblock%}
+
+    <div id="status-message"></div>
+
+    <script src="{{ url_for('static', filename='js/register.js') }}"></script>
+
+{% endblock %}

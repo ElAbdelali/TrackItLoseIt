@@ -21,13 +21,21 @@
   </form>
 
   <h2>Existing Weight Notes:</h2>
-  <ul>
+  <ul class="list-group">
     {% for note in weight_notes %}
-      <div>
-        <h4>{{ note.date }}</h4> 
-        <p>- Workouts: {{ note.workouts_done }} </p>
-        <h5>- Weight: {{ note.weight_value }}</h5>
-      </div>
+      <li class="list-group-item">
+        <a class="text-decoration-none" data-bs-toggle="collapse" href="#collapse{{ note.id }}" aria-expanded="false" aria-controls="collapse{{ note.id }}">
+          <h4>{{ note.date.strftime('%A, %B %d, %Y') }}</h4>
+        </a>
+        <div class="collapse" id="collapse{{ note.id }}">
+          <div class="card card-body">
+            <p>Workouts: {{ note.workouts_done }}</p>
+            <p>Weight: {{ note.weight_value }}</p>
+          </div>
+        </div>
+      </li>
     {% endfor %}
   </ul>
-{% endblock %}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+{%endblock%}  

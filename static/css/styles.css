@@ -54,3 +54,39 @@ body {
 .form-container {
   max-width: 400px;
 }
+
+/* CSS Styles */
+.ingredient-list {
+  list-style: none;
+  padding: 0;
+}
+
+.ingredient-item {
+  margin-bottom: 10px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.ingredient-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ingredient-name {
+  font-weight: bold;
+}
+
+.ingredient-amount {
+  margin-right: 5px;
+}
+
+.ingredient-unit {
+  color: #888;
+}
+
+.list-group-item h4 {
+  display: flex;
+  align-items: center;
+}

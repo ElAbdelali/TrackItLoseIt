@@ -43,7 +43,7 @@ class TDEE(db.Model):
     age = db.Column(db.Integer)
     gender = db.Column(db.String)
     activity_level = db.Column(db.String)
-    tdee_calories = db.Column(db.Float)
+    tdee_calories = db.Column(db.Integer)
     goal = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     

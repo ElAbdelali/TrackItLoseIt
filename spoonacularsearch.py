@@ -62,12 +62,7 @@ def get_recipe_ingredients(recipe_id):
 
             ingredients.append(ingredient_output)
 
-        recipe_output = {
-            'recipe_source_id': recipe_id,
-            'ingredients': ingredients
-        }
-
-        return recipe_output
+        return ingredients
     else:
         print(f"Request failed with status code: {recipe_source_res.status_code}")
-        return {}
+        return []

@@ -1,21 +1,27 @@
-{%extends 'base.html'%}
-{%block title%}Request a Recipe{%endblock%}
-{%block content%}
+{% extends 'base.html' %}
+{% block title %}Recipes{% endblock %}
+{% block content %}
 <h1>Recipes</h1>
 
-  {% if recipes %}
-    <ul>
-      {% for recipe in recipes %}
-        <li>
-          <h2>{{ recipe.recipe_name }}</h2>
-          <p>Calories: {{ recipe.calories }}</p>
-          <img src="{{ recipe.recipe_image_url }}" alt="Recipe Image">
-          <p>Recipe Source ID: {{ recipe.recipe_source_id }}</p>
-          <p>Recipe Source URL: <a href="{{ recipe.recipe_source_url }}">{{ recipe.recipe_source_url }}</a></p>
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>No recipes found.</p>
-  {% endif %}
-{%endblock%}
+{% if recipes %}
+<ul>
+  {% for recipe in recipes %}
+  <li>
+    <h2>{{ recipe.recipe_name }}</h2>
+    <p>Calories: {{ recipe.calories }}</p>
+    <img src="{{ recipe.recipe_image_url }}" alt="Recipe Image">
+    <p>Recipe Source ID: {{ recipe.recipe_source_id }}</p>
+    <p>Recipe Source URL: <a href="{{ recipe.recipe_source_url }}">{{ recipe.recipe_source_url }}</a></p>
+    <form action="/recipe/{{ recipe.recipe_source_id }}/ingredients" method="get">
+      <input type="submit" value="View Ingredients">
+    </form>
+    <form action="/recipe/{{ recipe.recipe_source_id }}/favorite" method="post">
+      <input type="submit" value="Add to Favorites">
+    </form>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No recipes found.</p>
+{% endif %}
+{% endblock %}

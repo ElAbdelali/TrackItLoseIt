@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Recipe Ingredients{% endblock %}
+{% block content %}
+  <h1>Recipe Ingredients</h1>
+
+  {% if ingredients %}
+    <ul class="ingredient-list">
+      {% for ingredient in ingredients %}
+        <li class="ingredient-item">
+          <div class="ingredient-details">
+            <span class="ingredient-name">{{ ingredient.ingredient_name }}</span>
+            <span class="ingredient-amount">{{ ingredient.ingredient_amount }}</span>
+            <span class="ingredient-unit">{{ ingredient.ingredient_unit }}</span>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No ingredients found.</p>
+  {% endif %}
+  <script src="{{ url_for('static', filename='js/ingredients.js') }}"></script>
+
+{% endblock %}

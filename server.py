@@ -17,8 +17,15 @@ app.jinja_env.undefined = StrictUndefined
 @app.route('/')
 def homepage():
     """View homepage"""
-      
-    return render_template('homepage.html')
+    user_id = session.get('user_id')
+    user = None
+    if user_id:
+        user = crud.get_user_by_id(user_id)
+
+    weight_notes = crud.get_user_weight_notes(user_id)
+    return render_template('homepage.html', user=user, weight_notes=weight_notes)
+
+
 
 
 @app.route('/recipe_request', methods=['GET', 'POST'])
@@ -87,8 +94,6 @@ def login():
         if user:
             stored_password = user.password
             if password == stored_password:
-                # Login successful
-                # Perform the desired actions, such as setting a session variable
                 session['user_id'] = user.id
                 flash('Login successful!')
                 return redirect('/')
@@ -195,6 +200,17 @@ def get_weight_and_date_json():
         return jsonify({'data': weight_and_date})
     else:
         return jsonify({'error': 'User session not found'})
+    
+@app.route('/recipe/<int:recipe_id>/ingredients', methods=['GET'])
+def view_recipe_ingredients(recipe_id):
+    ingredients = get_recipe_ingredients(recipe_id)
+    return render_template('recipe_ingredients.html', ingredients=ingredients)
+
+
+# @app.route('/recipe/<int:recipe_id>/favorite', methods=['POST'])
+# def add_recipe_to_favorites(recipe_id):
+#     return redirect(url_for('recipes'))
+
 
 def connect_to_db(flask_app, db_uri="postgresql:///trackitloseit", echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri

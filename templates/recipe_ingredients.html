@@ -1,23 +1,47 @@
 {% extends 'base.html' %}
 {% block title %}Recipe Ingredients{% endblock %}
+
 {% block content %}
-  <h1>Recipe Ingredients</h1>
+  <div class="container">
+    <h1 class="text-center my-4">Recipe Ingredients</h1>
 
-  {% if ingredients %}
-    <ul class="ingredient-list">
-      {% for ingredient in ingredients %}
-        <li class="ingredient-item">
-          <div class="ingredient-details">
-            <span class="ingredient-name">{{ ingredient.ingredient_name }}</span>
-            <span class="ingredient-amount">{{ ingredient.ingredient_amount }}</span>
-            <span class="ingredient-unit">{{ ingredient.ingredient_unit }}</span>
+    {% if recipe %}
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card mb-4">
+            <img src="{{ recipe.recipe_image_url }}" class="card-img-top" alt="{{ recipe.recipe_name }}">
+            <div class="card-body">
+              <h5 class="card-title text-center">{{ recipe.recipe_name }}</h5>
+            </div>
           </div>
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>No ingredients found.</p>
-  {% endif %}
-  <script src="{{ url_for('static', filename='js/ingredients.js') }}"></script>
+        </div>
+      </div>
+    {% else %}
+      <div class="alert alert-warning" role="alert">
+        Recipe not found.
+      </div>
+    {% endif %}
 
+    {% if ingredients %}
+      <div class="row">
+        {% for ingredient in ingredients %}
+          <div class="col-md-4 my-2">
+            <div class="card h-100 hoverable">
+              <div class="card-body">
+                <h5 class="card-title text-center capitalize">{{ ingredient.ingredient_name }}</h5>
+                <p class="card-text text-center">{{ ingredient.ingredient_amount }}</p>
+                <p class="card-text text-center capitalize">{{ ingredient.ingredient_unit }}</p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="alert alert-warning" role="alert">
+        No ingredients found.
+      </div>
+    {% endif %}
+
+    <script src="{{ url_for('static', filename='js/ingredients.js') }}"></script>
+  </div>
 {% endblock %}

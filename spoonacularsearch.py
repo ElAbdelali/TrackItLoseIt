@@ -1,6 +1,9 @@
 import requests
 import json
 import os
+import crud
+from model import connect_to_db, db
+
 
 from dotenv import load_dotenv
 
@@ -32,6 +35,14 @@ def find_recipes_by_calories(minCals, maxCals, number_of_recipes):
                 'recipe_source_id': recipe_source_id,
                 'recipe_source_url': recipe_source_url
             }
+            existing_recipe = crud.get_recipe_by_id(recipe_source_id)
+            if existing_recipe is None:
+                # If the recipe doesn't exist, create a new recipe instance
+                recipe_obj = crud.create_recipe(recipe_source_id, recipe_output['recipe_name'], recipe_output['calories'],
+                                                recipe_output['recipe_image_url'], recipe_output['recipe_source_url'])
+                # Add the recipe instance to the session
+                db.session.add(recipe_obj)
+                db.session.commit()  # Commit after each recipe is added to the session
 
             output.append(recipe_output)
 

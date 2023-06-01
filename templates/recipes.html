@@ -1,27 +1,36 @@
 {% extends 'base.html' %}
 {% block title %}Recipes{% endblock %}
 {% block content %}
-<h1>Recipes</h1>
+<div class="container">
+    <h1 class="text-center my-4">Recipes</h1>
 
-{% if recipes %}
-<ul>
-  {% for recipe in recipes %}
-  <li>
-    <h2>{{ recipe.recipe_name }}</h2>
-    <p>Calories: {{ recipe.calories }}</p>
-    <img src="{{ recipe.recipe_image_url }}" alt="Recipe Image">
-    <p>Recipe Source ID: {{ recipe.recipe_source_id }}</p>
-    <p>Recipe Source URL: <a href="{{ recipe.recipe_source_url }}">{{ recipe.recipe_source_url }}</a></p>
-    <form action="/recipe/{{ recipe.recipe_source_id }}/ingredients" method="get">
-      <input type="submit" value="View Ingredients">
-    </form>
-    <form action="/recipe/{{ recipe.recipe_source_id }}/favorite" method="post">
-      <input type="submit" value="Add to Favorites">
-    </form>
-  </li>
-  {% endfor %}
-</ul>
-{% else %}
-<p>No recipes found.</p>
-{% endif %}
+    {% if recipes %}
+    <div class="row">
+      {% for recipe in recipes %}
+      <div class="col-md-4">
+        <a href="{{ url_for('view_recipe_ingredients', recipe_id=recipe.recipe_source_id) }}" class="text-decoration-none text-dark card-link">
+          <div class="card mb-4 shadow-sm h-100 text-center">
+            <img class="card-img-top" src="{{ recipe.recipe_image_url }}" alt="Recipe Image">
+            <div class="card-body">
+              <h5 class="card-title">{{ recipe.recipe_name }}</h5>
+              <p class="card-text">Calories: {{ recipe.calories }}</p>
+              <p class="card-text">Recipe Source ID: {{ recipe.recipe_source_id }}</p>
+              <p class="card-text">Recipe Source URL: <a href="{{ recipe.recipe_source_url }}">{{ recipe.recipe_source_url }}</a></p>
+            </div>
+            <div class="card-footer text-center">
+              <div>
+                <form action="/recipe/{{ recipe.recipe_source_id }}/favorite" method="post" class="d-inline">
+                  <input type="submit" class="btn btn-secondary" value="Add to Favorites">
+                </form>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-center my-4">No recipes found.</p>
+    {% endif %}
+</div>
 {% endblock %}

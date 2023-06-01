@@ -3,31 +3,46 @@
 {% block title %}Sign Up{% endblock %}
 
 {% block content %}
-    <h1>Sign Up</h1>
-    <form id="registration-form" method="POST">
+  <div class="container">
+    <h1 class="text-center my-4">Sign Up</h1>
+    <form class="centered-form" id="registration-form" method="POST">
+      <div class="form-group">
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br><br>
+        <input type="text" id="username" name="username" class="form-control" required>
+      </div>
         
+      <div class="form-group">
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br><br>
+        <input type="password" id="password" name="password" class="form-control" required>
+      </div>
         
+      <div class="form-group">
         <label for="first_name">First Name:</label>
-        <input type="text" id="first_name" name="first_name" required><br><br>
+        <input type="text" id="first_name" name="first_name" class="form-control" required>
+      </div>
         
+      <div class="form-group">
         <label for="last_name">Last Name:</label>
-        <input type="text" id="last_name" name="last_name" required><br><br>
+        <input type="text" id="last_name" name="last_name" class="form-control" required>
+      </div>
         
+      <div class="form-group">
         <label for="date_of_birth">Date of Birth:</label>
-        <input type="date" id="date_of_birth" name="date_of_birth" required><br><br>
+        <input type="date" id="date_of_birth" name="date_of_birth" class="form-control" required>
+      </div>
         
+      <div class="form-group">
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
-        
-        <input type="submit" value="Register">
+        <input type="email" id="email" name="email" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <input type="submit" value="Register" class="btn btn-primary">
+      </div>
     </form>
 
     <div id="status-message"></div>
 
     <script src="{{ url_for('static', filename='js/register.js') }}"></script>
-
+  </div>
 {% endblock %}

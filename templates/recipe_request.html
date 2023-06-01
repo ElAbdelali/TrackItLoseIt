@@ -1,17 +1,40 @@
-{%extends 'base.html'%}
-{%block title%}Request a Recipe{%endblock%}
-{%block content%}
-<h1>Recipe Request</h1>
-<form action="/recipes" method="post">
-  <label for="min_calories">Minimum Calories:</label>
-  <input type="number" id="min_calories" name="min_calories" required><br><br>
+{% extends 'base.html' %}
+{% block title %}Request a Recipe{% endblock %}
+{% block content %}
+<div class="container my-4">
+  <h1 class="text-center">Request a Recipe</h1>
+  <form action="/recipes" method="post" class="form-container my-4">
+    <div class="form-group">
+      <input type="number" id="min_calories" name="min_calories" class="form-control" required placeholder="Minimum Calories">
+    </div>
 
-  <label for="max_calories">Maximum Calories:</label>
-  <input type="number" id="max_calories" name="max_calories" required><br><br>
+    <div class="form-group">
+      <input type="number" id="max_calories" name="max_calories" class="form-control" required placeholder="Maximum Calories">
+    </div>
 
-  <label for="num_recipes">Number of Recipes:</label>
-  <input type="number" id="num_recipes" name="num_recipes" required><br><br>
+    <div class="form-group">
+      <input type="number" id="num_recipes" name="num_recipes" class="form-control" required placeholder="Number of Recipes">
+    </div>
 
-  <input type="submit" value="Get Recipes">
-</form>
-{%endblock%}
+    <div class="text-center mt-2">
+      <input type="submit" value="Get Recipes" class="btn btn-primary">
+    </div>
+  </form>
+
+  <!-- Add a catchy phrase before the images -->
+  <h2 class="text-center my-4">Find recipes for meals like this!</h2>
+
+  <!-- Add image containers at the bottom -->
+  <div class="row text-center my-4">
+    {% for img_src, alt_text in [('https://www.wellplated.com/wp-content/uploads/2020/07/Chicken-Cacciatore-Recipe.jpg', 'chicken'),
+                                  ('https://media.cnn.com/api/v1/images/stellar/prod/140430115517-06-comfort-foods.jpg?q=w_1080,h_720,x_100,y_0,c_crop', 'lasanga'),
+                                  ('https://lilluna.com/wp-content/uploads/2018/05/easy-spaghetti-resize-3-500x375.jpg', 'Spaghetti')] %}
+    <div class="col-md-4">
+      <div class="card">
+        <img src="{{ img_src }}" class="card-img-top recipe-image" alt="{{ alt_text }}">
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

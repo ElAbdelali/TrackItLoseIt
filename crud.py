@@ -45,6 +45,12 @@ def create_recipe(recipe_source_id, recipe_name, calories, recipe_image_url, rec
 
     return recipe
 
+def get_recipe_by_id(recipe_id):
+    return Recipes.query.filter_by(recipe_id=recipe_id).all
+
+def get_recipe_information(recipe_source_id):
+    return Recipes.query.filter_by(recipe_source_id=recipe_source_id).first()
+
 # Create a new recipe ingredient
 def create_recipe_ingredient(recipe_source_id, ingredient_id, ingredient_name, ingredient_amount, ingredient_unit):
     recipe_ingredient = RecipeIngredients(recipe_source_id=recipe_source_id, ingredient_id=ingredient_id, ingredient_name=ingredient_name, ingredient_amount=ingredient_amount, ingredient_unit=ingredient_unit)
@@ -52,10 +58,13 @@ def create_recipe_ingredient(recipe_source_id, ingredient_id, ingredient_name, i
     return recipe_ingredient
 
 # Create a new favorite
-def create_favorite(user, favorite):
-    favorite = Favorite(user=user, favorite=favorite)
+def create_favorite(user_id, recipe_id):
+    favorite = Favorite(user_id=user_id, recipe_id=recipe_id)
 
     return favorite
+
+def get_favorites_by_user(user_id):
+    return Favorite.query.filter_by(user_id=user_id).all()
 
 def calculate_tdee_calories(weight, height, age, gender, activity_level, goal):
     # Convert weight from pounds to kilograms
@@ -100,6 +109,7 @@ def calculate_tdee_calories(weight, height, age, gender, activity_level, goal):
         return None
 
     return tdee_calories
+
 
 
 if __name__ == "__main__":

@@ -25,29 +25,35 @@ def homepage():
     weight_notes = crud.get_user_weight_notes(user_id)
     return render_template('homepage.html', user=user, weight_notes=weight_notes)
 
-
-
-
-@app.route('/recipe_request', methods=['GET', 'POST'])
-def recipe_request():
-    """Route for users to enter their min, max, and number of recipes they would like displayed."""
-    
-    return render_template('recipe_request.html')
-
-@app.route('/recipes', methods=['GET', 'POST'])
-def recipes():
+@app.route('/login', methods=['GET', 'POST'])
+def login():
     if request.method == 'POST':
-        min_calories = request.form.get("min_calories")
-        max_calories = request.form.get("max_calories")
-        num_recipes = request.form.get("num_recipes")
+        username = request.form.get("username")
+        password = request.form.get("password")
 
-        recipes = find_recipes_by_calories(min_calories, max_calories, num_recipes)
+        user = crud.get_user_by_username(username)
 
-        return render_template('recipes.html', recipes=recipes)
-    else:
-        # Handle GET requests for displaying the form or other actions
-        return render_template('recipes.html', recipes=[])
+        if user:
+            stored_password = user.password
+            if password == stored_password:
+                session['user_id'] = user.id
+                flash('Login successful!')
+                return redirect('/')
+        
+        # Invalid username or password
+        flash('Invalid username or password. Please try again.')
+        return redirect('/login')
 
+    # Handle GET request for displaying the login form
+    return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    """Logout the user"""
+    session.pop('user_id', None)
+    session.clear()
+    flash('You have been logged out.')
+    return redirect('/')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -83,36 +89,6 @@ def register():
 
     return render_template('register.html')
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form.get("username")
-        password = request.form.get("password")
-
-        user = crud.get_user_by_username(username)
-
-        if user:
-            stored_password = user.password
-            if password == stored_password:
-                session['user_id'] = user.id
-                flash('Login successful!')
-                return redirect('/')
-        
-        # Invalid username or password
-        flash('Invalid username or password. Please try again.')
-        return redirect('/login')
-
-    # Handle GET request for displaying the login form
-    return render_template('login.html')
-
-@app.route('/logout')
-def logout():
-    """Logout the user"""
-    session.pop('user_id', None)
-    session.clear()
-    flash('You have been logged out.')
-    return redirect('/')
-
 @app.route('/weight_notes', methods=['GET','POST'])
 def weight_notes():
     if request.method == 'POST':
@@ -146,6 +122,20 @@ def weight_notes():
         return redirect(url_for('login'))
 
     return render_template('weight_notes.html', weight_notes=weight_notes, user_id=user_id)
+
+@app.route('/weight_and_date.json')
+def get_weight_and_date_json():
+    """Get the weight and date of the user as JSON"""
+
+    user_id = session.get('user_id')
+
+    if user_id:
+        weight_and_date_rows = crud.get_user_weight_notes(user_id)
+        weight_and_date = [{'date': str(row.date), 'weight': row.weight_value} for row in weight_and_date_rows]
+
+        return jsonify({'data': weight_and_date})
+    else:
+        return jsonify({'error': 'User session not found'})
 
 @app.route('/calculate_tdee', methods=['GET', 'POST'])
 def calculate_tdee():
@@ -186,30 +176,47 @@ def calculate_tdee():
     
     return render_template('calculate_tdee.html')
 
+@app.route('/recipes', methods=['GET', 'POST'])
+def recipes():
+    """Route for users to enter their min, max, and number of recipes they would like displayed."""
 
-@app.route('/weight_and_date.json')
-def get_weight_and_date_json():
-    """Get the weight and date of the user as JSON"""
+    if request.method == 'POST':
+        min_calories = request.form.get("min_calories")
+        max_calories = request.form.get("max_calories")
+        num_recipes = request.form.get("num_recipes")
 
-    user_id = session.get('user_id')
+        recipes = find_recipes_by_calories(min_calories, max_calories, num_recipes)
 
-    if user_id:
-        weight_and_date_rows = crud.get_user_weight_notes(user_id)
-        weight_and_date = [{'date': str(row.date), 'weight': row.weight_value} for row in weight_and_date_rows]
-
-        return jsonify({'data': weight_and_date})
+        return render_template('recipes.html', recipes=recipes)
     else:
-        return jsonify({'error': 'User session not found'})
-    
-@app.route('/recipe/<int:recipe_id>/ingredients', methods=['GET'])
+        # Handle GET requests for displaying the form or other actions
+        return render_template('recipe_request.html')
+
+
+@app.route('/recipe/ingredients/<int:recipe_id>', methods=['GET'])
 def view_recipe_ingredients(recipe_id):
     ingredients = get_recipe_ingredients(recipe_id)
-    return render_template('recipe_ingredients.html', ingredients=ingredients)
+    
+    recipe = crud.get_recipe_information(recipe_id)
+    return render_template('recipe_ingredients.html', ingredients=ingredients, recipe=recipe)
 
 
-# @app.route('/recipe/<int:recipe_id>/favorite', methods=['POST'])
-# def add_recipe_to_favorites(recipe_id):
-#     return redirect(url_for('recipes'))
+@app.route('/recipe/<int:recipe_id>/favorite', methods=['POST'])
+def add_recipe_to_favorites(recipe_id):
+    # Check if user is logged in
+    user_id = session.get('user_id')
+    if not user_id:
+        return redirect(url_for('login'))
+
+    # Get the logged-in user's ID
+
+    # Create the favorite entry
+    favorite = crud.create_favorite(user_id, recipe_id)
+    db.session.add(favorite)
+    db.session.commit()
+
+    # Redirect to the recipes page
+    return redirect(url_for('recipes'))
 
 
 def connect_to_db(flask_app, db_uri="postgresql:///trackitloseit", echo=True):

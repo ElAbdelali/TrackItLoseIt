@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
-{% block title %}Sign Up{% endblock %}
+{% block title %}Create an Account{% endblock %}
 
 {% block content %}
-  <div class="container">
-    <h1 class="text-center my-4">Sign Up</h1>
+  <div class="login-container">
+    <h1 class="text-center my-4">Start your journey with us by creating an account</h1>
     <form class="centered-form" id="registration-form" method="POST">
       <div class="form-group">
         <label for="username">Username:</label>
@@ -27,21 +27,23 @@
       </div>
         
       <div class="form-group">
-        <label for="date_of_birth">Date of Birth:</label>
+        <label for="username">Date of Birth:</label>
         <input type="date" id="date_of_birth" name="date_of_birth" class="form-control" required>
       </div>
         
       <div class="form-group">
-        <label for="email">Email:</label>
+        <label for="email">E-mail:</label>
         <input type="email" id="email" name="email" class="form-control" required>
       </div>
 
-      <div class="form-group">
-        <input type="submit" value="Register" class="btn btn-primary">
+      <div class="form-group text-center mt-3">
+        <input type="submit" value="Register">
       </div>
     </form>
 
-    <div id="status-message"></div>
+    <div id="status-message" class="text-center mt-3">
+      <span class="text-danger">*</span>
+    </div>
 
     <script src="{{ url_for('static', filename='js/register.js') }}"></script>
   </div>

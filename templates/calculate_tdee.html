@@ -1,42 +1,43 @@
-<!-- calculate_tdee.html -->
 {% extends 'base.html' %}
 {% block title %}Calculate your TDEE{% endblock %}
 {% block head %}
 {% endblock %}
 {% block content %}
     <div class="center-content">
-        <h1>Calculate TDEE</h1>
-        <div class="form-container">
-            <div class="clearfix mt-4">
-                <img src="https://tdeecalculator.net/assets/images/tdee-pie-chart.png" alt="TDEE Pie Chart" class="float-left mr-3" width="300" height="154">
-                <div>
-                    <p>Your Total Daily Energy Expenditure (TDEE) is an estimation of how many calories you burn per day when exercise is taken into account. It is calculated by first figuring out your Basal Metabolic Rate, then multiplying that value by an activity multiplier.</p>
-                    <p>Since your <abbr title="Basal Metabolic Rate">BMR</abbr> represents how many calories your body burns when at rest, it is necessary to adjust the numbers upwards to account for the calories you burn during the day. This is true even for those with a sedentary lifestyle. Our TDEE calculator uses the best formulas and displays your score in a way that's easy to read and meaningful.</p>
-                </div>
+        <h1 class="mb-4 text-center">Calculate TDEE</h1>
+        {% if tdee_calories %}
+            <div class="tdee-result bg-success text-white p-4 mb-4 rounded text-center">
+                <h2>Your Results:</h2>
+                <p>Your goal is to: <strong>{{ tdee_goal }}</strong></p>
+                <p>Your Total Daily Energy Expenditure (TDEE) is: <strong>{{ tdee_calories|int }}</strong> calories</p>
             </div>
-            <form action="/calculate_tdee" method="post" class="form">
+        {% endif %}
+        <div class="form-container bg-light p-4 rounded">
+            <form action="/calculate_tdee" method="post" class="form mt-4" style="max-width: 600px; margin: auto;">
+                <!-- Your form elements go here -->
                 <div class="form-group">
                     <label for="weight">Weight (lbs):</label>
-                    <input type="number" name="weight" id="weight" class="form-control" required>
+                    <input type="number" name="weight" id="weight" class="form-control" required style="width: 100%;">
                 </div>
                 <div class="form-group">
                     <label for="height">Height (inches):</label>
-                    <input type="number" name="height" id="height" class="form-control" required>
+                    <input type="number" name="height" id="height" class="form-control" required style="width: 100%;">
                 </div>
                 <div class="form-group">
                     <label for="age">Age:</label>
-                    <input type="number" name="age" id="age" class="form-control" required>
+                    <input type="number" name="age" id="age" class="form-control" required style="width: 100%;">
                 </div>
                 <div class="form-group">
                     <label for="gender">Gender:</label>
-                    <select name="gender" id="gender" class="form-control" required>
+                    <select name="gender" id="gender" class="form-control" required style="width: 100%;">
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="activity_level">Activity Level:</label>
-                    <select name="activity_level" id="activity_level" class="form-control" required>
+                    <label for="activity_
+                    [level">Activity Level:</label>
+                    <select name="activity_level" id="activity_level" class="form-control" required style="width: 100%;">
                         <option value="1.2">Sedentary (little to no exercise)</option>
                         <option value="1.375">Lightly Active (light exercise/sports 1-3 days/week)</option>
                         <option value="1.55">Moderately Active (moderate exercise/sports 3-5 days/week)</option>
@@ -44,12 +45,19 @@
                         <option value="1.9">Extra Active (very hard exercise/sports & physical job or 2x training)</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <button type="submit" name="goal" value="maintain" class="btn btn-primary">Maintain Weight</button>
-                    <button type="submit" name="goal" value="lose" class="btn btn-primary">Lose Weight</button>
-                    <button type="submit" name="goal" value="gain" class="btn btn-primary">Gain Weight</button>
+                <div class="form-group text-center">
+                    <button type="submit" name="goal" value="lose" class="btn btn-outline-primary">Lose Weight</button>
+                    <button type="submit" name="goal" value="maintain" class="btn btn-outline-primary">Maintain Weight</button>
+                    <button type="submit" name="goal" value="gain" class="btn btn-outline-primary">Gain Weight</button>
                 </div>
             </form>
+        </div>
+        <div class="clearfix mt-4">
+            <img src="https://tdeecalculator.net/assets/images/tdee-pie-chart.png" alt="TDEE Pie Chart" class="float-left mr-3" width="300" height="154">
+            <div>
+                <p>Your Total Daily Energy Expenditure (TDEE) is an estimation of how many calories you burn per day when exercise is taken into account. It is calculated by first figuring out your Basal Metabolic Rate, then multiplying that value by an activity multiplier.</p>
+                <p>Since your <abbr title="Basal Metabolic Rate">BMR</abbr> represents how many calories your body burns when at rest, it is necessary to adjust the numbers upwards to account for the calories you burn during the day. This is true even for those with a sedentary lifestyle. Our TDEE calculator uses the best formulas and displays your score in a way that's easy to read and meaningful.</p>
+            </div>
         </div>
     </div>
 {% endblock %}

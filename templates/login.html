@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Login for a new you</h1>
+<div class="login-container">
+  <h1>Login for a personalized experience</h1>
 
   {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -13,18 +14,20 @@
     {% endif %}
   {% endwith %}
 
-  <form action="/login" method="POST">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required><br><br>
+  <form action="/login" method="POST" class="login-form">
+    <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+    </div>
         
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required><br><br>
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+    </div>
         
-    <input type="submit" value="Login">
+    <div class="form-group action-buttons">
+        <input type="submit" value="Login">
+    </div>
   </form>
-
-  <p>Don't have an account? Sign up below:</p>
-  <a href="/register">
-    <button>Register</button>
-  </a>
+</div>
 {% endblock %}

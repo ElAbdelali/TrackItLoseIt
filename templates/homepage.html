@@ -1,24 +1,57 @@
 {% extends 'base.html' %}
 
-{% block title %}Weight Chart{% endblock %}
-{% block head%}
+{% block title %}Home{% endblock %}
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
-
-  <script src="https://cdn.jsdelivr.net/npm/luxon@2.0.2/build/global/luxon.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.1.0/dist/chartjs-adapter-luxon.min.js"></script>
-
-  <script src="https://cdn.jsdelivr.net/npm/randomcolor@0.6.2/randomColor.js"></script>
-  {% endblock%}
 {% block content %}
+  {% if user %}
+    <div class="container">
+      <h1>Welcome back, {{ user.first_name }} {{user.last_name }}!</h1>
 
-    <h1>Weight Chart</h1>
+      <div class="weight-notes">
+        <h2>Your Weight Notes</h2>
+        <!-- Here you should loop over the user's weight notes and display them -->
+        {% for note in user.weight_notes %}
+          <p>{{ note.workouts_done }}</p>
+          <p>{{ note.weight_value}}</p>
+          <p>{{ note.date}}</p>
+        {% endfor %}
+      </div>
 
-    <div id="chart-container">
-        <canvas id="line-chart"></canvas>
+      <div class="chart-section">
+        <h2>Your Progress</h2>
+        <div id="chart-container">
+          <canvas id="line-chart"></canvas>
+        </div>
+        <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
+      </div>
+
+      <div class="favorites">
+        <h2>Your Favorite Recipes</h2>
+        <!-- Here you should loop over the user's favorited recipes and display them -->
+        {% for recipe in user.favorites %}
+          <p>{{ recipe }}</p>
+        {% endfor %}
+      </div>
     </div>
-    <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
+  {% else %}
+    <div class="container">
+      <h1>Welcome to Our Application</h1>
+      <p>Our application is designed to help you keep track of your weight loss journey, stay active, and discover new healthy recipes. Let's take a look at what we offer:</p>
 
+      <div class="info-section">
+        <h2>Track Your Weight Loss</h2>
+        <p>With our intuitive charting system, you can see your progress at a glance, helping you stay motivated.</p>
+      </div>
 
+      <div class="info-section">
+        <h2>Stay Active</h2>
+        <p>Physical activity is key to a healthy lifestyle. Our application encourages you to keep moving by setting and tracking your personal fitness goals.</p>
+      </div>
 
+      <div class="info-section">
+        <h2>Discover Recipes</h2>
+        <p>We have a wide variety of healthy and delicious recipes for you to explore. You can even save your favorites for easy access!</p>
+      </div>
+    </div>
+  {% endif %}
 {% endblock %}

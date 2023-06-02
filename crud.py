@@ -48,12 +48,12 @@ def create_recipe(recipe_source_id, recipe_name, calories, recipe_image_url, rec
 def get_recipe_by_id(recipe_id):
     return Recipes.query.filter_by(recipe_id=recipe_id).all
 
-def get_recipe_information(recipe_source_id):
+def get_recipe_source_information(recipe_source_id):
     return Recipes.query.filter_by(recipe_source_id=recipe_source_id).first()
 
 # Create a new recipe ingredient
-def create_recipe_ingredient(recipe_source_id, ingredient_id, ingredient_name, ingredient_amount, ingredient_unit):
-    recipe_ingredient = RecipeIngredients(recipe_source_id=recipe_source_id, ingredient_id=ingredient_id, ingredient_name=ingredient_name, ingredient_amount=ingredient_amount, ingredient_unit=ingredient_unit)
+def create_recipe_ingredient(recipe_source_id, ingredient_image_url, ingredient_name, ingredient_amount, ingredient_unit):
+    recipe_ingredient = RecipeIngredients(recipe_source_id=recipe_source_id, ingredient_image_url=ingredient_image_url, ingredient_name=ingredient_name, ingredient_amount=ingredient_amount, ingredient_unit=ingredient_unit)
 
     return recipe_ingredient
 
@@ -69,11 +69,11 @@ def get_favorites_by_user(user_id):
 def calculate_tdee_calories(weight, height, age, gender, activity_level, goal):
     # Convert weight from pounds to kilograms
     weight_kg = weight * 0.45359237
-
     # Convert height from inches to centimeters
     height_cm = height * 2.54
 
-    # Calculate BMR based on Mifflin-St Jeor equation
+
+  # Calculate BMR based on Mifflin-St Jeor equation
     if gender == 'male':
         bmr = (10 * weight_kg) + (6.25 * height_cm) - (5 * age) + 5
     elif gender == 'female':
@@ -83,19 +83,19 @@ def calculate_tdee_calories(weight, height, age, gender, activity_level, goal):
         return None
 
     # Apply activity level to BMR
-    activity_factors = {
-        1.2: 1.2,    # Sedentary (little to no exercise)
-        1.375: 1.375,  # Lightly Active (light exercise/sports 1-3 days/week)
-        1.55: 1.55,  # Moderately Active (moderate exercise/sports 3-5 days/week)
-        1.725: 1.725,  # Very Active (hard exercise/sports 6-7 days/week)
-        1.9: 1.9   # Extra Active (very hard exercise/sports & physical job or 2x training)
-    }
-
-    if activity_level not in activity_factors:
+    if activity_level == 1.2:
+        tdee = bmr * 1.2  # Sedentary (little to no exercise)
+    elif activity_level == 1.375:
+        tdee = bmr * 1.375  # Lightly Active (light exercise/sports 1-3 days/week)
+    elif activity_level == 1.55:
+        tdee = bmr * 1.55  # Moderately Active (moderate exercise/sports 3-5 days/week)
+    elif activity_level == 1.725:
+        tdee = bmr * 1.725  # Very Active (hard exercise/sports 6-7 days/week)
+    elif activity_level == 1.9:
+        tdee = bmr * 1.9  # Extra Active (very hard exercise/sports & physical job or 2x training)
+    else:
         # Handle invalid activity level case
         return None
-
-    tdee = bmr * activity_factors[activity_level]
 
     # Adjust TDEE based on the user's goal
     if goal == 'maintain':

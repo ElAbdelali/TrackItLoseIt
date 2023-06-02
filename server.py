@@ -18,12 +18,15 @@ app.jinja_env.undefined = StrictUndefined
 def homepage():
     """View homepage"""
     user_id = session.get('user_id')
-    user = None
+    user = weight_notes = favorite_recipes = None
+    
     if user_id:
         user = crud.get_user_by_id(user_id)
+        weight_notes = crud.get_user_weight_notes(user_id)
+        favorite_recipes = crud.get_favorites_by_user(user_id)
 
-    weight_notes = crud.get_user_weight_notes(user_id)
-    return render_template('homepage.html', user=user, weight_notes=weight_notes)
+    return render_template('homepage.html', user=user, weight_notes=weight_notes, favorite_recipes=favorite_recipes)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -139,6 +142,9 @@ def get_weight_and_date_json():
 
 @app.route('/calculate_tdee', methods=['GET', 'POST'])
 def calculate_tdee():
+    tdee_calories = None
+    tdee_goal = None
+
     if request.method == 'POST':
         weight = float(request.form.get('weight'))
         height = float(request.form.get('height'))
@@ -171,10 +177,8 @@ def calculate_tdee():
         tdee = crud.create_tdee(weight, height, age, gender, activity_level, tdee_calories, goal, user_id)
         db.session.add(tdee)
         db.session.commit()
-        
-        return render_template('tdee_result.html', tdee_calories=tdee_calories, tdee_goal=tdee_goal)
-    
-    return render_template('calculate_tdee.html')
+
+    return render_template('calculate_tdee.html', tdee_calories=tdee_calories, tdee_goal=tdee_goal)
 
 @app.route('/recipes', methods=['GET', 'POST'])
 def recipes():
@@ -197,25 +201,24 @@ def recipes():
 def view_recipe_ingredients(recipe_id):
     ingredients = get_recipe_ingredients(recipe_id)
     
-    recipe = crud.get_recipe_information(recipe_id)
+    recipe = crud.get_recipe_source_information(recipe_id)
     return render_template('recipe_ingredients.html', ingredients=ingredients, recipe=recipe)
 
 
-@app.route('/recipe/<int:recipe_id>/favorite', methods=['POST'])
-def add_recipe_to_favorites(recipe_id):
-    # Check if user is logged in
+@app.route('/recipe/<recipe_source_id>/favorite', methods=['POST'])
+def add_to_favorites(recipe_source_id):
+    """Add a recipe to user's favorites"""
     user_id = session.get('user_id')
-    if not user_id:
+
+    # check if the user is authenticated
+    if user_id is None:
+        # you can return an error message or redirect to login page
         return redirect(url_for('login'))
 
-    # Get the logged-in user's ID
+    # add the recipe to user's favorites
+    crud.create_favorite(user_id, recipe_source_id)
 
-    # Create the favorite entry
-    favorite = crud.create_favorite(user_id, recipe_id)
-    db.session.add(favorite)
-    db.session.commit()
-
-    # Redirect to the recipes page
+    # redirect back to recipes page (or anywhere else you'd like)
     return redirect(url_for('recipes'))
 
 

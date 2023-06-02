@@ -38,11 +38,11 @@ class TDEE(db.Model):
     __tablename__ = "tdee"
     
     id = db.Column(db.Integer, primary_key=True)
-    weight = db.Column(db.Float)
-    height = db.Column(db.Float)
+    weight = db.Column(db.Integer)
+    height = db.Column(db.Integer)
     age = db.Column(db.Integer)
     gender = db.Column(db.String)
-    activity_level = db.Column(db.String)
+    activity_level = db.Column(db.Float)
     tdee_calories = db.Column(db.Integer)
     goal = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -118,7 +118,7 @@ class RecipeIngredients(db.Model):
     
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'))
-    ingredient_id = db.Column(db.Integer)
+    ingredient_image_url = db.Column(db.String)
     ingredient_name = db.Column(db.String)
     ingredient_amount = db.Column(db.Float)
     ingredient_unit = db.Column(db.String)

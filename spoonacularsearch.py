@@ -35,14 +35,14 @@ def find_recipes_by_calories(minCals, maxCals, number_of_recipes):
                 'recipe_source_id': recipe_source_id,
                 'recipe_source_url': recipe_source_url
             }
-            existing_recipe = crud.get_recipe_by_id(recipe_source_id)
-            if existing_recipe is None:
-                # If the recipe doesn't exist, create a new recipe instance
-                recipe_obj = crud.create_recipe(recipe_source_id, recipe_output['recipe_name'], recipe_output['calories'],
-                                                recipe_output['recipe_image_url'], recipe_output['recipe_source_url'])
-                # Add the recipe instance to the session
-                db.session.add(recipe_obj)
-                db.session.commit()  # Commit after each recipe is added to the session
+
+             # Create a new recipe instance
+            recipe_obj = crud.create_recipe(recipe_source_id, recipe_output['recipe_name'], recipe_output['calories'],
+                                       recipe_output['recipe_image_url'], recipe_output['recipe_source_url'])
+            
+            # Add the recipe instance to the session
+            db.session.add(recipe_obj)
+            db.session.commit()  # Commit after each recipe is added to the session
 
             output.append(recipe_output)
 
@@ -62,16 +62,16 @@ def get_recipe_ingredients(recipe_id):
     if recipe_source_res.status_code == 200:
         recipe_data = recipe_source_res.json()
         ingredients = []
-
+        recipe_url = recipe_data['sourceUrl']
         for ing in recipe_data['extendedIngredients']:
             ingredient_output = {
-                'ingredient_id': ing['id'],
+                'ingredient_image_url': ing['image'],
                 'ingredient_name': ing['name'],
                 'ingredient_amount': ing['measures']['us']['amount'],
                 'ingredient_unit': ing['measures']['us']['unitLong']
             }
 
-            ingredients.append(ingredient_output)
+            ingredients.append(recipe_url, ingredient_output)
 
         return ingredients
     else:

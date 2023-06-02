@@ -8,8 +8,6 @@ body {
     color: #333;
 }
 
-/* ... Rest of your CSS ... */
-
 nav {
     background-color: #333;
     padding: 10px;
@@ -42,8 +40,6 @@ h1 {
     text-align: center;
     margin-top: 30px;
 }
-
-/* ... Rest of your CSS ... */
 
 .card:hover {
     transform: scale(1.02);
@@ -85,4 +81,38 @@ h1 {
     100% {
         letter-spacing: 0;
     }
+}
+
+.form-container {
+    width: 80%;
+    margin: auto;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.login-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.login-form .form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.login-form .form-group input {
+  margin-top: 5px;
+}
+
+.login-form .action-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

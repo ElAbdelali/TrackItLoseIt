@@ -5,19 +5,22 @@
   <h1 class="text-center">Request a Recipe</h1>
   <form action="/recipes" method="post" class="form-container my-4">
     <div class="form-group">
-      <input type="number" id="min_calories" name="min_calories" class="form-control" required placeholder="Minimum Calories">
+      <label for="min_calories">Minimum Calories:</label>
+      <input type="number" id="min_calories" name="min_calories" class="form-control" required>
     </div>
 
     <div class="form-group">
-      <input type="number" id="max_calories" name="max_calories" class="form-control" required placeholder="Maximum Calories">
+      <label for="max_calories">Maximum Calories:</label>
+      <input type="number" id="max_calories" name="max_calories" class="form-control" required>
     </div>
 
     <div class="form-group">
-      <input type="number" id="num_recipes" name="num_recipes" class="form-control" required placeholder="Number of Recipes">
+      <label for="num_recipes">Number of Recipes:</label>
+      <input type="number" id="num_recipes" name="num_recipes" class="form-control" required>
     </div>
 
     <div class="text-center mt-2">
-      <input type="submit" value="Get Recipes" class="btn btn-primary">
+      <input type="submit" value="Get Recipes">
     </div>
   </form>
 

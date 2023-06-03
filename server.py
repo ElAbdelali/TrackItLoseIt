@@ -18,15 +18,17 @@ app.jinja_env.undefined = StrictUndefined
 def homepage():
     """View homepage"""
     user_id = session.get('user_id')
-    user = weight_notes = favorite_recipes = None
-    
+    user = None
+
     if user_id:
         user = crud.get_user_by_id(user_id)
         weight_notes = crud.get_user_weight_notes(user_id)
         favorite_recipes = crud.get_favorites_by_user(user_id)
+    else:
+        weight_notes = None
+        favorite_recipes = None
 
     return render_template('homepage.html', user=user, weight_notes=weight_notes, favorite_recipes=favorite_recipes)
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -196,31 +198,64 @@ def recipes():
         # Handle GET requests for displaying the form or other actions
         return render_template('recipe_request.html')
 
-
 @app.route('/recipe/ingredients/<int:recipe_id>', methods=['GET'])
 def view_recipe_ingredients(recipe_id):
     ingredients = get_recipe_ingredients(recipe_id)
-    
+
     recipe = crud.get_recipe_source_information(recipe_id)
     return render_template('recipe_ingredients.html', ingredients=ingredients, recipe=recipe)
 
 
-@app.route('/recipe/<recipe_source_id>/favorite', methods=['POST'])
-def add_to_favorites(recipe_source_id):
-    """Add a recipe to user's favorites"""
-    user_id = session.get('user_id')
+@app.route('/recipe/<int:recipe_source_id>/favorite', methods=['POST'])
+def add_recipe_to_favorites(recipe_source_id):
+    # Get the user from the session
+    user_id = session.get('user_id')  # Assuming 'user_id' is stored in session
 
-    # check if the user is authenticated
     if user_id is None:
-        # you can return an error message or redirect to login page
+        # Handle case when user is not logged in
+        flash('You must be logged in to add recipes to your favorites.', 'error')
+        return redirect(url_for('login'))  # Assuming you have a login route
+
+    # Get the recipe by its source ID
+    recipe = crud.get_recipe_source_information(recipe_source_id)
+
+    if recipe is None:
+        # Handle case when recipe is not found
+        flash('Recipe not found.', 'error')
+        return redirect(url_for('recipes'))  # Assuming you have a recipes route
+
+    # Check if the recipe is already favorited
+    favorites = crud.get_favorites_by_user(user_id)
+    for favorite in favorites:
+        if favorite.recipe_id == recipe.recipe_id:
+            # Handle case when recipe is already favorited
+            flash('Recipe is already in favorites.', 'error')
+            return redirect(url_for('recipes'))  # Redirect back to the recipes page
+
+    # Create a new favorite
+    new_favorite = crud.create_favorite(user_id, recipe.recipe_id)
+
+    # Add favorite to the database
+    db.session.add(new_favorite)
+    db.session.commit()
+
+    flash('Recipe added to favorites.', 'success')
+    return redirect(url_for('recipes'))  # Redirect back to the recipes page
+
+
+
+@app.route('/remove-favorite/<int:recipe_id>', methods=['POST'])
+def remove_favorite(recipe_id):
+    if 'user' not in session:
         return redirect(url_for('login'))
 
-    # add the recipe to user's favorites
-    crud.create_favorite(user_id, recipe_source_id)
+    favorite = favorite.query.filter_by(user_id=session['user'].id, recipe_id=recipe_id).first()
 
-    # redirect back to recipes page (or anywhere else you'd like)
-    return redirect(url_for('recipes'))
+    if favorite is not None:
+        db.session.delete(favorite)
+        db.session.commit()
 
+    return redirect(url_for('/'))
 
 def connect_to_db(flask_app, db_uri="postgresql:///trackitloseit", echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri

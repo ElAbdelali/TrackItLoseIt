@@ -4,54 +4,79 @@
 
 {% block content %}
   {% if user %}
-    <div class="container">
-      <h1>Welcome back, {{ user.first_name }} {{user.last_name }}!</h1>
+    <div class="container py-5">
+      <h1 class="mb-4">Welcome back, {{ user.first_name }} {{user.last_name }}!</h1>  
 
-      <div class="weight-notes">
-        <h2>Your Weight Notes</h2>
-        <!-- Here you should loop over the user's weight notes and display them -->
-        {% for note in user.weight_notes %}
-          <p>{{ note.workouts_done }}</p>
-          <p>{{ note.weight_value}}</p>
-          <p>{{ note.date}}</p>
-        {% endfor %}
-      </div>
-
-      <div class="chart-section">
-        <h2>Your Progress</h2>
-        <div id="chart-container">
-          <canvas id="line-chart"></canvas>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="weight-notes mb-5" style="height: 500px; overflow-y: auto; text-align: center;">
+            <h2 class="mb-3">Your Weight Notes</h2>
+            {% for note in user.weight_notes|sort(attribute='date', reverse=True) %}
+              <div class="card mb-3">
+                <div class="card-body">
+                  <h5 class="card-title">Workout done: {{ note.workouts_done }}</h5>
+                  <p class="card-text">Weight: {{ note.weight_value }}</p>
+                  <p class="card-text">Date: {{ note.date.strftime('%m-%d-%Y') }}</p>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
         </div>
-        <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
+
+        <div class="col-md-6">
+          <div class="chart-section mb-5">
+            <h2 class="mb-3">Your Progress</h2>
+            <div id="chart-container" class="mb-3">
+              <canvas id="line-chart"></canvas>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="favorites">
-        <h2>Your Favorite Recipes</h2>
-        <!-- Here you should loop over the user's favorited recipes and display them -->
-        {% for recipe in user.favorites %}
-          <p>{{ recipe }}</p>
-        {% endfor %}
+        <h2 class="mb-3">Your Favorite Recipes</h2>
+        {% for favorite in user.favorites %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ favorite.recipes.recipe_name }}</h5>
+                <p>Calories: {{ favorite.recipes.calories }}</p>
+                <img src="{{ favorite.recipes.recipe_image_url }}" alt="{{ favorite.recipes.recipe_name }}" class="img-fluid">
+                <form action="{{ url_for('remove_favorite', recipe_id=favorite.recipe_id) }}" method="post">
+                    <button type="submit" class="btn btn-danger">Remove from Favorites</button>
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+
       </div>
     </div>
   {% else %}
-    <div class="container">
-      <h1>Welcome to Our Application</h1>
-      <p>Our application is designed to help you keep track of your weight loss journey, stay active, and discover new healthy recipes. Let's take a look at what we offer:</p>
+    <div class="container py-5">
+      <h1 class="mb-4">Welcome to Our Application</h1>
+      <p class="mb-4">Our application is designed to help you keep track of your weight loss journey, stay active, and discover new healthy recipes. Let's take a look at what we offer:</p>
 
-      <div class="info-section">
-        <h2>Track Your Weight Loss</h2>
+      <div class="info-section mb-5">
+        <h2 class="mb-3">Track Your Weight Loss</h2>
         <p>With our intuitive charting system, you can see your progress at a glance, helping you stay motivated.</p>
       </div>
 
-      <div class="info-section">
-        <h2>Stay Active</h2>
+      <div class="info-section mb-5">
+        <h2 class="mb-3">Stay Active</h2>
         <p>Physical activity is key to a healthy lifestyle. Our application encourages you to keep moving by setting and tracking your personal fitness goals.</p>
       </div>
 
       <div class="info-section">
-        <h2>Discover Recipes</h2>
+        <h2 class="mb-3">Discover Recipes</h2>
         <p>We have a wide variety of healthy and delicious recipes for you to explore. You can even save your favorites for easy access!</p>
       </div>
     </div>
+
   {% endif %}
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+  <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
 {% endblock %}

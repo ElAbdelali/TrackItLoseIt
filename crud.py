@@ -52,10 +52,13 @@ def get_recipe_source_information(recipe_source_id):
     return Recipes.query.filter_by(recipe_source_id=recipe_source_id).first()
 
 # Create a new recipe ingredient
-def create_recipe_ingredient(recipe_source_id, ingredient_image_url, ingredient_name, ingredient_amount, ingredient_unit):
-    recipe_ingredient = RecipeIngredients(recipe_source_id=recipe_source_id, ingredient_image_url=ingredient_image_url, ingredient_name=ingredient_name, ingredient_amount=ingredient_amount, ingredient_unit=ingredient_unit)
+def create_recipe_ingredient(recipe_id, recipe_url, ingredient_name, ingredient_amount, ingredient_unit):
+    recipe_ingredient = RecipeIngredients(recipe_id=recipe_id, recipe_url=recipe_url, ingredient_name=ingredient_name, ingredient_amount=ingredient_amount, ingredient_unit=ingredient_unit)
 
     return recipe_ingredient
+
+def get_recipe_source_information_ingredients(recipe_id):
+    return RecipeIngredients.query.filter_by(recipe_id=recipe_id).first()
 
 # Create a new favorite
 def create_favorite(user_id, recipe_id):

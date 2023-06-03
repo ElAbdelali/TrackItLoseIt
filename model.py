@@ -118,7 +118,7 @@ class RecipeIngredients(db.Model):
     
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'))
-    ingredient_image_url = db.Column(db.String)
+    recipe_url = db.Column(db.String)
     ingredient_name = db.Column(db.String)
     ingredient_amount = db.Column(db.Float)
     ingredient_unit = db.Column(db.String)

@@ -3,46 +3,48 @@
 
 {% block content %}
   <div class="container">
-    <h1 class="text-center my-4">Recipe Ingredients</h1>
+    <h1 class="text-center my-4">{{ recipe.recipe_name }}</h1>
 
     {% if recipe %}
       <div class="row">
         <div class="col-md-12">
           <div class="card mb-4">
-            <img src="{{ recipe.recipe_image_url }}" class="card-img-top" alt="{{ recipe.recipe_name }}">
-            <div class="card-body">
-              <h5 class="card-title text-center">{{ recipe.recipe_name }}</h5>
-            </div>
+            <!-- Include alt text for better accessibility -->
+            <img src="{{ recipe.recipe_image_url }}" class="card-img-top" alt="Image of {{ recipe.recipe_name }}">
           </div>
         </div>
       </div>
     {% else %}
       <div class="alert alert-warning" role="alert">
-        Recipe not found.
+        We couldn't find the recipe you're looking for.
       </div>
     {% endif %}
 
     {% if ingredients %}
-      <div class="row">
-        {% for ingredient in ingredients %}
-          <div class="col-md-4 my-2">
-            <div class="card h-100 hoverable">
-              <div class="card-body">
-                <img src={{ ingredient.ingredient_image_url }}>
-                <h5 class="card-title text-center capitalize">{{ ingredient.ingredient_name }}</h5>
-                <p class="card-text text-center">{{ ingredient.ingredient_amount }}</p>
-                <p class="card-text text-center capitalize">{{ ingredient.ingredient_unit }}</p>
+      <div class="container mt-5">
+        <h2 class="text-center my-4">Recipe Ingredients</h2>
+        <div class="row">
+          {% for ingredient in ingredients %}
+            <div class="col-md-4 my-2">
+              <div class="card h-100 hoverable">
+                <div class="card-body">
+                  <!-- Capitalize the first letter of ingredient name and unit -->
+                  <h5 class="card-title text-center capitalize">{{ ingredient.ingredient_name | capitalize }}</h5>
+                  <p class="card-text text-center">
+                    <span class="ingredient-amount">{{ ingredient.ingredient_amount }}</span>
+                    <span class="ingredient-unit capitalize">{{ ingredient.ingredient_unit | capitalize }}</span>
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        {% endfor %}
+          {% endfor %}
+        </div>
       </div>
     {% else %}
       <div class="alert alert-warning" role="alert">
-        No ingredients found.
+        We couldn't find any ingredients for this recipe.
       </div>
     {% endif %}
 
-    <script src="{{ url_for('static', filename='js/ingredients.js') }}"></script>
   </div>
 {% endblock %}

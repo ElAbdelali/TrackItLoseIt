@@ -1,6 +1,18 @@
 {% extends 'base.html' %}
 {% block title %}Request a Recipe{% endblock %}
 {% block content %}
+  <!-- Infographic section -->
+  <section class="instructions-section my-4">
+    <h2 class="text-center">How to Use This Form</h2>
+    <p class="text-center">To get custom recipe suggestions, just follow these simple steps:</p>
+    <ol>
+        <li><strong>Minimum Calories:</strong> Enter the minimum amount of calories you want your meals to contain.</li>
+        <li><strong>Maximum Calories:</strong> Enter the maximum amount of calories you want your meals to contain.</li>
+        <li><strong>Number of Recipes:</strong> Specify the number of recipe suggestions you want to receive.</li>
+        <li><strong>Get Recipes:</strong> Click on this button to receive your personalized recipe suggestions based on the values you've entered above.</li>
+    </ol>
+  </section>
+  
 <div class="container my-4">
   <h1 class="text-center">Request a Recipe</h1>
   <form action="/recipes" method="post" class="form-container my-4">

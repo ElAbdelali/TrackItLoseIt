@@ -8,8 +8,7 @@
     {% if recipe %}
       <div class="row">
         <div class="col-md-12">
-          <div class="card mb-4">
-            <!-- Include alt text for better accessibility -->
+          <div class="card mb-4" style="width: 50% height: 50%">
             <img src="{{ recipe.recipe_image_url }}" class="card-img-top" alt="Image of {{ recipe.recipe_name }}">
           </div>
         </div>
@@ -28,7 +27,6 @@
             <div class="col-md-4 my-2">
               <div class="card h-100 hoverable">
                 <div class="card-body">
-                  <!-- Capitalize the first letter of ingredient name and unit -->
                   <h5 class="card-title text-center capitalize">{{ ingredient.ingredient_name | capitalize }}</h5>
                   <p class="card-text text-center">
                     <span class="ingredient-amount">{{ ingredient.ingredient_amount }}</span>

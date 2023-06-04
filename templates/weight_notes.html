@@ -5,6 +5,16 @@
 {% block content %}
 <div class="container my-4">
     <h1 class="text-center">Weight Notes</h1>  
+    <section class="instructions-section my-4">
+        <h2 class="text-center">How to Use</h2>
+        <p class="text-center">The Weight Notes section allows you to keep track of your workouts and weight on a daily basis. Here's how you can use it:</p>
+        <ol>
+            <li><strong>Workouts Done:</strong> Enter the details of the workouts you've done in this text area.</li>
+            <li><strong>Weight:</strong> Enter your weight for the day in this field. Please use the same unit of measurement consistently for accurate tracking.</li>
+            <li><strong>Date:</strong> Enter the date of when the workouts were done.</li>
+            <li>Click on the <strong>Add Note</strong> button to save your entry. It will appear in the Existing Weight Notes section below.</li>
+        </ol>
+    </section>
     <form action="{{ url_for('weight_notes') }}" method="post" class="form-container my-4">
         <input type="hidden" name="user_id" value="{{ user_id }}"> 
         <div class="form-group">

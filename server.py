@@ -24,11 +24,14 @@ def homepage():
         user = crud.get_user_by_id(user_id)
         weight_notes = crud.get_user_weight_notes(user_id)
         favorite_recipes = crud.get_favorites_by_user(user_id)
+        tdee, goal = crud.get_latest_tdee_goal(user_id)
     else:
         weight_notes = None
         favorite_recipes = None
+        tdee = None
+        goal = None
 
-    return render_template('homepage.html', user=user, weight_notes=weight_notes, favorite_recipes=favorite_recipes)
+    return render_template('homepage.html', user=user, weight_notes=weight_notes, favorite_recipes=favorite_recipes, tdee=tdee, goal=goal)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -45,11 +48,9 @@ def login():
                 flash('Login successful!')
                 return redirect('/')
         
-        # Invalid username or password
         flash('Invalid username or password. Please try again.')
         return redirect('/login')
 
-    # Handle GET request for displaying the login form
     return render_template('login.html')
 
 @app.route('/logout')
@@ -97,20 +98,16 @@ def register():
 @app.route('/weight_notes', methods=['GET','POST'])
 def weight_notes():
     if request.method == 'POST':
-        # Retrieve form data
         user_id = request.form.get('user_id')
         workouts_done = request.form.get('workouts_done')
         weight_value = request.form.get('weight_value')
         date = request.form.get('date')
 
-        # Create a new WeightNotes object
         weight_notes = crud.WeightNotes(user_id=user_id, workouts_done=workouts_done, weight_value=weight_value, date=date)
 
-        # Add the weight notes to the database session and commit changes
         db.session.add(weight_notes)
         db.session.commit()
 
-        # Redirect to the weight notes page
         return redirect(url_for('weight_notes'))
 
     # Fetch the user's weight notes from the database
@@ -155,17 +152,14 @@ def calculate_tdee():
         activity_level = float(request.form.get('activity_level'))
         goal = request.form.get('goal')
 
-        # Calculate TDEE calories
         tdee_calories = crud.calculate_tdee_calories(weight, height, age, gender, activity_level, goal)
         
         if tdee_calories is None:
-            # Handle error case (e.g., invalid gender)
             flash('Invalid calculation inputs. Please try again.')
             return redirect('/calculate_tdee')
         
         user_id = session.get('user_id')
 
-        # Set the TDEE goal based on the button clicked
         if goal == 'maintain':
             tdee_goal = "Maintain Weight"
         elif goal == 'lose':
@@ -174,8 +168,7 @@ def calculate_tdee():
             tdee_goal = "Gain Weight"
         else:
             tdee_goal = None
-        
-        # Create TDEE record in the database
+
         tdee = crud.create_tdee(weight, height, age, gender, activity_level, tdee_calories, goal, user_id)
         db.session.add(tdee)
         db.session.commit()
@@ -195,7 +188,6 @@ def recipes():
 
         return render_template('recipes.html', recipes=recipes)
     else:
-        # Handle GET requests for displaying the form or other actions
         return render_template('recipe_request.html')
 
 @app.route('/recipe/ingredients/<int:recipe_id>', methods=['GET'])
@@ -208,54 +200,46 @@ def view_recipe_ingredients(recipe_id):
 
 @app.route('/recipe/<int:recipe_source_id>/favorite', methods=['POST'])
 def add_recipe_to_favorites(recipe_source_id):
-    # Get the user from the session
-    user_id = session.get('user_id')  # Assuming 'user_id' is stored in session
+    user_id = session.get('user_id')  
 
     if user_id is None:
-        # Handle case when user is not logged in
         flash('You must be logged in to add recipes to your favorites.', 'error')
-        return redirect(url_for('login'))  # Assuming you have a login route
+        return redirect(url_for('login'))
 
-    # Get the recipe by its source ID
     recipe = crud.get_recipe_source_information(recipe_source_id)
 
     if recipe is None:
-        # Handle case when recipe is not found
         flash('Recipe not found.', 'error')
-        return redirect(url_for('recipes'))  # Assuming you have a recipes route
+        return redirect(url_for('recipes')) 
 
-    # Check if the recipe is already favorited
     favorites = crud.get_favorites_by_user(user_id)
     for favorite in favorites:
         if favorite.recipe_id == recipe.recipe_id:
-            # Handle case when recipe is already favorited
             flash('Recipe is already in favorites.', 'error')
-            return redirect(url_for('recipes'))  # Redirect back to the recipes page
+            return redirect(url_for('recipes'))  
 
-    # Create a new favorite
     new_favorite = crud.create_favorite(user_id, recipe.recipe_id)
 
-    # Add favorite to the database
     db.session.add(new_favorite)
     db.session.commit()
 
     flash('Recipe added to favorites.', 'success')
-    return redirect(url_for('recipes'))  # Redirect back to the recipes page
+    return redirect(url_for('recipes'))
 
 
 
 @app.route('/remove-favorite/<int:recipe_id>', methods=['POST'])
 def remove_favorite(recipe_id):
-    if 'user' not in session:
-        return redirect(url_for('login'))
-
-    favorite = favorite.query.filter_by(user_id=session['user'].id, recipe_id=recipe_id).first()
+    user_id = session.get('user_id')
+    favorite = crud.delete_favorite(user_id, recipe_id)
 
     if favorite is not None:
         db.session.delete(favorite)
         db.session.commit()
 
-    return redirect(url_for('/'))
+    return redirect(url_for('homepage'))
+
+
 
 def connect_to_db(flask_app, db_uri="postgresql:///trackitloseit", echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri

@@ -4,12 +4,17 @@
 
 {% block content %}
   {% if user %}
-    <div class="container py-5">
+    <main class="container py-5" role="main">
       <h1 class="mb-4">Welcome back, {{ user.first_name }} {{user.last_name }}!</h1>  
+      
+      <section class="tdee-result p-4 mb-4 rounded text-center" role="region" aria-label="TDEE results">
+        <p>Your current goal is to: <strong>{{ goal }}</strong></p>
+        <p>Your Total Daily Energy Expenditure (TDEE) is: <strong>{{ tdee|int }}</strong> calories</p>
+      </section>
 
       <div class="row">
-        <div class="col-md-6">
-          <div class="weight-notes mb-5" style="height: 500px; overflow-y: auto; text-align: center;">
+        <aside class="col-md-6" role="complementary">
+          <div class="weight-notes mb-5" style="height: 500px; overflow-y: scroll; overflow-x: hidden; text-align: center;">
             <h2 class="mb-3">Your Weight Notes</h2>
             {% for note in user.weight_notes|sort(attribute='date', reverse=True) %}
               <div class="card mb-3">
@@ -21,56 +26,54 @@
               </div>
             {% endfor %}
           </div>
-        </div>
+        </aside>
 
-        <div class="col-md-6">
-          <div class="chart-section mb-5">
-            <h2 class="mb-3">Your Progress</h2>
-            <div id="chart-container" class="mb-3">
-              <canvas id="line-chart"></canvas>
-            </div>
+        <section class="col-md-6 chart-section mb-5 text-center" role="region" aria-label="Progress chart">
+          <h2>Your Progress</h2>
+          <div id="chart-container" class="mb-3">
+            <canvas id="line-chart"></canvas>
           </div>
-        </div>
+        </section>
       </div>
 
-      <div class="favorites">
-        <h2 class="mb-3">Your Favorite Recipes</h2>
-        {% for favorite in user.favorites %}
-        <div class="card mb-3">
-            <div class="card-body">
+      <section class="favorites" role="region" aria-label="Favorite Recipes">
+        <h2 class="text-center">Your Favorite Recipes</h2>
+        <div style="overflow-y: scroll; height: 500px;">
+          {% for favorite in user.favorites %}
+            <div class="card mb-3">
+              <div class="card-body text-center">
                 <h5 class="card-title">{{ favorite.recipes.recipe_name }}</h5>
                 <p>Calories: {{ favorite.recipes.calories }}</p>
                 <img src="{{ favorite.recipes.recipe_image_url }}" alt="{{ favorite.recipes.recipe_name }}" class="img-fluid">
                 <form action="{{ url_for('remove_favorite', recipe_id=favorite.recipe_id) }}" method="post">
-                    <button type="submit" class="btn btn-danger">Remove from Favorites</button>
+                  <button type="submit" class="btn btn-danger d-inline-block">Remove from Favorites</button>
                 </form>
+              </div>
             </div>
+          {% endfor %}
         </div>
-    {% endfor %}
-
-      </div>
-    </div>
+      </section>
+    </main>
   {% else %}
-    <div class="container py-5">
+    <main class="container py-5" role="main">
       <h1 class="mb-4">Welcome to Our Application</h1>
-      <p class="mb-4">Our application is designed to help you keep track of your weight loss journey, stay active, and discover new healthy recipes. Let's take a look at what we offer:</p>
+      <p>Our application is designed to help you keep track of your weight loss journey, stay active, and discover new healthy recipes. Let's take a look at what we offer:</p>
 
-      <div class="info-section mb-5">
-        <h2 class="mb-3">Track Your Weight Loss</h2>
+      <section class="info-section mb-5" role="region" aria-label="Track your weight loss">
+        <h2>Track Your Weight Loss</h2>
         <p>With our intuitive charting system, you can see your progress at a glance, helping you stay motivated.</p>
-      </div>
+      </section>
 
-      <div class="info-section mb-5">
-        <h2 class="mb-3">Stay Active</h2>
+      <section class="info-section mb-5" role="region" aria-label="Stay active">
+        <h2>Stay Active</h2>
         <p>Physical activity is key to a healthy lifestyle. Our application encourages you to keep moving by setting and tracking your personal fitness goals.</p>
-      </div>
+      </section>
 
-      <div class="info-section">
-        <h2 class="mb-3">Discover Recipes</h2>
+      <section class="info-section" role="region" aria-label="Discover recipes">
+        <h2>Discover Recipes</h2>
         <p>We have a wide variety of healthy and delicious recipes for you to explore. You can even save your favorites for easy access!</p>
-      </div>
-    </div>
-
+      </section>
+    </main>
   {% endif %}
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

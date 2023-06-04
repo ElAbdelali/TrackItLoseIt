@@ -27,7 +27,17 @@ fetch('/weight_and_date.json')
               tooltipFormat: 'MMMM DD, YYYY',
               unit: 'day',
             },
+            title: {
+              display: true,
+              text: 'Date'
+            }
           },
+          y: {
+            title: {
+              display: true,
+              text: 'Weight'
+            }
+          }
         },
       },
     });

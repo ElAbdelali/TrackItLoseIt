@@ -25,6 +25,7 @@ def homepage():
         weight_notes = crud.get_user_weight_notes(user_id)
         favorite_recipes = crud.get_favorites_by_user(user_id)
         tdee, goal = crud.get_latest_tdee_goal(user_id)
+        
     else:
         weight_notes = None
         favorite_recipes = None
@@ -58,7 +59,6 @@ def logout():
     """Logout the user"""
     session.pop('user_id', None)
     session.clear()
-    flash('You have been logged out.')
     return redirect('/')
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -110,7 +110,6 @@ def weight_notes():
 
         return redirect(url_for('weight_notes'))
 
-    # Fetch the user's weight notes from the database
     user_id = session.get('user_id')
     if user_id:
         user = crud.User.query.get(user_id)

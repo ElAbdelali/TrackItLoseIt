@@ -1,3 +1,4 @@
+let delayed = false;
 fetch('/weight_and_date.json')
   .then(response => response.json())
   .then(responseJson => {
@@ -15,12 +16,28 @@ fetch('/weight_and_date.json')
         datasets: [{
           label: 'Weight',
           data,
-          borderColor: 'red',  // Set line color to blue
-          backgroundColor: 'rgba(0, 0, 255, 0.2)',  // Set fill color to light blue
-          trendline: 'linear',
+          borderColor: 'red',
+          backgroundColor: 'rgba(0, 0, 255, 0.2)',
         }],
       },
       options: {
+        animation: {
+          delay: (context) => {
+            let delay = 0;
+            if (context.type === 'data' && context.mode === 'default' && !delayed) {
+              delay = context.dataIndex * 300 + context.datasetIndex * 100;
+            }
+            return delay;
+          },
+          onComplete: () => {
+            delayed = true;
+          },
+        },
+        interaction: {
+          intersect: false,
+          mode: 'nearest'
+        },
+        responsive: true,
         scales: {
           x: {
             type: 'time',
@@ -36,7 +53,7 @@ fetch('/weight_and_date.json')
           y: {
             title: {
               display: true,
-              text: 'Weight'
+              text: 'Weight (lbs)'
             }
           }
         },

@@ -3,14 +3,12 @@
 
 {% block content %}
   <div class="container">
-    <h1 class="text-center my-4">{{ recipe.recipe_name }}</h1>
 
     {% if recipe %}
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card mb-4" style="width: 50% height: 50%">
-            <img src="{{ recipe.recipe_image_url }}" class="card-img-top" alt="Image of {{ recipe.recipe_name }}">
-          </div>
+      <div class="text-center">
+        <h1>{{ recipe.recipe_name }}</h1>
+        <div class="card mx-auto" style="width: 50%;">
+          <img src="{{ recipe.recipe_image_url }}" class="card-img-top" alt="Image of {{ recipe.recipe_name }}" style="max-height: 200px; object-fit: contain;">
         </div>
       </div>
     {% else %}
@@ -21,7 +19,7 @@
 
     {% if ingredients %}
       <div class="container mt-5">
-        <h2 class="text-center my-4">Recipe Ingredients</h2>
+        <h2 class="text-center my-4">{{ recipe.recipe_name }} Recipe Ingredients</h2>
         <div class="row">
           {% for ingredient in ingredients %}
             <div class="col-md-4 my-2">
@@ -39,27 +37,24 @@
         </div>
       </div>
     {% else %}
-      <div class="alert alert-warning" role="alert">
+      <div class="alert alert-warning mt-5" role="alert">
         We couldn't find any ingredients for this recipe.
       </div>
     {% endif %}
-    
+
     {% if recipe_instructions %}
       <div class="container mt-5">
-        <h2 class="text-center my-4">Recipe Instructions</h2>
-        <ol>
+        <h2 class="text-center my-4">{{ recipe.recipe_name }} Recipe Instructions</h2>
+        <ul>
           {% for instruction in recipe_instructions %}
-            <li class="mb-2">
-              <p><strong>Step {{ instruction.number }}:</strong> {{ instruction.step }}</p>
-            </li>
+            <p><strong>Step {{ instruction.number }}:</strong> {{ instruction.step }}</p>
           {% endfor %}
-        </ol>
+        </ul>
       </div>
     {% else %}
-      <div class="alert alert-warning" role="alert">
+      <div class="alert alert-warning mt-5" role="alert">
         We couldn't find any instructions for this recipe.
       </div>
     {% endif %}
-    
   </div>
 {% endblock %}

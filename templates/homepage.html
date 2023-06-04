@@ -8,10 +8,9 @@
       <h1 class="mb-4">Welcome back, {{ user.first_name }} {{user.last_name }}!</h1>  
       
       <section class="tdee-result p-4 mb-4 rounded" role="region" aria-label="TDEE results">
-        <h2>Your Health Data</h2>
+        <p>This section displays your current health goal and daily caloric needs (TDEE).</p>
         <p>Your current goal is to: <strong>{{ goal }}</strong></p>
         <p>Your Total Daily Energy Expenditure (TDEE) is: <strong>{{ tdee|int }}</strong> calories</p>
-        <p>This section displays your current health goal and daily caloric needs (TDEE).</p>
       </section>
 
       <div class="row">
@@ -64,32 +63,41 @@
         </div>
       </section>
     </main>
+
   {% else %}
-    <main class="container py-5 text-center" role="main">
-      <h1 class="mb-4">Welcome to Our Application</h1>
-      <p>Our application is designed to help you keep track of your weight loss journey, stay active, and discover new healthy recipes. Let's take a look at what we offer:</p>
+  <main class="container py-5 text-center" role="main">
+    <h1 class="mb-4">Welcome to Track it, Lose it!</h1>
+    <p>TI, LI is a one-stop solution designed to help you maintain a healthy lifestyle, make better food choices, and keep track of your fitness journey. Let's take a quick tour of what you can do with our application:</p>
 
-      <section class="info-section mb-5" role="region" aria-label="Track your weight loss">
-        <h2>Track Your Weight Loss</h2>
-        <p>With our intuitive charting system, you can see your progress at a glance, helping you stay motivated.</p>
-      </section>
+    <section class="info-section mb-5" role="region" aria-label="Track your weight loss">
+      <img src="weight_chart.png" alt="Weight loss chart" class="img-fluid rounded mb-3">
+      <h2>Track Your Fitness Progress</h2>
+      <p>By recording your weight and workout sessions, you can track your progress over time with our intuitive charting system. This visual representation keeps you motivated and committed to your fitness goals.</p>
+    </section>
 
-      <section class="info-section mb-5" role="region" aria-label="Stay active">
-        <h2>Stay Active</h2>
-        <p>Physical activity is key to a healthy lifestyle. Our application encourages you to keep moving by setting and tracking your personal fitness goals.</p>
-      </section>
+    <section class="info-section mb-5" role="region" aria-label="Stay active">
+      <img src="activity.png" alt="Staying active" class="img-fluid rounded mb-3">
+      <h2>Stay Active and Energetic</h2>
+      <p>Physical activity is the cornerstone of a healthy lifestyle. Our application encourages and aids you in setting personal fitness goals, and keeping track of them, thus promoting an active lifestyle.</p>
+    </section>
 
-      <section class="info-section" role="region" aria-label="Discover recipes">
-        <h2>Discover Recipes</h2>
-        <p>We have a wide variety of healthy and delicious recipes for you to explore. You can even save your favorites for easy access!</p>
-      </section>
-    </main>
-  {% endif %}
+    <section class="info-section mb-5" role="region" aria-label="Discover recipes">
+      <img src="recipes.png" alt="Healthy recipes" class="img-fluid rounded mb-3">
+      <h2>Discover and Save Delectable, Healthy Recipes</h2>
+      <p>Nutrition is as important as physical activity when it comes to maintaining a healthy lifestyle. We provide a diverse range of delicious and nutritious recipes for you to explore. Save your favorites and have them at your fingertips whenever you need!</p>
+    </section>
+    
+    <section class="call-to-action mt-4">
+      <h2>Ready to begin your journey to a healthier lifestyle?</h2>
+      <p><a href="/register" class="btn btn-primary btn-lg">Register Now!</a></p>
+    </section>
+  </main>
+{% endif %}
 
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
-  <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+<script src="{{ url_for('static', filename='js/chart.js') }}"></script>
 {% endblock %}

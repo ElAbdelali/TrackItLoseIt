@@ -77,3 +77,33 @@ def get_recipe_ingredients(recipe_id):
     else:
         print(f"Request failed with status code: {recipe_source_res.status_code}")
         return []
+
+import requests
+import json
+
+def get_recipe_steps(recipe_id):
+    params = {
+        'apiKey': api_key,
+    }
+
+    instruction_url = f'https://api.spoonacular.com/recipes/{recipe_id}/analyzedInstructions'
+    instruction_res = requests.get(instruction_url, params=params)
+
+    if instruction_res.status_code == 200:
+        instruction_data = instruction_res.json()
+        recipe_steps = []
+
+        for inst in instruction_data:
+            steps = inst['steps']
+            for step in steps:
+                step_output = {
+                    'number': step['number'],
+                    'step': step['step']
+                    }
+                recipe_steps.append(step_output)
+
+        return recipe_steps
+
+    else:
+        print(f"Request failed with status code: {instruction_res.status_code}")
+        return []

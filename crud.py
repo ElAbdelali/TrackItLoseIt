@@ -115,8 +115,6 @@ def create_favorite(user_id, recipe_id):
 def delete_favorite(user_id, recipe_id):
     return Favorite.query.filter_by(user_id=user_id, recipe_id=recipe_id).first()
 
-    
-    return favorite_to_be_deleted
 def get_favorites_by_user(user_id):
     return Favorite.query.filter_by(user_id=user_id).all()
 

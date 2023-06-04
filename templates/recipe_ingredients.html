@@ -43,6 +43,23 @@
         We couldn't find any ingredients for this recipe.
       </div>
     {% endif %}
-
+    
+    {% if recipe_instructions %}
+      <div class="container mt-5">
+        <h2 class="text-center my-4">Recipe Instructions</h2>
+        <ol>
+          {% for instruction in recipe_instructions %}
+            <li class="mb-2">
+              <p><strong>Step {{ instruction.number }}:</strong> {{ instruction.step }}</p>
+            </li>
+          {% endfor %}
+        </ol>
+      </div>
+    {% else %}
+      <div class="alert alert-warning" role="alert">
+        We couldn't find any instructions for this recipe.
+      </div>
+    {% endif %}
+    
   </div>
 {% endblock %}

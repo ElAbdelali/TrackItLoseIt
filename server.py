@@ -6,7 +6,7 @@ from jinja2 import StrictUndefined
 import crud, model
 import re
 from crud import create_user
-from spoonacularsearch import get_recipe_ingredients, find_recipes_by_calories
+from spoonacularsearch import get_recipe_ingredients, find_recipes_by_calories, get_recipe_steps
 from dateutil.relativedelta import relativedelta
 
 
@@ -192,9 +192,10 @@ def recipes():
 @app.route('/recipe/ingredients/<int:recipe_id>', methods=['GET'])
 def view_recipe_ingredients(recipe_id):
     ingredients = get_recipe_ingredients(recipe_id)
-
+    recipe_instructions = get_recipe_steps(recipe_id)
     recipe = crud.get_recipe_source_information(recipe_id)
-    return render_template('recipe_ingredients.html', ingredients=ingredients, recipe=recipe)
+    
+    return render_template('recipe_ingredients.html', ingredients=ingredients, recipe=recipe, recipe_instructions=recipe_instructions)
 
 
 @app.route('/recipe/<int:recipe_source_id>/favorite', methods=['POST'])

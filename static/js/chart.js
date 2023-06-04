@@ -15,8 +15,9 @@ fetch('/weight_and_date.json')
         datasets: [{
           label: 'Weight',
           data,
-          borderColor: 'blue',  // Set line color to blue
+          borderColor: 'red',  // Set line color to blue
           backgroundColor: 'rgba(0, 0, 255, 0.2)',  // Set fill color to light blue
+          trendline: 'linear',
         }],
       },
       options: {

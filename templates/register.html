@@ -9,11 +9,13 @@
       <div class="form-group">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" class="form-control" required>
+        <small class="form-text text-muted">Username must be at least 7 characters long.</small>
       </div>
         
       <div class="form-group">
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" class="form-control" required>
+        <small class="form-text text-muted">Password must be at least 9 characters long and contain at least one special character.</small>
       </div>
         
       <div class="form-group">
@@ -27,13 +29,15 @@
       </div>
         
       <div class="form-group">
-        <label for="username">Date of Birth:</label>
+        <label for="date_of_birth">Date of Birth:</label>
         <input type="date" id="date_of_birth" name="date_of_birth" class="form-control" required>
+        <small class="form-text text-muted">You must be at least 13 years old to register.</small>
       </div>
         
       <div class="form-group">
         <label for="email">E-mail:</label>
         <input type="email" id="email" name="email" class="form-control" required>
+        <small class="form-text text-muted">E-mail must not be registered to another account.</small>
       </div>
 
       <div class="form-group text-center mt-3">

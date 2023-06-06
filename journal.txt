@@ -1,0 +1,120 @@
+Document used to track progress on Track it, Lose it 
+----------------------------------------------------
+
+Project Requirements: 
+
+[x] Ensure requirements are met
+    Requirements are: 
+        [x] Use git to track project files
+            [x] It should also have a .gitignore and a readme.md
+            [x] Have a public GitHub repository
+            [x] Use virtualenv to install and keep track of dependencies
+            [x] requirements.txt
+
+        A complete project should have at least:
+
+            [x] Utilized PostgreSQL as a SQL database 
+            [x] Utilized SQLAlchemy to query the database
+            [x] Utilized Flask to create a server
+            [x] Utilized template inheritance with Jinja templates
+            [x] Used Bootstrap and custom css to "prettify" my project
+            [x] One feature that uses JavaScript to manipulate the DOM
+                [x] Utilized AJAX to manipulate the DOM when a user inputs incorrect information during registration.
+            [x] Utilized Chart.js to track user weight progress
+
+----------------------------------------------------
+                        
+                        Week 1 
+
+----------------------------------------------------
+I am working on the Data model.
+
+TO DO:
+
+[x] Data Model
+[x] Set up folder structure (static, templates, server.py, model.py, etc.)
+[x] Create Github Repository
+[x] Create data model and get it approved
+[x] Create PostgreSQL db and Setup SQLAlchemy
+    [x] users
+    [x] tdee
+    [x] recipes
+    [x] recipe_ingredients
+    [x] favorites
+    [x] weight_notes
+[x] Research Spoonacular API
+[x] Create initial crud functions
+
+This week was spent envisioning how I'd like to go about my project. I ended up following through with my initial idea, a health app that can be used to track weight, get a tdee calculation, and find recipes based on calorie input.
+ - get data model approved by Ray. 
+ - build the database using PostgreSQL.
+ - created a model.py to create the tables using SQLAlchemy. 
+ - created crud functions to create a user, a weight note, a recipe, recipe ingredients, tdee and favorites.
+ - explored the Spoonacular API and had to review how to navigate through a dictionary as the api returned ingredients in a dictionary format. Once I figured this out, I went on to creating some templates.
+
+----------------------------------------------------
+                        
+                        Week 2
+
+----------------------------------------------------
+I want to ensure that I have a working MVP by the end of week 2. I aim to have my flask routes completed for logging in, logging out, and registering. I'd also like a working TDEE calculator and a functioning portion for the Spoonacular API call along 
+with their html counterparts. I also intend on setting up a base.html I can extend using jinja. 
+
+[x] Create a function to retrieve recipes based on min and max calorie input
+[x] Create a function to retrieve recipe ingredients based on recipe source id specified
+[x] Create a function to retrieve recipe instructions based on recipe source id specified
+[x] Create secrets.sh to store api key
+[x] Create recipes, recipe_ingredient and recipe request templates
+[x] Create base.html with navigation
+[x] Create login
+[x] Create logout
+[x] Create registration
+[x] Create Tdee calculator
+[x] Create crud operations to query data from db
+[x] Create Recipe search form
+[x] Create flask routes for all of the above
+
+Week ended with a semi-working MVP. I entend on working over the weekend to improve my api functions and brainstorm how I'd like information to appear on my web application.
+----------------------------------------------------
+                        
+                        Week 3
+
+----------------------------------------------------
+Completed and improved the Spoonacularsearch api functions (spoonacularsearch.py) over the weekend. Have a better idea on how to go about my project.
+
+[x] Read Chart.js documentation on how to create a line graph
+[x] Create chart.js that displays weight data retrieved from the DB
+[x] Ensure that the chart.js component is working as intended
+[x] Create a personalized dashboard for when users are logged in
+[x] Edit the Base.html to only show navigation links when logged in encouraging enrollment
+[x] Create weight_notes html for users to record their weight, date, and exercises completed
+
+Week has been hectic. I realize now that work and personal life should have clear boundaries. Ensuring I have proper work-life balance is important to not feeling burned out. 
+This week was successful. I am very satisfied with the chart I created.
+
+----------------------------------------------------
+                        
+                        Week 4
+
+----------------------------------------------------
+Final week prior to styling week. 
+Goals: Ensure my product is complete, test the functionalities and features. Style things to make them better if I have time.
+
+[x] Improve the personalized dashboard to include weight notes, the chart and favorited recipes
+[x] Within the dashboard, have an option for users to either view or delete a favorited recipes
+[x] Test whether the tdee calculator calculations work based on gender input
+[x] Test whether the api is retrieving and outputting called data in proper format
+[x] Ensure product is ready for deployment 
+[x] Ensure pages show when user is in session or not
+[x] Ensure registration requirements are fluid
+[x] Ensure buttons work as intended 
+----------------------------------------------------
+                        
+                        Week 5
+
+----------------------------------------------------
+
+Styling~~~ 
+
+[x] Include bootstrap and custom css 
+[x] Include classes, ids to specify custom css

@@ -19,12 +19,17 @@ def homepage():
     """View homepage"""
     user_id = session.get('user_id')
     user = None
-
+    
     if user_id:
         user = crud.get_user_by_id(user_id)
         weight_notes = crud.get_user_weight_notes(user_id)
         favorite_recipes = crud.get_favorites_by_user(user_id)
-        tdee, goal = crud.get_latest_tdee_goal(user_id)
+        tdee_goal = crud.get_latest_tdee_goal(user_id)
+        
+        if tdee_goal is not None:
+            tdee, goal = tdee_goal
+        else:
+            tdee, goal = None, None
         
     else:
         weight_notes = None

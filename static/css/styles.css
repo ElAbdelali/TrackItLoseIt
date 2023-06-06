@@ -120,3 +120,7 @@ h1 {
     height: 300px;
     object-fit: cover;  /* This will ensure the aspect ratio of images is maintained */
   }
+  .hidden {
+    display: none;
+  }
+  

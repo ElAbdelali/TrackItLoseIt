@@ -53,5 +53,15 @@
     </div>
   </div>
 </div>
+<div class="navigation-buttons text-center my-4">
+  <button onclick="goBack()" class="btn btn-primary">Previous Page</button>
+  <a href="{{ url_for('homepage') }}" class="btn btn-primary">Home</a>
+</div>
+
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>
 {% endblock %}
  

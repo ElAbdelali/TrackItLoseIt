@@ -7,15 +7,15 @@
     <h1 class="text-center my-4">Start your journey with us by creating an account</h1>
     <form class="centered-form" id="registration-form" method="POST">
       <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" class="form-control" required>
-        <small class="form-text text-muted">Username must be at least 7 characters long.</small>
+        <label for="username">Username: <small id="usernameCount">0/7</small></label>
+        <input type="text" id="username" name="username" class="form-control" required onkeyup="updateCount(this, 'usernameCount', 7)">
+        <small class="form-text text-muted">Must be at least 7 characters long.</small>
       </div>
         
       <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" class="form-control" required>
-        <small class="form-text text-muted">Password must be at least 9 characters long and contain at least one special character.</small>
+        <label for="password">Password: <small id="passwordCount">0/9</small> <small id="specialCheck">No special characters found!</small></label>
+        <input type="password" id="password" name="password" class="form-control" required onkeyup="updateCount(this, 'passwordCount', 9); checkSpecial(this, 'specialCheck')">
+        <small class="form-text text-muted">Must be at least 9 characters long and contain at least one special character.</small>
       </div>
         
       <div class="form-group">
@@ -29,9 +29,9 @@
       </div>
         
       <div class="form-group">
-        <label for="date_of_birth">Date of Birth:</label>
-        <input type="date" id="date_of_birth" name="date_of_birth" class="form-control" required>
-        <small class="form-text text-muted">You must be at least 13 years old to register.</small>
+        <label for="date_of_birth">Date of Birth: </label>
+        <input type="date" id="date_of_birth" name="date_of_birth" class="form-control" required onchange="checkAge(this, 'ageCheck')">
+        <small id="ageCheck">You must be at least 13 years old.</small>
       </div>
         
       <div class="form-group">
@@ -45,9 +45,9 @@
       </div>
     </form>
 
-    <div id="status-message" class="text-center mt-3">
-    </div>
+    <div id="status-message" class="text-center mt-3"></div>
 
     <script src="{{ url_for('static', filename='js/register.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/registration_validation.js') }}"></script>
   </div>
 {% endblock %}

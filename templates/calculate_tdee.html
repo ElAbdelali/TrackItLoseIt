@@ -21,21 +21,17 @@
       </div>
     </div>
 
-    <div class="form-container bg-light p-4 rounded">
-      <form action="/calculate_tdee" method="post" class="form" style="max-width: 600px; margin: auto;">
+      <form action="/calculate_tdee" method="post" class="form" class="form-container my-4">
         <div class="form-group">
           <label for="weight">Weight (lbs):</label>
-          <small class="form-text text-muted">Enter your weight in pounds.</small>
           <input type="number" name="weight" id="weight" class="form-control" required>
         </div>
         <div class="form-group">
           <label for="height">Height (inches):</label>
-          <small class="form-text text-muted">Enter your height in inches.</small>
           <input type="number" name="height" id="height" class="form-control" required>
         </div>
         <div class="form-group">
           <label for="age">Age:</label>
-          <small class="form-text text-muted">Enter your age in years.</small>
           <input type="number" name="age" id="age" class="form-control" required>
         </div>
         <div class="form-group">
@@ -62,11 +58,11 @@
           <button type="submit" name="goal" value="gain" class="btn btn-outline-primary mb-3">Gain Weight</button>
         </div>
       </form>
-    </div>
   </div>
   <div class="navigation-buttons text-center my-4">
     <button onclick="goBack()" class="btn btn-primary">Previous Page</button>
-    <a href="{{ url_for('homepage') }}" class="btn btn-primary">Home</a>
+    <a href="{{ url_for('homepage', user_id=session['user_id']) }}" class="btn btn-primary">Home</a>
+
 </div>
 
 <script>

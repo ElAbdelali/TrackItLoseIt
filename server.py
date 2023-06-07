@@ -13,15 +13,16 @@ from dateutil.relativedelta import relativedelta
 app = Flask(__name__)
 app.secret_key = "trackitloseit"
 app.jinja_env.undefined = StrictUndefined
-
 @app.route('/')
-def homepage():
-    """View homepage"""
-    user_id = session.get('user_id')
-    user = None
-    
-    if user_id:
-        user = crud.get_user_by_id(user_id)
+def landing_page():
+    """View landing page."""
+    return render_template('landing_page.html')
+
+@app.route('/home/user/<int:user_id>')
+def homepage(user_id):
+    """View personalized Home"""
+    user = crud.get_user_by_id(user_id)
+    if user:
         weight_notes = crud.get_user_weight_notes(user_id)
         favorite_recipes = crud.get_favorites_by_user(user_id)
         tdee_goal = crud.get_latest_tdee_goal(user_id)
@@ -38,6 +39,8 @@ def homepage():
         goal = None
 
     return render_template('homepage.html', user=user, weight_notes=weight_notes, favorite_recipes=favorite_recipes, tdee=tdee, goal=goal)
+
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

@@ -54,10 +54,7 @@ def calculate_tdee_calories(weight, height, age, gender, activity_level, goal):
 
 def get_latest_tdee_goal(user_id):
     
-    if user_id:
-        return TDEE.query.with_entities(TDEE.tdee_calories, TDEE.goal).filter(TDEE.user_id == user_id).order_by(TDEE.id.desc()).first()
-    else:
-        return None
+    return TDEE.query.with_entities(TDEE.tdee_calories, TDEE.goal).filter(TDEE.user_id == user_id).order_by(TDEE.id.desc()).first()
 
 # Create a new user
 def create_user(username, password, first_name, last_name, date_of_birth, email, created_at):

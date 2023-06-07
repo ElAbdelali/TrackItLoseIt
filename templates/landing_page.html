@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Track it, Lose it{% endblock %}
+
+{% block body%}
+<main class="container py-5" role="main">
+    <div class="col-md-12">
+      <h1 class="mb-4 featurette-heading">Welcome to Track it, Lose it!</h1>
+      <p class="lead">TI, LI is a one-stop solution designed to help you maintain a healthy lifestyle, make better food choices, and keep track of your fitness journey.</p>
+    </div>
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+        <div class="col-md-7 order-md-2">
+            <h2 class="featurette-heading">Stay Active and Energetic</h2>
+            <p class="lead">Physical activity is the cornerstone of a healthy lifestyle. Our application encourages and aids you in setting personal fitness goals, and keeping track of them, thus promoting an active lifestyle.</p>
+            <p class="lead">By recording your weight and workout sessions, you can track your progress over time with our intuitive charting system. This visual representation keeps you motivated and committed to your fitness goals.</p>
+        </div>
+        <div class="col-md-5 order-md-1">
+            <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" src="https://youthareawesome.com/wp-content/uploads/2015/07/Active-lifestyle.jpg" alt="Active Lifestyle Image">
+        </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+        <div class="col-md-7">
+            <h2 class="featurette-heading">Discover and Save Delectable, Healthy Recipes</h2>
+            <p class="lead">Nutrition is as important as physical activity when it comes to maintaining a healthy lifestyle. We provide a diverse range of delicious and nutritious recipes for you to explore. Save your favorites and have them at your fingertips whenever you need!</p>
+        </div>
+        <div class="col-md-5">
+            <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" src="https://i2.wp.com/www.downshiftology.com/wp-content/uploads/2022/03/Healthy-Recipes.jpg" alt="Healthy Recipes Image">
+        </div>
+    </div>
+
+    <section class="row featurette text-center">
+      <div class="col-md-12">
+          <h2 class="featurette-heading">Ready to begin your journey to a healthier lifestyle?</h2>
+          <p class="lead"><a href="{{ url_for('register') }}" class="btn btn-transparent btn-lg">Register Now!</a></p>
+      </div>
+  </section>
+</main>
+{%endblock%}

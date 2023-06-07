@@ -5,90 +5,86 @@
 {% block content %}
   {% if user %}
     <main class="container py-5 text-center" role="main">
-      <h1 class="mb-4">Welcome back, {{ user.first_name }} {{user.last_name }}!</h1>  
-      
+      <h1 class="mb-4">Welcome back, {{ user.first_name }} {{user.last_name }}!</h1>
+      {% if user.tdee%}
       <section class="tdee-result p-4 mb-4 rounded" role="region" aria-label="TDEE results">
         <p>This section displays your current health goal and daily caloric needs (TDEE).</p>
         <p>Your current goal is to: <strong>{{ goal }}</strong></p>
         <p>Your Total Daily Energy Expenditure (TDEE) is: <strong>{{ tdee|int }}</strong> calories</p>
       </section>
-
+      {% else %}
+      {% endif%}
       <div class="row">
         <aside class="col-md-6 text-center" role="complementary">
           <div class="weight-notes mb-5 bg-light p-3 rounded" style="height: 500px; overflow-y: scroll; overflow-x: hidden;">
-            <h2 class="mb-3">Your Weight Notes</h2>
-            <p>Here are your recent weight notes. Each note represents a workout session and your weight on that day.</p>
-            {% for note in user.weight_notes|sort(attribute='date', reverse=True) %}
-              <div class="card mb-3">
-                <div class="card-body text-center">
-                  <h5 class="card-title">Workout done: {{ note.workouts_done }}</h5>
-                  <p class="card-text">Weight: {{ note.weight_value }}</p>
-                  <p class="card-text">Date: {{ note.date.strftime('%m-%d-%Y') }}</p>
+            {% if user.weight_notes %}
+              <h2 class="mb-3">Your Weight Notes</h2>
+              <p>Here are your recent weight notes. Each note represents a workout session and your weight on that day.</p>
+              {% for note in user.weight_notes|sort(attribute='date', reverse=True) %}
+                <div class="card mb-3">
+                  <div class="card-body text-center">
+                    <h5 class="card-title">Workout done: {{ note.workouts_done }}</h5>
+                    <p class="card-text">Weight: {{ note.weight_value }}</p>
+                    <p class="card-text">Date: {{ note.date.strftime('%m-%d-%Y') }}</p>
+                  </div>
                 </div>
+              {% endfor %}
+            {% else %}
+              <div class="alert alert-info">
+                <h4>You don't have any weight notes yet.</h4>
+                <p>Start tracking your workouts by <a href="{{ url_for('weight_notes') }}" class="alert-link">navigating to the Workouts section</a>.</p>
               </div>
-            {% endfor %}
+            {% endif %}
           </div>
         </aside>
 
         <section class="col-md-6 chart-section mb-5 text-center" role="region" aria-label="Progress chart">
-          <h2>Your Progress</h2>
-          <p>This chart displays your weight loss progress over time.</p>
-          <div id="chart-container" class="mb-3">
-            <canvas id="line-chart"></canvas>
-          </div>
+          {% if user.weight_notes %}
+            <h2>Your Progress</h2>
+            <p>This chart displays your weight loss progress over time.</p>
+            <div id="chart-container" class="mb-3">
+              <canvas id="line-chart"></canvas>
+            </div>
+          {% else %}
+            <div class="alert alert-info">
+              <h4>You don't have any chart data yet.</h4>
+              <p>Start tracking your weight in the <a href="{{ url_for('weight_notes') }}" class="alert-link">Weight Tracker section</a>.</p>
+            </div>
+          {% endif %}
         </section>
       </div>
 
       <section class="favorites text-center" role="region" aria-label="Favorite Recipes">
+        {% if user.favorites %}
         <h2 class="text-center">Your Favorite Recipes</h2>
-        <p>Below are your favorite recipes. You can remove them from your favorites or view the ingredients.</p>
-        <div class="d-flex flex-wrap justify-content-around" style="overflow-y: scroll; height: 500px;">
-          {% for favorite in user.favorites %}
-            <div class="card mb-3" style="width: 30%;">
-              <div class="card-body text-center">
-                <h5 class="card-title">{{ favorite.recipes.recipe_name }}</h5>
-                <p>Calories: {{ favorite.recipes.calories }}</p>
-                <img src="{{ favorite.recipes.recipe_image_url }}" alt="{{ favorite.recipes.recipe_name }}" class="img-fluid">
-                <div class="d-flex justify-content-around mt-2">
-                  <form action="{{ url_for('remove_favorite', recipe_id=favorite.recipe_id) }}" method="post">
-                    <button type="submit" class="btn btn-danger">Remove from Favorites</button>
-                  </form>
-                  <form action="{{ url_for('view_recipe_ingredients', recipe_id=favorite.recipes.recipe_source_id) }}" method="get">
-                    <button type="submit" class="btn btn-primary">View Ingredients</button>
-                  </form>
+          <p>Below are your favorite recipes. You can remove them from your favorites or view the ingredients.</p>
+          <div class="d-flex flex-wrap justify-content-around" style="overflow-y: scroll; height: 500px;">
+            {% for favorite in user.favorites %}
+              <div class="card mb-3" style="width: 30%;">
+                <div class="card-body text-center">
+                  <h5 class="card-title">{{ favorite.recipes.recipe_name }}</h5>
+                  <p>Calories: {{ favorite.recipes.calories }}</p>
+                  <img src="{{ favorite.recipes.recipe_image_url }}" alt="{{ favorite.recipes.recipe_name }}" class="img-fluid">
+                  <div class="d-flex justify-content-around mt-2">
+                    <form action="{{ url_for('remove_favorite', recipe_id=favorite.recipe_id) }}" method="post">
+                      <button type="submit" class="btn btn-danger">Remove from Favorites</button>
+                    </form>
+                    <form action="{{ url_for('view_recipe_ingredients', recipe_id=favorite.recipes.recipe_source_id) }}" method="get">
+                      <button type="submit" class="btn btn-primary">View Ingredients</button>
+                    </form>
+                  </div>
                 </div>
               </div>
-            </div>
-          {% endfor %}
-        </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="alert alert-info">
+            <h4>You don't have any favorite recipes yet.</h4>
+            <p>Discover delicious recipes in the <a href="{{ url_for('recipes') }}" class="alert-link">Recipes section</a>.</p>
+          </div>
+        {% endif %}
       </section>
     </main>
-
-  {% else %}
-  <main class="container py-5 text-center" role="main">
-    <h1 class="mb-4">Welcome to Track it, Lose it!</h1>
-    <p>TI, LI is a one-stop solution designed to help you maintain a healthy lifestyle, make better food choices, and keep track of your fitness journey. Let's take a quick tour of what you can do with our application:</p>
-
-    <section class="info-section mb-5" role="region" aria-label="Track your weight loss">
-      <h2>Track Your Fitness Progress</h2>
-      <p>By recording your weight and workout sessions, you can track your progress over time with our intuitive charting system. This visual representation keeps you motivated and committed to your fitness goals.</p>
-    </section>
-
-    <section class="info-section mb-5" role="region" aria-label="Stay active">
-      <h2>Stay Active and Energetic</h2>
-      <p>Physical activity is the cornerstone of a healthy lifestyle. Our application encourages and aids you in setting personal fitness goals, and keeping track of them, thus promoting an active lifestyle.</p>
-    </section>
-
-    <section class="info-section mb-5" role="region" aria-label="Discover recipes">
-      <h2>Discover and Save Delectable, Healthy Recipes</h2>
-      <p>Nutrition is as important as physical activity when it comes to maintaining a healthy lifestyle. We provide a diverse range of delicious and nutritious recipes for you to explore. Save your favorites and have them at your fingertips whenever you need!</p>
-    </section>
-    
-    <section class="call-to-action mt-4">
-      <h2>Ready to begin your journey to a healthier lifestyle?</h2>
-      <p><a href="/register" class="btn btn-primary btn-lg">Register Now!</a></p>
-    </section>
-  </main>
 {% endif %}
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

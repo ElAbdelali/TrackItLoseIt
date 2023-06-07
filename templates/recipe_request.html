@@ -20,21 +20,22 @@
       <label for="min_calories">Minimum Calories:</label>
       <input type="number" id="min_calories" name="min_calories" class="form-control" required>
     </div>
-
+  
     <div class="form-group">
       <label for="max_calories">Maximum Calories:</label>
       <input type="number" id="max_calories" name="max_calories" class="form-control" required>
     </div>
-
+  
     <div class="form-group">
       <label for="num_recipes">Number of Recipes:</label>
       <input type="number" id="num_recipes" name="num_recipes" class="form-control" required>
     </div>
-
+  
     <div class="text-center mt-2">
-      <input type="submit" value="Get Recipes">
+      <input type="submit" class="btn btn-secondary" value="Get Recipes">
     </div>
   </form>
+  
 </div>
   <div class="container my-4">
     <h2 class="text-center">Popular Recipes</h2>
@@ -53,9 +54,9 @@
     </div>
   </div>
 </div>
-<div class="navigation-buttons d-flex justify-content-between my-4">
-  <button onclick="goBack()" class="btn btn-primary">Previous Page</button>
-  <button href="{{ url_for('homepage', user_id=session['user_id']) }}" class="btn btn-primary">Home</button>
+<div class="navigation-buttons text-center my-4">
+  <button onclick="goBack()" class="btn btn-secondary float-left">Previous Page</button>
+  <a href="{{ url_for('homepage', user_id=session['user_id']) }}" class="btn btn-secondary float-right">Home</a>
 </div>
 
 

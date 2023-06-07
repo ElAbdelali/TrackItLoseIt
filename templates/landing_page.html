@@ -5,7 +5,7 @@
 <main class="container py-5" role="main">
     <div class="col-md-12">
       <h1 class="mb-4 featurette-heading">Welcome to Track it, Lose it!</h1>
-      <p class="lead">TI, LI is a one-stop solution designed to help you maintain a healthy lifestyle, make better food choices, and keep track of your fitness journey.</p>
+      <p class="lead text-center">TI, LI is a one-stop solution designed to help you maintain a healthy lifestyle, make better food choices, and keep track of your fitness journey.</p>
     </div>
     <hr class="featurette-divider">
 
@@ -31,12 +31,15 @@
             <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" src="https://i2.wp.com/www.downshiftology.com/wp-content/uploads/2022/03/Healthy-Recipes.jpg" alt="Healthy Recipes Image">
         </div>
     </div>
-
+    {% if 'user_id' not in session %}
     <section class="row featurette text-center">
       <div class="col-md-12">
-          <h2 class="featurette-heading">Ready to begin your journey to a healthier lifestyle?</h2>
-          <p class="lead"><a href="{{ url_for('register') }}" class="btn btn-transparent btn-lg">Register Now!</a></p>
+        <h2 class="featurette-heading">Ready to begin your journey to a healthier lifestyle?</h2>
+        <p class="lead"><a href="{{ url_for('register') }}" class="btn btn-transparent btn-lg">Register Now!</a></p>
       </div>
-  </section>
+    </section>
+    {% endif %}
 </main>
+    
+  
 {%endblock%}

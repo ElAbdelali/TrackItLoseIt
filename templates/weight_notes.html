@@ -30,14 +30,14 @@
             <input type="date" name="date" id="date" class="form-control">
         </div>
         <div class="text-center mt-2">
-            <button type="submit">Add Note</button>
+            <button type="submit" class="btn btn-secondary">Add Note</button>
         </div>
     </form>
 
     <h2 class="text-center my-4">Existing Weight Notes:</h2>
 
     <div class="accordion" id="weightNotesAccordion">
-        {% for note in weight_notes|sort(attribute='date') %}
+        {% for note in weight_notes|sort(attribute='date', reverse=True) %}
         <div class="accordion-item">
             <h2 class="accordion-header" id="heading{{ note.id }}">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ note.id }}" aria-expanded="false" aria-controls="collapse{{ note.id }}">
@@ -61,9 +61,9 @@
 </div>
 
 <div class="navigation-buttons text-center my-4">
-    <button onclick="goBack()" class="btn btn-primary">Previous Page</button>
-    <a href="{{ url_for('homepage', user_id=session['user_id']) }}" class="btn btn-primary">Home</a>
-</div>
+    <button onclick="goBack()" class="btn btn-secondary float-left">Previous Page</button>
+    <a href="{{ url_for('homepage', user_id=session['user_id']) }}" class="btn btn-secondary float-right">Home</a>
+  </div>
 
 <script>
 function goBack() {

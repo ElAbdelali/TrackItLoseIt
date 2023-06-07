@@ -16,7 +16,7 @@ fetch('/weight_and_date.json')
         datasets: [{
           label: 'Weight',
           data,
-          borderColor: 'red',
+          borderColor: 'black',
           backgroundColor: 'rgba(0, 0, 255, 0.2)',
         }],
       },

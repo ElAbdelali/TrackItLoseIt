@@ -181,3 +181,14 @@ h1 {
 .navbar-dark .nav-link:hover, .navbar-dark .nav-link:focus {
     color: #f8f9fa;
 }
+.navigation-buttons .btn-secondary {
+    background-color: gray;
+    color: white;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .navigation-buttons .btn-secondary:hover {
+    background-color: transparent;
+    color: gray;
+  }
+  

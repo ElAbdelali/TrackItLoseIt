@@ -2,72 +2,77 @@
 {% block title %}Calculate your TDEE{% endblock %}
 
 {% block content %}
-  <div class="center-content">
-    <h1 class="mb-4 text-center">Calculate TDEE</h1>
+<div class="center-content">
+  <h1 class="mb-4 text-center">Calculate TDEE</h1>
 
-    {% if tdee_calories %}
-      <div class="tdee-result bg-success text-white p-4 mb-4 rounded text-center mt-4">
-        <h2>Your Results:</h2>
-        <p>Your goal is to: <strong>{{ tdee_goal }}</strong></p>
-        <p>Your Total Daily Energy Expenditure (TDEE) is: <strong>{{ tdee_calories|int }}</strong> calories</p>
+  <div class="clearfix mt-4 form-container bg-light p-4 rounded">
+    <div class="row">
+      <div class="col-md-6">
+        <img src="https://tdeecalculator.net/assets/images/tdee-pie-chart.png" alt="TDEE Pie Chart" class="img-fluid">
       </div>
-    {% endif %}
-
-    <div class="clearfix mt-4 form-container bg-light p-4 rounded text-center">
-      <img src="https://tdeecalculator.net/assets/images/tdee-pie-chart.png" alt="TDEE Pie Chart" width="400" height="204">
-      <div style="max-width: 600px; margin: auto;">
-        <p>Your Total Daily Energy Expenditure (TDEE) is an estimation of how many calories you burn per day when exercise is taken into account. It is calculated by first figuring out your Basal Metabolic Rate, then multiplying that value by an activity multiplier.</p>
-        <p>Since your <abbr title="Basal Metabolic Rate">BMR</abbr> represents how many calories your body burns when at rest, it is necessary to adjust the numbers upwards to account for the calories you burn during the day. This is true even for those with a sedentary lifestyle. Our TDEE calculator uses the best formulas and displays your score in a way that's easy to read and meaningful.</p>
+      <div class="col-md-6">
+        <p>Your Total Daily Energy Expenditure (TDEE) is an estimation of how many calories you burn per day when exercise is taken into account. It is calculated by first figuring out your Basal Metabolic Rate (BMR), then multiplying that value by an activity multiplier.</p>
+        <p>Since your BMR represents how many calories your body burns at rest, it is necessary to adjust the numbers upwards to account for the calories you burn during the day, even if you have a sedentary lifestyle. Our TDEE calculator uses reliable formulas to provide a meaningful and easy-to-read score.</p>
       </div>
     </div>
-
-      <form action="/calculate_tdee" method="post" class="form" class="form-container my-4">
-        <div class="form-group">
-          <label for="weight">Weight (lbs):</label>
-          <input type="number" name="weight" id="weight" class="form-control" required>
-        </div>
-        <div class="form-group">
-          <label for="height">Height (inches):</label>
-          <input type="number" name="height" id="height" class="form-control" required>
-        </div>
-        <div class="form-group">
-          <label for="age">Age:</label>
-          <input type="number" name="age" id="age" class="form-control" required>
-        </div>
-        <div class="form-group">
-          <label for="gender">Gender:</label>
-          <select name="gender" id="gender" class="form-control" required>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
-        </div>
-        <div class="form-group mb-4">
-          <label for="activity_level">Activity Level:</label>
-          <small class="form-text text-muted">Select the option that best describes your level of physical activity.</small>
-          <select name="activity_level" id="activity_level" class="form-control" required>
-            <option value="1.2">Sedentary (little to no exercise)</option>
-            <option value="1.375">Lightly Active (light exercise/sports 1-3 days/week)</option>
-            <option value="1.55">Moderately Active (moderate exercise/sports 3-5 days/week)</option>
-            <option value="1.725">Very Active (hard exercise/sports 6-7 days/week)</option>
-            <option value="1.9">Extra Active (very hard exercise/sports & physical job or 2x training)</option>
-          </select>
-        </div>
-        <div class="form-group text-center">
-          <button type="submit" name="goal" value="lose" class="btn btn-outline-primary mb-3">Lose Weight</button>
-          <button type="submit" name="goal" value="maintain" class="btn btn-outline-primary mb-3">Maintain Weight</button>
-          <button type="submit" name="goal" value="gain" class="btn btn-outline-primary mb-3">Gain Weight</button>
-        </div>
-      </form>
   </div>
+
+  <form action="/calculate_tdee" method="post" class="form-container my-4">
+    <div class="form-group">
+      <label for="weight">Weight (lbs):</label>
+      <input type="number" name="weight" id="weight" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="height">Height (inches):</label>
+      <input type="number" name="height" id="height" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="age">Age:</label>
+      <input type="number" name="age" id="age" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="gender">Gender:</label>
+      <select name="gender" id="gender" class="form-control" required>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+    </div>
+    <div class="form-group mb-4">
+      <label for="activity_level">Activity Level:</label>
+      <small class="form-text text-muted">Select the option that best describes your level of physical activity.</small>
+      <select name="activity_level" id="activity_level" class="form-control" required>
+        <option value="1.2">Sedentary (little to no exercise)</option>
+        <option value="1.375">Lightly Active (light exercise/sports 1-3 days/week)</option>
+        <option value="1.55">Moderately Active (moderate exercise/sports 3-5 days/week)</option>
+        <option value="1.725">Very Active (hard exercise/sports 6-7 days/week)</option>
+        <option value="1.9">Extra Active (very hard exercise/sports & physical job or 2x training)</option>
+      </select>
+    </div>
+    <div class="form-group text-center">
+      <button type="submit" name="goal" value="lose" class="btn btn-outline-secondary mb-3">Lose Weight</button>
+      <button type="submit" name="goal" value="maintain" class="btn btn-outline-secondary mb-3">Maintain Weight</button>
+      <button type="submit" name="goal" value="gain" class="btn btn-outline-secondary mb-3">Gain Weight</button>
+    </div>
+  </form>
+  {% if tdee_calories %}
+  <div class="row featurette tdee-result bg-dark text-white p-4 mb-4 rounded">
+    <div class="col-lg-8 offset-lg-2 text-center">
+      <h2>Your Results:</h2>
+      <p>Your goal is to: <strong>{{ tdee_goal }}</strong></p>
+      <p>Your Total Daily Energy Expenditure (TDEE) is: <strong>{{ tdee_calories|int }}</strong> calories</p>
+      <p>TDEE represents the total number of calories you burn in a day, taking into account your basal metabolic rate (BMR) and physical activity level. It provides an estimate of the calories needed to maintain your current weight.</p>
+    </div>
+  </div>
+  {% endif %}
   <div class="navigation-buttons text-center my-4">
-    <button onclick="goBack()" class="btn btn-primary">Previous Page</button>
-    <a href="{{ url_for('homepage', user_id=session['user_id']) }}" class="btn btn-primary">Home</a>
-
-</div>
-
+    <button onclick="goBack()" class="btn btn-secondary float-left">Previous Page</button>
+    <a href="{{ url_for('homepage', user_id=session['user_id']) }}" class="btn btn-secondary float-right">Home</a>
+  </div>
+  
+  
 <script>
-function goBack() {
+  function goBack() {
     window.history.back();
-}
+  }
 </script>
 {% endblock %}

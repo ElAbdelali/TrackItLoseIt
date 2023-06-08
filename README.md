@@ -1,25 +1,31 @@
-# Track it Lose it
+#Track It, Lose It
+This section provides an overview of the project's purpose and features.
 
-This is the about the project section of the Repository. 
+The "Track It, Lose It" project was created to provide a structured, accessible system for personal weight loss, weight gain or weight maintenance accountability. 
+The goal is to centralize and streamline the process of tracking health and fitness data, making it easier to stick to your weight goal journey.
 
-This project was initiated as a way to hold myself accountable for weight loss. 
+Here are some key features:
 
-I wanted a central location where I could: 
+Personalized Webpage: Each user can log into a personal account, ensuring privacy and customization.
 
-1. Login to a personalized webpage.
-2. Ability to navigate to TDEE and input the values required.
+Total Daily Energy Expenditure (TDEE) Calculation: Users can navigate to the TDEE section and input critical information such as:
 
-    a. Weight
-    b. Height
-    c. Age
-    d. Activity levels
-    
-3. Ability to input weight daily, which is then output to the user using:
+a. Weight
+b. Height
+c. Age
+d. Activity levels
 
-    a. Chart.js
-        I. Weight along the Y-Axis
-        II. Date along the X-Axis
-        
-4. Ability for the user to input daily log notes. Could include the initial weigh in for the day, workouts completed, food eaten, etc. 
-5. A way for the user to access the spoontacular web api for calorie specific recipes.
-6. A way for the user to access specific workouts utilizing myfitnesspal api. 
+These inputs allow for the calculation of the number of calories the user burns in a day, guiding dietary choices and tracking progress.
+
+Daily Weight Input and Visualization: Users can input their weight on a daily basis. This data is then graphically represented using Chart.js, with:
+
+a. Weight plotted on the Y-Axis
+b. Date plotted on the X-Axis
+
+This graphical representation helps users visualize their weight loss journey and monitor changes over time.
+
+Daily Log Notes: Users have the option to input daily notes. These notes can include various details such as the day's initial weigh-in, workouts completed, food consumed, and so on. This feature encourages users to maintain a holistic view of their health and fitness routine.
+
+Access to Spoonacular Web API: Users can access the Spoonacular Web API for calorie-specific recipes. This allows users to discover new, healthy recipes and integrate them into their meal plans, providing both variety and nutritional balance.
+
+With these features, "Track It, Lose It" aims to support users on their weight loss journeys, providing a comprehensive and user-friendly tool for tracking and analyzing their health and fitness progress.

@@ -1,0 +1,36 @@
+# Abdelali - Project Pitch
+
+A platform that allows users to record their weight and exercises, obtain their TDEE and find recipes that fit within a specific calorie range.
+
+## Background
+
+This started off as a personal project. I've always wanted a resource where I could submit my weight and exercises completed for a specific day. 
+
+I ended up creating Track it, Lose it to supplment this need.
+
+## MVP
+
+- As a user, I want to be able to have a personalized page which I can view my favorited recipes, exercise notes, and a chart displaying my weight progress.
+- As a user, I want to be able to submit my weight notes so that I can reference them at a later time (Track which body group I've done for the week vs which I haven't)
+- As a user, I want to be able to get an accurate TDEE based on my Weight, Age, Height and Activity level using Mifflin-St Jeor Equation.
+- As a user, I want to be able to view my weight progress over time via a line graph.
+- As a user, I want to be able to request and view a recipe, its ingredients and its instructions based on min and max calories.
+
+## Tech stack
+
+- **Database:** PostgreSQL
+- **Backend:** Python 3
+- **Frontend:** HTML, CSS, Bootstrap, Javascript for dom manipulation
+
+### Dependencies
+
+- Python packages:
+  - SQLAlchemy ORM
+  - Flask
+  - Jinja
+- APIs/external data sources:
+  - Spoonacular API
+- Browser/client-side dependencies:
+  - Bootstrap
+  - React
+

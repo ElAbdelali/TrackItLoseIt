@@ -49,7 +49,7 @@ To set up Track It, Lose It locally, follow these steps:
    ```
 
 ## Author
-[Abdelali Eljaouhari] | [Github](https://github.com/ElAbdelali/TrackItLoseIt), [LinkedIn](https://www.linkedin.com/in/ali-eljaouhari/)
+Abdelali Eljaouhari, Hackbright Graduate
+[Github](https://github.com/ElAbdelali/TrackItLoseIt)
+[LinkedIn](https://www.linkedin.com/in/ali-eljaouhari/)
 
-[Github]: <https://github.com/ElAbdelali>
-[LinkedIn]: <https://www.linkedin.com/in/ali-eljaouhari/>

@@ -121,7 +121,7 @@ def weight_notes():
         weight_value = request.form.get('weight_value')
         date = request.form.get('date')
 
-        weight_notes = crud.WeightNotes(user_id=user_id, workouts_done=workouts_done, weight_value=weight_value, date=date)
+        weight_notes = crud.create_weight_note(user_id=user_id, workouts_done=workouts_done, weight_value=weight_value, date=date)
 
         db.session.add(weight_notes)
         db.session.commit()

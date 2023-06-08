@@ -19,6 +19,7 @@
   <div class="my-4">
     <div class="container my-4">
       <form action="{{ url_for('weight_notes') }}" method="post" class="form-container my-4">
+        <input type="hidden" name="user_id" value="{{ user_id }}">
         <div class="form-group">
           <label for="workouts_done">Workouts Done:</label>
           <textarea name="workouts_done" id="workouts_done" class="form-control" rows="5"></textarea>
@@ -32,11 +33,12 @@
           <input type="date" name="date" id="date" class="form-control" required>
         </div>
         <div class="text-center mt-2">
-          <button type="submit" class="btn btn-secondary">Add Note</button>
+          <button type="submit" class="btn btn-outline-secondary mb-3">Add Note</button>
         </div>
       </form>
     </div>
   </div>
+
 
   <h2 class="text-center my-4">Existing Weight Notes:</h2>
 

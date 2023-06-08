@@ -16,7 +16,16 @@
       </div>
     </div>
   </div>
-
+  {% if tdee_calories %}
+  <div class="row featurette tdee-result bg-dark text-white p-4 mb-4 rounded">
+    <div class="col-lg-8 offset-lg-2 text-center">
+      <h2>Your Results:</h2>
+      <p>Your goal is to: <strong>{{ tdee_goal }}</strong></p>
+      <p>Your Total Daily Energy Expenditure (TDEE) is: <strong>{{ tdee_calories|int }}</strong> calories</p>
+      <p>TDEE represents the total number of calories you burn in a day, taking into account your basal metabolic rate (BMR) and physical activity level. It provides an estimate of the calories needed to maintain your current weight.</p>
+    </div>
+  </div>
+  {% endif %}
   <form action="/calculate_tdee" method="post" class="form-container my-4">
     <div class="container my-4">
       <div class="form-group">
@@ -65,16 +74,6 @@
       </div>
     </div>
   </form>
-  {% if tdee_calories %}
-  <div class="row featurette tdee-result bg-dark text-white p-4 mb-4 rounded">
-    <div class="col-lg-8 offset-lg-2 text-center">
-      <h2>Your Results:</h2>
-      <p>Your goal is to: <strong>{{ tdee_goal }}</strong></p>
-      <p>Your Total Daily Energy Expenditure (TDEE) is: <strong>{{ tdee_calories|int }}</strong> calories</p>
-      <p>TDEE represents the total number of calories you burn in a day, taking into account your basal metabolic rate (BMR) and physical activity level. It provides an estimate of the calories needed to maintain your current weight.</p>
-    </div>
-  </div>
-  {% endif %}
   <div class="form-group text-center my-4">
     <button onclick="goBack()" class="btn btn-outline-secondary mb-3 float-left">Previous Page</button>
     <a href="{{ url_for('homepage', user_id=session['user_id']) }}" class="btn btn-outline-secondary mb-3 float-right">Home</a>

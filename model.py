@@ -143,4 +143,11 @@ if __name__ == '__main__':
     from server import app
     
     connect_to_db(app)
-  
+    import os
+    
+    os.system("dropdb trackitloseit --if-exists")
+    os.system("createdb trackitloseit")
+    connect_to_db(app)
+    # Create the tables
+    db.drop_all()
+    db.create_all()

@@ -1,19 +1,3 @@
-#Track It, Lose It
-Hackbright Capstone Project
-
-Track it, Lose it is a web application that 
-
-#Features
-- Landing page urging new users to register
-- Personalized home-page which displays weight notes, weight progress over time, current goal alongside TDEE and favorited recipes
-- Ability to calculate TDEE based on user input: Weight, Age, Height, and activity levels
-- Ability to track weight and exercise and view existing weight notes
-- Ability to find recipes via minimum calories, maximum calories and number of recipes user input
-- Chart displaying Weight progress overtime 
-
-
-
-
 # Track It, Lose It
 ## _Hackbright Capstone Project_
 
@@ -39,7 +23,7 @@ To set up Track It, Lose It locally, follow these steps:
 
 1. Clone this repository to your local machine:
    ```sh
-   git clone https://github.com/ElAbdelali/TrackItLoseIt
+   git clone https://github.com/ElAbdelali/TrackItLoseIt.git
    ```
 
 2. Navigate to the project's root directory in your command line interface.
@@ -65,7 +49,7 @@ To set up Track It, Lose It locally, follow these steps:
    ```
 
 ## Author
-[Abdelali Eljaouhari] | [https://github.com/ElAbdelali/TrackItLoseIt], [https://www.linkedin.com/in/ali-eljaouhari/]
+[Abdelali Eljaouhari] | [Github](https://github.com/ElAbdelali/TrackItLoseIt), [LinkedIn](https://www.linkedin.com/in/ali-eljaouhari/)
 
 [Github]: <https://github.com/ElAbdelali>
 [LinkedIn]: <https://www.linkedin.com/in/ali-eljaouhari/>

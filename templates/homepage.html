@@ -3,108 +3,125 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-  {% if user %}
-    <main class="container py-5" role="main">
-      {% if user.tdee %}
-        <section class="tdee-result bg-dark text-white p-4 mb-4 rounded text-center">
-          <div class="container">
-            <h2 class="featurette-heading">Welcome back, {{ user.first_name }} {{ user.last_name }}!</h2>
-            <p>Your current goal is to:
-              {% if goal == 'lose' %}
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray" class="bi bi-arrow-down-circle-fill" viewBox="0 0 16 16">
-                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
-                </svg>
-                    <strong>Lose Weight</strong>
-              {% elif goal == 'gain' %}
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-circle-fill" viewBox="0 0 16 16">
-                  <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
-                </svg>
-                    Gain Weight
-              {% else %}
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
-                  <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
-                </svg>
-                    Maintain Weight
-              {% endif %}
-            </p>
-            <p>Your Total Daily Energy Expenditure (TDEE) is: <strong>{{ tdee|int }}</strong> calories</p>
-          </div>
-        </section>
-      {% endif %}
-      <div class="row">
-        <aside class="col-md-6 mb-4">
+{% if user %}
+  <main class="container py-5" role="main">
+    {% if user.tdee %}
+      <section class="tdee-result bg-dark text-white p-4 mb-4 rounded text-center">
+        <div class="container">
+          <h2 >Welcome back, {{ user.first_name }} {{ user.last_name }}!</h2>
+          <p>Your current goal is to:
+            {% if goal == 'lose' %}
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray" class="bi bi-arrow-down-circle-fill" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
+              </svg>
+                  <strong>Lose Weight</strong>
+            {% elif goal == 'gain' %}
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-circle-fill" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
+              </svg>
+                  Gain Weight
+            {% else %}
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
+                <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+              </svg>
+                  Maintain Weight
+            {% endif %}
+          </p>
+          <p>Your Total Daily Energy Expenditure (TDEE) is: <strong>{{ tdee|int }}</strong> calories</p>
+        </div>
+      </section>
+    {% endif %}
+    <div class="row">
+      <aside class="col-md-6 mb-4">
           <div class="weight-notes bg-light p-4 rounded" style="max-height: 500px; overflow-y: auto;">
-            {% if user.weight_notes %}
+              {% if user.weight_notes %}
               <h2 class="mb-3 text-center">Your Weight Notes</h2>
               <p class="text-center">Here are your recent weight notes. Each note represents a workout session and your weight on that day.</p>
-              <ul class="list-group">
-                {% for note in user.weight_notes|sort(attribute='date', reverse=True) %}
-                  <li class="list-group-item">
-                    <h5 class="card-title">Workout done: {{ note.workouts_done }}</h5>
-                    <p class="card-text">Weight: {{ note.weight_value }}</p>
-                    <p class="card-text">Date: {{ note.date.strftime('%m-%d-%Y') }}</p>
-                  </li>
-                {% endfor %}
-              </ul>
-            {% else %}
-              <div class="alert alert-info">
-                <h4 class="text-center">You don't have any weight notes yet.</h4>
-                <p class="text-center">Start tracking your workouts by <a href="{{ url_for('weight_notes') }}" class="alert-link">navigating to the Workouts section</a>.</p>
-              </div>
-            {% endif %}
-          </div>
-        </aside>
-        <section class="col-md-6 mb-4">
-          <div class="chart-section bg-light p-4 rounded" style="height: 500px;">
-            {% if user.weight_notes %}
-              <h2 class="text-center">Your Progress</h2>
-              <p class="text-center">This chart displays your weight progress over time.</p>
-              <div id="chart-container" class="mb-3">
-                <canvas id="line-chart"></canvas>
-              </div>
-            {% else %}
-              <div class="alert alert-info">
-                <h4 class="text-center">You don't have any chart data yet.</h4>
-                <p class="text-center">Start tracking your weight in the <a href="{{ url_for('weight_notes') }}" class="alert-link">Weight Tracker section</a>.</p>
-              </div>
-            {% endif %}
-          </div>
-        </section>
-      </div>
-      <section class="favorites" style="max-height: 500px; overflow-y: auto;">
-        {% if user.favorites %}
-          <h2 class="text-center">Your Favorite Recipes</h2>
-          <p class="text-center">Below are your favorite recipes. You can remove them from your favorites or view the ingredients.</p>
-          <div class="row justify-content-center">
-            {% for favorite in user.favorites %}
-              <div class="col-md-4 mb-4">
-                <div class="card">
-                  <img src="{{ favorite.recipes.recipe_image_url }}" alt="{{ favorite.recipes.recipe_name }}" class="card-img-top">
-                  <div class="card-body text-center">
-                    <h5 class="card-title">{{ favorite.recipes.recipe_name }}</h5>
-                    <p class="card-text">Calories: {{ favorite.recipes.calories }}</p>
-                    <div class="d-flex justify-content-around">
-                      <form action="{{ url_for('remove_favorite', recipe_id=favorite.recipe_id) }}" method="post">
-                        <button type="submit" class="btn btn-danger">Remove from Favorites</button>
-                      </form>
-                      <form action="{{ url_for('view_recipe_ingredients', recipe_id=favorite.recipes.recipe_source_id) }}" method="get">
-                        <button type="submit" class="btn btn-secondary">View Ingredients</button>
-                      </form>
-                    </div>
+              <div id="accordion">
+                  {% for note in user.weight_notes|sort(attribute='date', reverse=True) %}
+                  <div class="card">
+                      <div class="card-header" id="heading-{{ loop.index }}">
+                          <h5 class="mb-0 text-center">
+                              <button class="btn" data-toggle="collapse" data-target="#collapse-{{ loop.index }}" aria-expanded="true" aria-controls="collapse-{{ loop.index }}">
+                                {{ note.date.strftime('%B %-d, %Y') }} Weight Note
+                              </button>
+                          </h5>
+                      </div>
+  
+                      <div id="collapse-{{ loop.index }}" class="collapse" aria-labelledby="heading-{{ loop.index }}" data-parent="#accordion">
+                          <div class="card-body">
+                              <h5 class="card-title">Workouts Done:</h5>
+                              <p class="card-text">
+                                  {% for workout in note.workouts_done.split('\n') %}
+                                  {{ workout }}<br>
+                                  {% endfor %}
+                              </p>
+                              <h5 class="card-title">Weight:</h5>
+                              <p class="card-text">{{ note.weight_value }}</p>
+                          </div>
+                      </div>
+                  </div>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <div class="alert alert-info bg-dark">
+              <h4 class="text-center text-white">You don't have any weight notes yet.</h4>
+              <p class="text-center text-white">Start tracking your workouts by <a href="{{ url_for('weight_notes') }}" class="alert-link text-white">navigating to the Workouts section</a>.</p>
+            </div>
+          {% endif %}
+        </div>
+      </aside>
+      <section class="col-md-6 mb-4">
+        <div class="chart-section bg-light p-4 rounded" style="height: 500px;">
+          {% if user.weight_notes %}
+            <h2 class="text-center">Your Progress</h2>
+            <p class="text-center">This chart displays your weight progress over time.</p>
+            <div id="chart-container" class="mb-3">
+              <canvas id="line-chart"></canvas>
+            </div>
+          {% else %}
+            <div class="alert bg-dark">
+              <h4 class="text-center text-white">You don't have any chart data yet.</h4>
+              <p class="text-center text-white">Start tracking your weight in the <a href="{{ url_for('weight_notes') }}" class="alert-link text-white">Weight Tracker section</a>.</p>
+            </div>
+          {% endif %}
+        </div>
+      </section>
+    </div>
+    <section class="favorites" style="max-height: 500px; overflow-y: auto;">
+      {% if user.favorites %}
+        <h2 class="text-center">Your Favorite Recipes</h2>
+        <p class="text-center">Below are your favorite recipes. You can remove them from your favorites or view the ingredients.</p>
+        <div class="row justify-content-center">
+          {% for favorite in user.favorites %}
+            <div class="col-md-4 mb-4">
+              <div class="card">
+                <img src="{{ favorite.recipes.recipe_image_url }}" alt="{{ favorite.recipes.recipe_name }}" class="card-img-top">
+                <div class="card-body text-center">
+                  <h5 class="card-title">{{ favorite.recipes.recipe_name }}</h5>
+                  <p class="card-text">Calories: {{ favorite.recipes.calories }}</p>
+                  <div class="d-flex justify-content-around">
+                    <form action="{{ url_for('remove_favorite', recipe_id=favorite.recipe_id) }}" method="post">
+                      <button type="submit" class="btn btn-danger">Remove from Favorites</button>
+                    </form>
+                    <form action="{{ url_for('view_recipe_ingredients', recipe_id=favorite.recipes.recipe_source_id) }}" method="get">
+                      <button type="submit" class="btn btn-secondary">View Ingredients</button>
+                    </form>
                   </div>
                 </div>
               </div>
-            {% endfor %}
-          </div>
-        {% else %}
-          <div class="alert alert-info">
-            <h4 class="text-center">You don't have any favorite recipes yet.</h4>
-            <p class="text-center">Discover delicious recipes in the <a href="{{ url_for('recipes') }}" class="alert-link">Recipes section</a>.</p>
-          </div>
-        {% endif %}
-      </section>
-    </main>
-  {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="alert bg-dark">
+          <h4 class="text-center text-white">You don't have any favorite recipes yet.</h4>
+          <p class="text-center text-white">Discover delicious recipes in the <a href="{{ url_for('recipes') }}" class="alert-link text-white">Recipes section</a>.</p>
+        </div>
+      {% endif %}
+    </section>
+  </main>
+{% endif %}
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>

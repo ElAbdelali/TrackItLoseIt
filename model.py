@@ -137,15 +137,10 @@ def connect_to_db(flask_app, db_uri="postgresql:///trackitloseit", echo=True):
     db.app = flask_app
     db.init_app(flask_app)
 
-    print("Connected to the db!")
+    print("Connected to trackitloseit db!")
     
 if __name__ == '__main__':
     from server import app
-    import os
     
-    os.system("dropdb trackitloseit --if-exists")
-    os.system("createdb trackitloseit")
     connect_to_db(app)
-    # Create the tables
-    db.drop_all()
-    db.create_all()
+  

@@ -1,70 +1,68 @@
 {% extends 'base.html' %}
 {% block title %}Request a Recipe{% endblock %}
 {% block content %}
-  <!-- Infographic section -->
-  <section class="instructions-section my-4">
-    <h2 class="text-center">How to Use This Form</h2>
-    <p class="text-center">To get custom recipe suggestions, just follow these simple steps:</p>
-    <ol class="container my-4">
-        <li><strong>Minimum Calories:</strong> Enter the minimum amount of calories you want your meals to contain.</li>
-        <li><strong>Maximum Calories:</strong> Enter the maximum amount of calories you want your meals to contain.</li>
-        <li><strong>Number of Recipes:</strong> Specify the number of recipe suggestions you want to receive.</li>
-        <li><strong>Get Recipes:</strong> Click on this button to receive your personalized recipe suggestions based on the values you've entered above.</li>
-    </ol>
-  </section>
+<h1 class="text-center">Request a Recipe</h1>
 
-<div class="container my-4">
-  <h1 class="text-center">Request a Recipe</h1>
+<section class="instructions-section my-4">
+  <p class="text-center">To get custom recipe suggestions, just follow these simple steps:</p>
+  <ol class="container my-4">
+      <li><strong>Minimum Calories:</strong> Enter the minimum amount of calories you want your meals to contain.</li>
+      <li><strong>Maximum Calories:</strong> Enter the maximum amount of calories you want your meals to contain.</li>
+      <li><strong>Number of Recipes:</strong> Specify the number of recipe suggestions you want to receive.</li>
+      <li><strong>Get Recipes:</strong> Click on this button to receive your personalized recipe suggestions based on the values you've entered above.</li>
+  </ol>
+</section>
+
   <form action="/recipes" method="post" class="form-container my-4">
+  <div class="container my-4">
     <div class="form-group">
       <label for="min_calories">Minimum Calories:</label>
       <input type="number" id="min_calories" name="min_calories" class="form-control" required>
     </div>
-  
+
     <div class="form-group">
       <label for="max_calories">Maximum Calories:</label>
       <input type="number" id="max_calories" name="max_calories" class="form-control" required>
     </div>
-  
+
     <div class="form-group">
       <label for="num_recipes">Number of Recipes:</label>
       <input type="number" id="num_recipes" name="num_recipes" class="form-control" required>
     </div>
-  
-    <div class="text-center mt-2">
-      <input type="submit" class="btn btn-secondary" value="Get Recipes">
+
+    <div class="form-group text-center my-4">
+      <input type="submit" class="btn btn-outline-secondary mb-3"  value="Get Recipes">
     </div>
   </form>
-  
-</div>
-  <div class="container my-4">
-    <h2 class="text-center">Popular Recipes</h2>
-    <div class="row">
-      <div class="col">
-        <img class="img-fluid" src="https://media.cnn.com/api/v1/images/stellar/prod/170206165040-dubai-michelin-dining-boca.jpg" alt="First slide">
-      </div>
-      <div class="col">
-        <img class="img-fluid" src="https://media.cnn.com/api/v1/images/stellar/prod/170302150650-chicken-rice-singapore.jpg" alt="Second slide">
-      </div>
-      <div class="col">
-        <img class="img-fluid" src="https://media.cnn.com/api/v1/images/stellar/prod/170920150817-chicken-parm.jpg" alt="Third slide">
-      </div>
-    </div>
   </div>
+<div class="container my-4">
+  <h2 class="text-center">Popular Recipes</h2>
+  <div class="row">
+    <div class="col">
+      <img class="img-fluid" src="https://media.cnn.com/api/v1/images/stellar/prod/170206165040-dubai-michelin-dining-boca.jpg" alt="First slide">
+    </div>
+    <div class="col">
+      <img class="img-fluid" src="https://media.cnn.com/api/v1/images/stellar/prod/170302150650-chicken-rice-singapore.jpg" alt="Second slide">
+    </div>
+    <div class="col">
+      <img class="img-fluid" src="https://media.cnn.com/api/v1/images/stellar/prod/170920150817-chicken-parm.jpg" alt="Third slide">
     </div>
   </div>
 </div>
-<div class="navigation-buttons text-center my-4">
-  <button onclick="goBack()" class="btn btn-secondary float-left">Previous Page</button>
-  <a href="{{ url_for('homepage', user_id=session['user_id']) }}" class="btn btn-secondary float-right">Home</a>
+  </div>
 </div>
+</div>
+<div class="form-group text-center my-4">
+  <button onclick="goBack()" class="btn btn-outline-secondary mb-3 float-left">Previous Page</button>
+  <a href="{{ url_for('homepage', user_id=session['user_id']) }}" class="btn btn-outline-secondary mb-3 float-right">Home</a>
+</div>
+
 
 
 
 <script>
 function goBack() {
-    window.history.back();
+  window.history.back();
 }
 </script>
 {% endblock %}
- 

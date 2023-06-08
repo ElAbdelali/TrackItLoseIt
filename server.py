@@ -3,22 +3,34 @@ from flask import (Flask, render_template, request, flash, session, jsonify,
 import datetime
 from model import connect_to_db, db
 from jinja2 import StrictUndefined
-import crud, model
+import crud
 import re
 from crud import create_user
 from spoonacularsearch import get_recipe_ingredients, find_recipes_by_calories, get_recipe_steps
 from dateutil.relativedelta import relativedelta
+from functools import wraps
+import os
 
 
 app = Flask(__name__)
-app.secret_key = "trackitloseit"
+app.secret_key = os.environ.get('FLASK_SECRET_KEY')
 app.jinja_env.undefined = StrictUndefined
+
 @app.route('/')
 def landing_page():
     """View landing page."""
     return render_template('landing_page.html')
 
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session:
+            return redirect(url_for('login', next=request.url))
+        return f(*args, **kwargs)
+    return decorated_function
+
 @app.route('/home/user/<int:user_id>')
+@login_required
 def homepage(user_id):
     """View personalized Home"""
     user = crud.get_user_by_id(user_id)
@@ -39,8 +51,6 @@ def homepage(user_id):
         goal = None
 
     return render_template('homepage.html', user=user, weight_notes=weight_notes, favorite_recipes=favorite_recipes, tdee=tdee, goal=goal)
-
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -205,7 +215,6 @@ def view_recipe_ingredients(recipe_id):
     
     return render_template('recipe_ingredients.html', ingredients=ingredients, recipe=recipe, recipe_instructions=recipe_instructions)
 
-
 @app.route('/recipe/<int:recipe_source_id>/favorite', methods=['POST'])
 def add_recipe_to_favorites(recipe_source_id):
     user_id = session.get('user_id')  
@@ -234,8 +243,6 @@ def add_recipe_to_favorites(recipe_source_id):
     flash('Recipe added to favorites.', 'success')
     return redirect(url_for('recipes'))
 
-
-
 @app.route('/remove-favorite/<int:recipe_id>', methods=['POST'])
 def remove_favorite(recipe_id):
     user_id = session.get('user_id')
@@ -245,26 +252,9 @@ def remove_favorite(recipe_id):
         db.session.delete(favorite)
         db.session.commit()
 
-    return redirect(url_for('homepage'))
-
-
-
-def connect_to_db(flask_app, db_uri="postgresql:///trackitloseit", echo=True):
-    flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
-    flask_app.config["SQLALCHEMY_ECHO"] = echo
-    flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
-    db.app = flask_app
-    db.init_app(flask_app)
-
-    # # Create or recreate the tables
-    # with flask_app.app_context():
-    #     db.drop_all()
-    #     db.create_all()
-
-    print("Connected to the db!")
+    return redirect(url_for('homepage', user_id=user_id))
 
 if __name__ == "__main__":
     connect_to_db(app)
-    app.run(host="0.0.0.0", debug=True)
+    app.run("localhost", "5000", debug=True)
 

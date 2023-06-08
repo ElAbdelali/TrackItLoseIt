@@ -2,49 +2,51 @@
 {% block title %}Recipes{% endblock %}
 {% block content %}
 <div class="container">
-    <h1 class="text-center my-4">Recipes</h1>
-    <section class="instructions-section my-4">
-        <h2 class="text-center">How to Navigate</h2>
-        <p class="text-center">This is the Recipes section where you can browse, view details, and add your favorite recipes. Here's how you can navigate:</p>
-        <ol>
-            <li><strong>Browse Recipes:</strong> Scroll through the list of recipes. Each recipe is presented in a card format with an image, the name of the recipe, and the number of calories.</li>
-            <li><strong>View Recipe Details:</strong> To view more details about a recipe, such as its ingredients, click on the recipe card. You will be redirected to the recipe's details page.</li>
-            <li><strong>Add to Favorites:</strong> If you find a recipe you like, you can add it to your favorites for easy access later. Simply click the "Add to Favorites" button located at the bottom of each recipe card.</li>
-        </ol>
-    </section>
-    {% if recipes %}
-        <div class="row">
-            {% for recipe in recipes %}
-                <div class="col-md-4 mb-4">
-                    <a href="{{ url_for('view_recipe_ingredients', recipe_id=recipe.recipe_source_id) }}" class="text-decoration-none text-dark card-link">
-                        <div class="card mb-4 shadow-sm h-100 text-center">
-                            <img class="card-img-top" src="{{ recipe.recipe_image_url }}" alt="Recipe Image">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ recipe.recipe_name }}</h5>
-                                <p class="card-text">Calories: {{ recipe.calories }}</p>
-                            </div>
-                            <div class="card-footer text-center">
-                                <form action="/recipe/{{ recipe.recipe_source_id }}/favorite" method="post" class="d-inline">
-                                    <input type="submit" class="btn btn-secondary" value="Add to Favorites">
-                                </form>
-                            </div>
+<h1 class="text-center my-4">Recipes</h1>
+<section class="instructions-section my-4">
+    <h2 class="text-center">How to Navigate</h2>
+    <p class="text-center">This is the Recipes section where you can browse, view details, and add your favorite recipes. Here's how you can navigate:</p>
+    <ol>
+        <li><strong>Browse Recipes:</strong> Scroll through the list of recipes. Each recipe is presented in a card format with an image, the name of the recipe, and the number of calories.</li>
+        <li><strong>View Recipe Details:</strong> To view more details about a recipe, such as its ingredients, click on the recipe card. You will be redirected to the recipe's details page.</li>
+        <li><strong>Add to Favorites:</strong> If you find a recipe you like, you can add it to your favorites for easy access later. Simply click the "Add to Favorites" button located at the bottom of each recipe card.</li>
+    </ol>
+</section>
+{% if recipes %}
+    <div class="row">
+        {% for recipe in recipes %}
+            <div class="col-md-4 mb-4">
+                <a href="{{ url_for('view_recipe_ingredients', recipe_id=recipe.recipe_source_id) }}" class="text-decoration-none text-dark card-link">
+                    <div class="card mb-4 shadow-sm h-100 text-center">
+                        <img class="card-img-top" src="{{ recipe.recipe_image_url }}" alt="Recipe Image">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ recipe.recipe_name }}</h5>
+                            <p class="card-text">Calories: {{ recipe.calories }}</p>
                         </div>
-                    </a>
-                </div>
-            {% endfor %}
-        </div>
-    {% else %}
-        <p class="text-center my-4">No recipes found.</p>
-    {% endif %}
+                        <div class="card-footer text-center">
+                            <form action="/recipe/{{ recipe.recipe_source_id }}/favorite" method="post" class="d-inline">
+                                <input type="submit" class="btn btn-secondary" value="Add to Favorites">
+                            </form>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="text-center my-4">No recipes found.</p>
+{% endif %}
 </div>
-<div class="navigation-buttons text-center my-4">
-    <button onclick="goBack()" class="btn btn-secondary float-left">Previous Page</button>
-    <a href="{{ url_for('homepage', user_id=session['user_id']) }}" class="btn btn-secondary float-right">Home</a>
+
+<div class="form-group text-center my-4">
+    <button onclick="goBack()" class="btn btn-outline-secondary mb-3 float-left">Previous Page</button>
+    <a href="{{ url_for('homepage', user_id=session['user_id']) }}" class="btn btn-outline-secondary mb-3 float-right">Home</a>
   </div>
+  
 
 <script>
 function goBack() {
-    window.history.back();
+window.history.back();
 }
 </script>
 {% endblock %}

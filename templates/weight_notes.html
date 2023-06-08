@@ -4,76 +4,83 @@
 
 {% block content %}
 <div class="container my-4">
-    <h1 class="text-center">Weight Notes</h1>  
-    <section class="instructions-section my-4">
-        <h2 class="text-center">How to Use</h2>
-        <p class="text-center">The Weight Notes section allows you to keep track of your workouts and weight on a daily basis. Here's how you can use it:</p>
-        <ol>
-            <li><strong>Workouts Done:</strong> Enter the details of the workouts you've done in this text area.</li>
-            <li><strong>Weight:</strong> Enter your weight for the day in this field. Please use the same unit of measurement consistently for accurate tracking.</li>
-            <li><strong>Date:</strong> Enter the date of when the workouts were done.</li>
-            <li>Click on the <strong>Add Note</strong> button to save your entry. It will appear in the Existing Weight Notes section below.</li>
-        </ol>
-    </section>
-    <form action="{{ url_for('weight_notes') }}" method="post" class="form-container my-4">
-        <input type="hidden" name="user_id" value="{{ user_id }}"> 
+  <h1 class="text-center">Weight Notes</h1>  
+  <section class="instructions-section my-4">
+    <h2 class="text-center">How to Use</h2>
+    <p class="text-center">The Weight Notes section allows you to keep track of your workouts and weight on a daily basis. Here's how you can use it:</p>
+    <ol>
+        <li><strong>Workouts Done:</strong> Enter the details of the workouts you've done in this text area.</li>
+        <li><strong>Weight:</strong> Enter your weight for the day in this field. Please use the same unit of measurement consistently for accurate tracking.</li>
+        <li><strong>Date:</strong> Enter the date of when the workouts were done.</li>
+        <li>Click on the <strong>Add Note</strong> button to save your entry. It will appear in the Existing Weight Notes section below.</li>
+    </ol>
+  </section>
+
+  <div class="my-4">
+    <div class="container my-4">
+      <form action="{{ url_for('weight_notes') }}" method="post" class="form-container my-4">
         <div class="form-group">
-            <label for="workouts_done">Workouts Done:</label>
-            <textarea name="workouts_done" id="workouts_done" class="form-control" rows="5"></textarea>
+          <label for="workouts_done">Workouts Done:</label>
+          <textarea name="workouts_done" id="workouts_done" class="form-control" rows="5"></textarea>
         </div>
         <div class="form-group">
-            <label for="weight_value">Weight:</label>
-            <input type="text" name="weight_value" id="weight_value" class="form-control">
+          <label for="weight_value">Weight:</label>
+          <input type="text" name="weight_value" id="weight_value" class="form-control" required>
         </div>
         <div class="form-group">
-            <label for="date">Date:</label>
-            <input type="date" name="date" id="date" class="form-control">
+          <label for="date">Date:</label>
+          <input type="date" name="date" id="date" class="form-control" required>
         </div>
         <div class="text-center mt-2">
-            <button type="submit" class="btn btn-secondary">Add Note</button>
+          <button type="submit" class="btn btn-secondary">Add Note</button>
         </div>
-    </form>
+      </form>
+    </div>
+  </div>
 
-    <h2 class="text-center my-4">Existing Weight Notes:</h2>
+  <h2 class="text-center my-4">Existing Weight Notes:</h2>
 
+  <div class="my-4">
     <div class="accordion" id="weightNotesAccordion">
-        {% for note in weight_notes|sort(attribute='date', reverse=True) %}
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="heading{{ note.id }}">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ note.id }}" aria-expanded="false" aria-controls="collapse{{ note.id }}">
-                    {{ note.date.strftime('%A, %B %d, %Y') }}
-                </button>
-            </h2>
-            <div id="collapse{{ note.id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ note.id }}" data-bs-parent="#weightNotesAccordion">
-                <div class="accordion-body">
-                    <strong>Workouts:</strong> 
-                    <ul>
-                    {% for workout in note.workouts_done.split('\n') %}
-                        <li>{{ workout }}</li>
-                    {% endfor %}
-                    </ul>
-                    <strong>Weight:</strong> {{ note.weight_value }}
-                </div>
-            </div>
+      {% for note in weight_notes|sort(attribute='date', reverse=True) %}
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="heading{{ note.id }}">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ note.id }}" aria-expanded="false" aria-controls="collapse{{ note.id }}">
+            {{ note.date.strftime('%A, %B %d, %Y') }}
+          </button>
+        </h2>
+        <div id="collapse{{ note.id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ note.id }}" data-bs-parent="#weightNotesAccordion">
+          <div class="accordion-body">
+            <strong>Workouts:</strong> 
+            <ul>
+            {% for workout in note.workouts_done.split('\n') %}
+              <li>{{ workout }}</li>
+            {% endfor %}
+            </ul>
+            <strong>Weight:</strong> {{ note.weight_value }}
+          </div>
         </div>
-        {% endfor %}
-    </div>    
+      </div>
+      {% endfor %}
+    </div>
+  </div>    
+
 </div>
 
-<div class="navigation-buttons text-center my-4">
-    <button onclick="goBack()" class="btn btn-secondary float-left">Previous Page</button>
-    <a href="{{ url_for('homepage', user_id=session['user_id']) }}" class="btn btn-secondary float-right">Home</a>
-  </div>
+<div class="form-group text-center my-4">
+  <button onclick="goBack()" class="btn btn-outline-secondary mb-3 float-left">Previous Page</button>
+  <a href="{{ url_for('homepage', user_id=session['user_id']) }}" class="btn btn-outline-secondary mb-3 float-right">Home</a>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
 <script>
 function goBack() {
-    window.history.back();
+  window.history.back();
 }
 </script>
 
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-
 {% endblock %}
-

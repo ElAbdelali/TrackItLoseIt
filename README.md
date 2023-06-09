@@ -14,9 +14,12 @@ Track It, Lose It is a Web Application developed to provide a structured and acc
 Category | Tech
 --- | --- 
 **Backend** | Flask, Python, PostgreSQL, SQLAlchemy
-**Frontend** | JavaScript, HTML, CSS, Bootstrap, jQuery
+**Frontend** | JavaScript, HTML, CSS, Bootstrap
 **API** | Spoonacular API
 **Other** |  Jinja
+
+## TDEE Calculation based on User input in Track it, Lose it
+![TDEE Calculation](Documents/TrackItLoseIt/static/gifsforreadme/TDEE.gif)
 
 ## Installation
 To set up Track It, Lose It locally, follow these steps:

@@ -19,7 +19,7 @@ Category | Tech
 **Other** |  Jinja
 
 ## TDEE Calculation based on User input in Track it, Lose it
-![TDEE Calculation](Documents/TrackItLoseIt/static/gifsforreadme/TDEE.gif)
+![TDEE Calculation](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTI0MzMxYjc3NTNmMDU0YjcxNWI1NWE1NDdjYTRhNjE4ZGZjNDQzZSZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/6H3Mo9uakSttH3zki9/giphy.gif)
 
 ## Installation
 To set up Track It, Lose It locally, follow these steps:

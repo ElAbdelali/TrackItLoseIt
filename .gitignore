@@ -1,1 +1,4 @@
 secrets.sh
+env
+data
+__pycache__

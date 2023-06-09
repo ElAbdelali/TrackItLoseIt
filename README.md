@@ -9,6 +9,7 @@ Track It, Lose It is a Web Application developed to provide a structured and acc
 - **Daily Weight Input and Visualization**: Users can record their weight daily, and the application visually represents this data using Chart.js. The graphical representation allows users to monitor their weight loss or gain over time.
 - **Daily Log Notes**: Users can input daily notes, including details such as weigh-ins, workouts, and food consumed. This feature encourages users to maintain a holistic view of their health and fitness routines.
 - **Access to Spoonacular Web API**: The application integrates with the Spoonacular Web API, allowing users to search for calorie-specific recipes. This feature helps users discover new, healthy recipes and incorporate them into their meal plans.
+- **Ability to Favorite/Delete Favorited Recipes**: The application allows easy reference to favorited recipes, their ingredients, and recipe instructions. Users can also utilize the delete favorite button to remove used recipes.
 
 ## Tech Stack
 Category | Tech
@@ -42,19 +43,18 @@ To set up Track It, Lose It locally, follow these steps:
    git clone https://github.com/ElAbdelali/TrackItLoseIt.git
    ```
 
-2. Navigate to the project's root directory in your command line interface.
-3. Set up a virtual environment:
+2. Navigate to the project's root directory in your command line interface and set up a virtual environment:
    ```sh
    virtualenv env
    source env/bin/activate
    ```
 
-4. Install the required dependencies:
+3. Install the required dependencies:
    ```sh
    pip3 install -r requirements.txt
    ```
 
-5. Create trackitloseit db in PostgreSQL and run the model.py to create the tables. Make sure you have PostgreSQL installed:
+4. Create trackitloseit db in PostgreSQL and run the model.py to create the tables. Make sure you have PostgreSQL installed:
    ```sh
    python3 model.py
    ```
@@ -66,6 +66,5 @@ To set up Track It, Lose It locally, follow these steps:
 
 ## Author
 Abdelali Eljaouhari, Hackbright Graduate <br>
-[Github](https://github.com/ElAbdelali/TrackItLoseIt) <br>
-[LinkedIn](https://www.linkedin.com/in/ali-eljaouhari/)
+[Github](https://github.com/ElAbdelali/TrackItLoseIt) | [LinkedIn](https://www.linkedin.com/in/ali-eljaouhari/)
 

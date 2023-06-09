@@ -18,8 +18,17 @@ Category | Tech
 **API** | Spoonacular API
 **Other** |  Jinja
 
-# TDEE Calculation based on User input in Track it, Lose it
+TDEE Calculation interface:
 ![TDEE Calculation](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTI0MzMxYjc3NTNmMDU0YjcxNWI1NWE1NDdjYTRhNjE4ZGZjNDQzZSZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/6H3Mo9uakSttH3zki9/giphy.gif)
+
+Exercise and Weight Notes Interface:
+![Weight and Exercise Notes](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExN2Q3Y2ViZjhhODZjYTUyYWQyZTJmMzIyYzI1ZWZiYTRjMzc4YWM2OCZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/5a43NQmWSw7TUZcn81/giphy.gif)
+
+Recipe Search and Favorite Interface:
+![Recipe Search and Favorite](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzgwZGVmNDJlYjI3NzUyZTRmOTM4MjAxNzZlZTVmZDZiZjAxYjYxMSZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/e7SKljI4cRwPHiaqqS/giphy.gif)
+
+Personalized Home Page: Weight notes, Weight chart and Favorited Recipes/Remove favorite recipe Interface:
+![Personalized Home Page](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExY2M0ZjAzNzQ1NzUyYTk5MDNjMjQ3MmQ5ZmJkNDM0OTY1ZThlNDEzOSZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/xl1fwHtJZGmznLgFKp/giphy.gif)
 
 ## Installation
 To set up Track It, Lose It locally, follow these steps:

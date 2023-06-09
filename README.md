@@ -1,5 +1,4 @@
 # Track It, Lose It
-## _Hackbright Capstone Project_
 
 Track It, Lose It is a Web Application developed to provide a structured and accessible web application for personal weight management. Whether the goal is weight loss, weight gain, or weight maintenance, this application streamlines the process of tracking health and fitness data while offering access to calorie-specific recipes. By combining features such as calculating TDEE, weight tracking and exercise monitoring, Track It, Lose It facilitates accountability and makes it easier for users to achieve their weight goals.
 

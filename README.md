@@ -28,7 +28,7 @@ Exercise and Weight Notes Interface:
 
 Recipe Search and Favorite Interface:
 
-![Recipe Search and Favorite](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYTg4MDI1MDgzYWNiMTU0NTExZmEwNzIzNDBjYzdhNTliMGFlZTAzZSZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/e7SKljI4cRwPHiaqqS/giphy.gif)
+![Recipe Search and Favorite](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOGY5MTc3NmYxNTY2MTI2ZTM1ZTkwZjFmZGNmMWEzZjY1NWQzNDNjYiZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/XnAOrBlaKLth6paXgZ/giphy.gif)
 
 Personalized Home Page: Weight notes, Weight chart and Favorited Recipes/Remove favorite recipe Interface:
 
@@ -65,7 +65,7 @@ To set up Track It, Lose It locally, follow these steps:
    ```
 
 ## Author
-Abdelali Eljaouhari, Hackbright Graduate
-[Github](https://github.com/ElAbdelali/TrackItLoseIt)
+Abdelali Eljaouhari, Hackbright Graduate <br>
+[Github](https://github.com/ElAbdelali/TrackItLoseIt) <br>
 [LinkedIn](https://www.linkedin.com/in/ali-eljaouhari/)
 

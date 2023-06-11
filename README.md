@@ -28,7 +28,7 @@ Exercise and Weight Notes Interface:
 
 Recipe Search and Favorite Interface:
 
-![Recipe Search and Favorite](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDFjZDMyOWU3ODI5MWM4MTFhNzUwODAzNzdlYThlNjI0ZDg3ZWU0YSZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/DAI8PTDEq2qkugdXZG/giphy.gif)
+![Recipe Search and Favorite](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExY2VlMGRkMDM3MTVjOWNmYzkyNzI2YmY5YjEzNmJlNDJlZDQ3MjRhNSZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/wd8nDafA9exprKugWT/giphy-downsized-large.gif)
 
 Personalized Home Page: Weight notes, Weight chart and Favorited Recipes/Remove favorite recipe Interface:
 

@@ -18,10 +18,6 @@ Category | Tech
 **API** | Spoonacular API
 **Other** |  Jinja
 
-Recipe Search and Favorite Interface:
-
-![Recipe Search and Favorite](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYzk0NzBhMWEyNWMxZjE5YjA1ZGE5M2Q1ZGRiNDIxYzk3NjBkODQ0ZCZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/7vpsWGfpjUI7HRIpXr/giphy-downsized-large.gif)
-
 TDEE Calculation interface:
 
 ![TDEE Calculation](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTI0MzMxYjc3NTNmMDU0YjcxNWI1NWE1NDdjYTRhNjE4ZGZjNDQzZSZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/6H3Mo9uakSttH3zki9/giphy.gif)
@@ -29,6 +25,10 @@ TDEE Calculation interface:
 Exercise and Weight Notes Interface:
 
 ![Weight and Exercise Notes](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExN2Q3Y2ViZjhhODZjYTUyYWQyZTJmMzIyYzI1ZWZiYTRjMzc4YWM2OCZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/5a43NQmWSw7TUZcn81/giphy.gif)
+
+Recipe Search and Favorite Interface:
+
+![Recipe Search and Favorite](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDFjZDMyOWU3ODI5MWM4MTFhNzUwODAzNzdlYThlNjI0ZDg3ZWU0YSZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/DAI8PTDEq2qkugdXZG/giphy.gif)
 
 Personalized Home Page: Weight notes, Weight chart and Favorited Recipes/Remove favorite recipe Interface:
 

@@ -27,7 +27,6 @@ Exercise and Weight Notes Interface:
 ![Weight and Exercise Notes](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExN2Q3Y2ViZjhhODZjYTUyYWQyZTJmMzIyYzI1ZWZiYTRjMzc4YWM2OCZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/5a43NQmWSw7TUZcn81/giphy.gif)
 
 Recipe Search and Favorite Interface:
-<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExY2VlMGRkMDM3MTVjOWNmYzkyNzI2YmY5YjEzNmJlNDJlZDQ3MjRhNSZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/wd8nDafA9exprKugWT/giphy-downsized-large.gif" width="100%" />
 
 ![Recipe Search and Favorite](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExY2VlMGRkMDM3MTVjOWNmYzkyNzI2YmY5YjEzNmJlNDJlZDQ3MjRhNSZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/wd8nDafA9exprKugWT/giphy-downsized-large.gif)
 
